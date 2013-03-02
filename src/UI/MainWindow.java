@@ -27,6 +27,8 @@ import javax.swing.ListSelectionModel;
 import javax.swing.JLabel;
 import javax.swing.SwingConstants;
 
+import OS.OS;
+
 
 public class MainWindow extends JFrame {
 
@@ -42,7 +44,7 @@ public class MainWindow extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public MainWindow() {
+	public MainWindow(OS os) {
 		setTitle("Virtuali Maðina - Emulator");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 668, 400);
@@ -125,19 +127,19 @@ public class MainWindow extends JFrame {
 		
 		textField_1 = new JTextField();
 		textField_1.setHorizontalAlignment(SwingConstants.CENTER);
-		textField_1.setText("0");
+		textField_1.setText(""+os.getR());
 		textField_1.setEditable(false);
 		textField_1.setColumns(10);
 		
 		textField_2 = new JTextField();
 		textField_2.setHorizontalAlignment(SwingConstants.CENTER);
-		textField_2.setText("0");
+		textField_2.setText(""+os.getC());
 		textField_2.setEditable(false);
 		textField_2.setColumns(10);
 		
 		textField_3 = new JTextField();
 		textField_3.setHorizontalAlignment(SwingConstants.CENTER);
-		textField_3.setText("00");
+		textField_3.setText(""+os.getIC());
 		textField_3.setEditable(false);
 		textField_3.setColumns(10);
 		
