@@ -6,6 +6,7 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
+import javax.swing.filechooser.FileNameExtensionFilter;
 
 import javax.swing.JList;
 import javax.swing.JTextPane;
@@ -25,7 +26,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileFilter;
 import java.io.FileInputStream;
+import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
@@ -74,10 +77,21 @@ public class MainWindow extends JFrame {
 		
 		btnNuskaitytiProgram.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				
-			}
+				fc = new JFileChooser();
+				fc.addChoosableFileFilter(new FileNameExtensionFilter("VM Failai", "vm"));
+		            int returnVal = fc.showOpenDialog(MainWindow.this);
+		 
+		            if (returnVal == JFileChooser.APPROVE_OPTION) {
+		                File file = fc.getSelectedFile();
+		                //This is where a real application would open the file.
+		               // log.append("Opening: " + file.getName() + "." + newline);
+		                textPanel.setText(textPanel.getText() + "\n> Opened: " +file.getName());
+		            } else {
+		                //log.append("Open command cancelled by user." + newline);
+		            }
+				}
 		});
-		
+
 		
 		btnEnd.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
