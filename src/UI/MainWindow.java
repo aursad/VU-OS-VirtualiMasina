@@ -44,13 +44,31 @@ public class MainWindow extends JFrame {
 
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
-	private JTextField textField;
+	/**
+	 * Konsolë
+	 */
+	private JTextField console;
 	private DefaultListModel<String> listModel;
-	private JTextField textField_1;
-	private JTextField textField_2;
-	private JTextField textField_3;
+	/**
+	 * Registras - R
+	 */
+	private JTextField textRegisterR;
+	/**
+	 * Registras - C
+	 */
+	private JTextField textRegisterC;
+	/**
+	 * Reigistras - IC
+	 */
+	private JTextField textRegisterIC;
+	/**
+	 * FileChooser - failø pasirinkimas
+	 */
 	private JFileChooser fc;
-	private JTextField textField_4;
+	/**
+	 * Bûsenos reikðmë
+	 */
+	private JTextField textState;
 
 	/**
 	 * Create the frame.
@@ -74,7 +92,9 @@ public class MainWindow extends JFrame {
 		btnEnd.setEnabled(false);
 		btnStart.setEnabled(false);
 		
-		
+		/**
+		 * Nuskaityti failà kvietimas
+		 */
 		btnNuskaitytiProgram.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				fc = new JFileChooser();
@@ -83,14 +103,17 @@ public class MainWindow extends JFrame {
 		 
 		            if (returnVal == JFileChooser.APPROVE_OPTION) {
 		                File file = fc.getSelectedFile();
-		                //This is where a real application would open the file.
-		               // log.append("Opening: " + file.getName() + "." + newline);
 		                textPanel.setText(textPanel.getText() + "\n> Opened: " +file.getName());
 		            } else {
-		                //log.append("Open command cancelled by user." + newline);
+		                // Vartotojas atðaukia pasirinkimà
+		            	textPanel.setText(textPanel.getText() + "\n> File Chooser closed.");
 		            }
 				}
 		});
+		
+		/**
+		 * Kurimas sàraðas elementø á JList
+		 */
 		listModel = new DefaultListModel<String>();
 		for(int i=0;i<100;i++) {
 			listModel.addElement(String.format("%02d", i)+":");
@@ -132,23 +155,22 @@ public class MainWindow extends JFrame {
 			}
 		});
 		
-		textField = new JTextField();
-		textField.setColumns(10);
-		textField.addActionListener(new ActionListener() {
+		console = new JTextField();
+		console.setColumns(10);
+		console.addActionListener(new ActionListener() {
 
 	        @Override
 	        public void actionPerformed(ActionEvent e) {
-	        	 textPanel.setText(textPanel.getText() + "\n> " +textField.getText());
-	        	 textField.setText(null);
+	        	 textPanel.setText(textPanel.getText() + "\n> " +console.getText());
+	        	 console.setText(null);
 	        }
 	    });
 		
 		
 		JSeparator separator = new JSeparator();
-
-
-		
-
+		/*
+		 * Pirmasis tekstas á konsolæ
+		 */
 		textPanel.setText(">>>  Console start");
 		
 		JSeparator separator_1 = new JSeparator();
@@ -161,30 +183,30 @@ public class MainWindow extends JFrame {
 		JLabel lblIc = new JLabel("IC:");
 		JLabel lblBsena = new JLabel("B\u016Bsena:");
 		
-		textField_1 = new JTextField();
-		textField_1.setHorizontalAlignment(SwingConstants.CENTER);
-		textField_1.setText(""+os.getR());
-		textField_1.setEditable(false);
-		textField_1.setColumns(10);
+		textRegisterR = new JTextField();
+		textRegisterR.setHorizontalAlignment(SwingConstants.CENTER);
+		textRegisterR.setText(""+os.getR());
+		textRegisterR.setEditable(false);
+		textRegisterR.setColumns(10);
 		
-		textField_2 = new JTextField();
-		textField_2.setHorizontalAlignment(SwingConstants.CENTER);
-		textField_2.setText(""+os.getC());
-		textField_2.setEditable(false);
-		textField_2.setColumns(10);
+		textRegisterC = new JTextField();
+		textRegisterC.setHorizontalAlignment(SwingConstants.CENTER);
+		textRegisterC.setText(""+os.getC());
+		textRegisterC.setEditable(false);
+		textRegisterC.setColumns(10);
 		
-		textField_3 = new JTextField();
-		textField_3.setHorizontalAlignment(SwingConstants.CENTER);
-		textField_3.setText(""+os.getIC());
-		textField_3.setEditable(false);
-		textField_3.setColumns(10);
+		textRegisterIC = new JTextField();
+		textRegisterIC.setHorizontalAlignment(SwingConstants.CENTER);
+		textRegisterIC.setText(""+os.getIC());
+		textRegisterIC.setEditable(false);
+		textRegisterIC.setColumns(10);
 		
 		
-		textField_4 = new JTextField();
-		textField_4.setEditable(false);
-		textField_4.setHorizontalAlignment(SwingConstants.CENTER);
-		textField_4.setText("laisvas");
-		textField_4.setColumns(10);
+		textState = new JTextField();
+		textState.setEditable(false);
+		textState.setHorizontalAlignment(SwingConstants.CENTER);
+		textState.setText("laisvas");
+		textState.setColumns(10);
 		
 		JButton btnVersijaV = new JButton("Versija: v1.0");
 		btnVersijaV.addActionListener(new ActionListener() {
@@ -210,7 +232,7 @@ public class MainWindow extends JFrame {
 										.addComponent(separator_1, GroupLayout.DEFAULT_SIZE, 411, Short.MAX_VALUE)
 										.addComponent(separator, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 										.addComponent(textPane, GroupLayout.DEFAULT_SIZE, 411, Short.MAX_VALUE)
-										.addComponent(textField, GroupLayout.DEFAULT_SIZE, 411, Short.MAX_VALUE))
+										.addComponent(console, GroupLayout.DEFAULT_SIZE, 411, Short.MAX_VALUE))
 									.addGap(55))
 								.addGroup(gl_contentPane.createSequentialGroup()
 									.addGroup(gl_contentPane.createParallelGroup(Alignment.TRAILING, false)
@@ -219,13 +241,13 @@ public class MainWindow extends JFrame {
 										.addComponent(lblC, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
 									.addPreferredGap(ComponentPlacement.RELATED)
 									.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING, false)
-										.addComponent(textField_3)
-										.addComponent(textField_2)
-										.addComponent(textField_1, GroupLayout.DEFAULT_SIZE, 111, Short.MAX_VALUE))
+										.addComponent(textRegisterIC)
+										.addComponent(textRegisterC)
+										.addComponent(textRegisterR, GroupLayout.DEFAULT_SIZE, 111, Short.MAX_VALUE))
 									.addPreferredGap(ComponentPlacement.UNRELATED)
 									.addComponent(lblBsena)
 									.addPreferredGap(ComponentPlacement.RELATED)
-									.addComponent(textField_4, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+									.addComponent(textState, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 									.addGap(145)))
 							.addComponent(list, GroupLayout.PREFERRED_SIZE, 208, GroupLayout.PREFERRED_SIZE))
 						.addGroup(gl_contentPane.createSequentialGroup()
@@ -250,23 +272,23 @@ public class MainWindow extends JFrame {
 							.addPreferredGap(ComponentPlacement.RELATED)
 							.addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
 								.addComponent(lblR)
-								.addComponent(textField_1, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+								.addComponent(textRegisterR, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 								.addComponent(lblBsena)
-								.addComponent(textField_4, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+								.addComponent(textState, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
 							.addPreferredGap(ComponentPlacement.RELATED)
 							.addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
 								.addComponent(lblC)
-								.addComponent(textField_2, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+								.addComponent(textRegisterC, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
 							.addPreferredGap(ComponentPlacement.RELATED)
 							.addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
 								.addComponent(lblIc)
-								.addComponent(textField_3, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+								.addComponent(textRegisterIC, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
 							.addGap(91)
 							.addComponent(separator_1, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 							.addPreferredGap(ComponentPlacement.RELATED)
 							.addComponent(textPane, GroupLayout.PREFERRED_SIZE, 103, GroupLayout.PREFERRED_SIZE)
 							.addPreferredGap(ComponentPlacement.RELATED)
-							.addComponent(textField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+							.addComponent(console, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
 						.addGroup(gl_contentPane.createSequentialGroup()
 							.addComponent(list, GroupLayout.DEFAULT_SIZE, 297, Short.MAX_VALUE)
 							.addGap(11)))
