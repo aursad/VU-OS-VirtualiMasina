@@ -91,7 +91,22 @@ public class MainWindow extends JFrame {
 		            }
 				}
 		});
-
+		listModel = new DefaultListModel<String>();
+		for(int i=0;i<100;i++) {
+			listModel.addElement(String.format("%02d", i)+":");
+		}
+		final JList<String> listas = new JList<String>(listModel);
+		listas.addListSelectionListener(new ListSelectionListener() {
+		      public void valueChanged(ListSelectionEvent evt) {
+		        if (evt.getValueIsAdjusting())
+		          return;
+		        int index = listas.getSelectedIndex();
+		        textPanel.setText(textPanel.getText() + "\n> selected #"+index+" row");
+		      }
+		    });
+		listas.setSelectedIndex(4); // ID nurodo kuris yra selected
+		listas.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		final JScrollPane list = new JScrollPane(listas);
 		
 		btnEnd.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
@@ -103,6 +118,11 @@ public class MainWindow extends JFrame {
 		btnStart.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				btnEnd.setEnabled(true);
+				/* atnaujinimas JList elemento norimu tekstu
+				 * listModel.set(22, "22: FAKE");
+				listas.setSelectedIndex(22);
+				list.revalidate();
+				list.repaint();*/
 			}
 		});
 		
@@ -126,22 +146,7 @@ public class MainWindow extends JFrame {
 		
 		JSeparator separator = new JSeparator();
 
-		listModel = new DefaultListModel<String>();
-		for(int i=0;i<100;i++) {
-			listModel.addElement(String.format("%02d", i)+":");
-		}
-		final JList<String> listas = new JList<String>(listModel);
-		listas.addListSelectionListener(new ListSelectionListener() {
-		      public void valueChanged(ListSelectionEvent evt) {
-		        if (evt.getValueIsAdjusting())
-		          return;
-		        int index = listas.getSelectedIndex();
-		        textPanel.setText(textPanel.getText() + "\n> selected #"+index+" row");
-		      }
-		    });
-		listas.setSelectedIndex(4); // ID nurodo kuris yra selected
-		listas.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-		JScrollPane list = new JScrollPane(listas);
+
 		
 
 		textPanel.setText(">>>  Console start");
