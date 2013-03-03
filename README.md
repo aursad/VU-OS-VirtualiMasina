@@ -1,4 +1,11 @@
-VirturaliMasina
+VirtualiMasina
 ===============
 
-Virtuali mašina, vaizda realios mašinos darbą. Atliekama kaip OS darbas
+Virtuali mašina, vaizduoja realios mašinos darbą. 
+Atliekamas kaip OS pratybų darbas.
+
+Autorius:
+Aurimas Sadauskas
+Vilimantas Bernotaitis
+
+2013
