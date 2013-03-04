@@ -5,7 +5,7 @@ package OS;
  * @version 1.0
  * @since 2013.03.02
  */
-public class OS extends Records {
+public class OS {
 	/**
 	 * Puslapiavimo registras
 	 */
@@ -201,5 +201,130 @@ public class OS extends Records {
 	 */
 	public void setCH(int CH) {
 		this.CH = CH;
+	}
+	/**
+	 * Load Register
+	 * Registras R ágauna a reikðmæ
+	 * @param a 
+	 * @return R Nauja bendrojo naudojimo registro reikðmë
+	 */
+	public int LR(int a) {
+		this.R = a;
+		return this.R;
+	}
+	/**
+	 * Save Register
+	 * Ásimenama registro reikðmë.
+	 * @param a
+	 * @return a
+	 */
+	public int SR(int a) {
+		a = this.R;
+		return a;
+	}
+	/**
+	 * Null
+	 * R registrui priskiriama reikðmë 0.
+	 * @param R Bendrojo naudojimo registras
+	 */
+	public void NL() {
+		this.R = 0;
+	}
+	/**
+	 * Addition
+	 * @param a
+	 * @return
+	 */
+	public int AD(int a) {
+		this.R = this.R + a;
+		return this.R;
+	}
+	/**
+	 * Substract
+	 * @param a
+	 * @return
+	 */
+	public int SU(int a) {
+		this.R = this.R - a;
+		return this.R;
+	}
+	/**
+	 * Multiply
+	 * @param a
+	 * @return
+	 */
+	public int MU(int a) {
+		this.R = this.R * a;
+		return this.R;
+	}
+	/**
+	 * Divide
+	 * @param a
+	 * @return
+	 */
+	public int DI(int a) {
+		this.R = this.R / a;
+		return this.R;
+	}
+	/**
+	 * Module
+	 * @param a
+	 * @return
+	 */
+	public int MO(int a) {
+		this.R = this.R % a;
+		return this.R;
+	}
+	/**
+	 * Compare Register
+	 * Palyginamos registrø reikðmës
+	 * @param a
+	 */
+	public void CR(int a) {
+		if (this.R > a) {
+			this.C = 1;
+		} else if(this.R < a) {
+			this.C = 2;
+		} else {
+			this.C = 0;
+		}
+	}
+	/**
+	 * Jump
+	 * Valdymo perdavimo komanda
+	 * @param a Registro adresas
+	 */
+	public void JP(int a) {
+		this.IC = a;
+	}
+	/**
+	 * Jump if equal
+	 * Perduodamas valdymas jei Poþymio registras C yra 0
+	 * @param a Registro adresas
+	 */
+	public void JE(int a) {
+		if (this.C == 0) {
+			this.IC = a;
+		}
+	}
+	/**
+	 * Jump if greater
+	 * Perduodamas valdymas jei Poþymio registras C yra 1
+	 * @param a Registro adresas
+	 */
+	public void JG(int a) {
+		if (this.C == 1) {
+			this.IC = a;
+		}
+	}
+	/**
+	 * Jump if less
+	 * Perduodamas valdymas jei Poþymio registras C yra 2
+	 * @param a Registro adresas
+	 */
+	public void JL(int a) {
+		if (this.C == 2) {
+			this.IC = a;
+		}
 	}
 }
