@@ -5,7 +5,7 @@ package OS;
  * @version 1.0
  * @since 2013.03.02
  */
-public class OS {
+public class OS extends Records {
 	/**
 	 * Puslapiavimo registras
 	 */
