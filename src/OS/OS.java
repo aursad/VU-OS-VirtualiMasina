@@ -210,6 +210,7 @@ public class OS {
 	 */
 	public int LR(int a) {
 		this.R = a;
+		this.IC++;
 		return this.R;
 	}
 	/**
@@ -220,6 +221,7 @@ public class OS {
 	 */
 	public int SR(int a) {
 		a = this.R;
+		this.IC++;
 		return a;
 	}
 	/**
@@ -229,6 +231,7 @@ public class OS {
 	 */
 	public void NL() {
 		this.R = 0;
+		this.IC++;
 	}
 	/**
 	 * Addition
@@ -237,6 +240,7 @@ public class OS {
 	 */
 	public int AD(int a) {
 		this.R = this.R + a;
+		this.IC++;
 		return this.R;
 	}
 	/**
@@ -246,6 +250,7 @@ public class OS {
 	 */
 	public int SU(int a) {
 		this.R = this.R - a;
+		this.IC++;
 		return this.R;
 	}
 	/**
@@ -255,6 +260,7 @@ public class OS {
 	 */
 	public int MU(int a) {
 		this.R = this.R * a;
+		this.IC++;
 		return this.R;
 	}
 	/**
@@ -264,6 +270,7 @@ public class OS {
 	 */
 	public int DI(int a) {
 		this.R = this.R / a;
+		this.IC++;
 		return this.R;
 	}
 	/**
@@ -273,6 +280,7 @@ public class OS {
 	 */
 	public int MO(int a) {
 		this.R = this.R % a;
+		this.IC++;
 		return this.R;
 	}
 	/**
@@ -288,6 +296,7 @@ public class OS {
 		} else {
 			this.C = 0;
 		}
+		this.IC++;
 	}
 	/**
 	 * Jump
@@ -295,6 +304,7 @@ public class OS {
 	 * @param a Registro adresas
 	 */
 	public void JP(int a) {
+		this.IC++;
 		this.IC = a;
 	}
 	/**
@@ -303,6 +313,7 @@ public class OS {
 	 * @param a Registro adresas
 	 */
 	public void JE(int a) {
+		this.IC++;
 		if (this.C == 0) {
 			this.IC = a;
 		}
@@ -313,6 +324,7 @@ public class OS {
 	 * @param a Registro adresas
 	 */
 	public void JG(int a) {
+		this.IC++;
 		if (this.C == 1) {
 			this.IC = a;
 		}
@@ -323,8 +335,35 @@ public class OS {
 	 * @param a Registro adresas
 	 */
 	public void JL(int a) {
+		this.IC++;
 		if (this.C == 2) {
 			this.IC = a;
 		}
+	}
+	/**
+	 * Get Data
+	 */
+	public void GD() {
+		
+	}
+	/**
+	 * Print Data
+	 */
+	public void PD() {
+		
+	}
+	/**
+	 * Change Mode
+	 * Perjungiama á supervizoriaus reþimà
+	 */
+	public void XM() {
+		this.MODE = 1;
+	}
+	/**
+	 * Unchange mode
+	 * Perjungiama á vartotojo reþimà
+	 */
+	public void UM() {
+		this.MODE = 0;
 	}
 }
