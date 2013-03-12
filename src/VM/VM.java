@@ -61,14 +61,52 @@ public class VM {
 	            	AD(xx);
 	            	break;
 	            }
+	            case "SU":
+	            {
+	            	SU(xx);
+	            	break;
+	            }
+	            case "MU":
+	            {
+	            	MU(xx);
+	            	break;
+	            }
+	            case "DI":
+	            {
+	            	DI(xx);
+	            	break;
+	            }
+	            case "MO":
+	            {
+	            	MO(xx);
+	            	break;
+	            }
+	            case "CR":
+	            {
+	            	CR(xx);
+	            	break;
+	            }
+	            case "JP":
+	            {
+	            	JP(xx);
+	            	break;
+	            }
+	            case "JL":
+	            {
+	            	JL(xx);
+	            	break;
+	            }
 	            default: 
 	            {
 	                System.out.println ("unknown\t" + OPK);
+	                IC.set(IC.get()+1);
+	                OS.OS.PI.set(1); // Neteisingas OPK
 	                break;
 	            }
 			}
-			IC.set(IC.get()+1);
 			UI.MainWindow.updateIC(IC.get());
+			UI.MainWindow.updateR(R.get());
+			UI.MainWindow.updateC(C.get());
 			UI.MainWindow.updateList(Atmintis);
 		} 
 	}
@@ -90,33 +128,40 @@ public class VM {
 	 */
 	public void LR(int xx) {
 		R.set(getWord(xx));
-		UI.MainWindow.updateR(R.get());
+		IC.set(IC.get()+1);
 	}
 	public void SR(int xx) {
 		setWord(xx, R.get());
+		IC.set(IC.get()+1);
 	}
 	public void NL() {
 		R.set(0);
+		IC.set(IC.get()+1);
 	}
 	public void AD(int xx) {
 		int xm = R.get() + getWord(xx);
 		R.set(xm);
+		IC.set(IC.get()+1);
 	}
 	public void SU(int xx) {
 		int xm = R.get() - getWord(xx);
 		R.set(xm);
+		IC.set(IC.get()+1);
 	}
 	public void MU(int xx) {
 		int xm = R.get() * getWord(xx);
 		R.set(xm);
+		IC.set(IC.get()+1);
 	}
 	public void DI(int xx) {
 		int xm = R.get() / getWord(xx);
 		R.set(xm);
+		IC.set(IC.get()+1);
 	}
 	public void MO(int xx) {
 		int xm = R.get() % getWord(xx);
 		R.set(xm);
+		IC.set(IC.get()+1);
 	}
 	public void CR(int xx) {
 		if (R.get() > getWord(xx)) {
@@ -126,35 +171,52 @@ public class VM {
 		} else {
 			C.set(0);
 		}
+		IC.set(IC.get()+1);
 	}
 	public void JP(int xx) {
-		IC.set(getWord(xx));
+		IC.set(xx);
 	}
 	public void JE(int xx) {
 		if (C.get() == 0) {
-			IC.set(getWord(xx));
+			IC.set(xx);
 		}
 	}
 	public void JG(int xx) {
 		if (C.get() == 1) {
-			IC.set(getWord(xx));
+			IC.set(xx);
 		}
 	}
 	public void JL(int xx) {
 		if (C.get() == 2) {
-			IC.set(getWord(xx));
+			IC.set(xx);
 		}
 	}
 	public void GD(int xx) {
+		OS.OS.SI.set(2);
+		OS.OS.MODE.set(1);
+		OS.OS.CH.set(4);
 		
+		IC.set(IC.get()+1);
+		
+		OS.OS.SI.set(0);
+		OS.OS.MODE.set(0);
+		OS.OS.CH.set(0);
 	}
 	public void PD(int xx) {
+		OS.OS.SI.set(2);
+		OS.OS.MODE.set(1);
+		OS.OS.CH.set(5);
+		
 		String text="";
 		String lineEnd = "####";
 		while(!lineEnd.equals(Atmintis.get(xx))) {
 			text = text + Atmintis.get(xx);
 			xx++;
 		}
+		IC.set(IC.get()+1);
+		OS.OS.SI.set(0);
+		OS.OS.MODE.set(0);
+		OS.OS.CH.set(0);
 		UI.MainWindow.updateConsole(text);
 	}
 }

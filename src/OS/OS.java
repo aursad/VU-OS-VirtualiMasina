@@ -38,23 +38,23 @@ public class OS {
 	/**
 	 * Supervizoriniø pertraukimø registras
 	 */
-	public IntRegister SI;
+	static public IntRegister SI;
 	/**
 	 * Programinio pertraukimo registras
 	 */
-	public IntRegister PI;
+	static public IntRegister PI;
 	/**
 	 * Taimerio pertraukimo registras
 	 */
-	public TimerRegister TI;
+	static public TimerRegister TI;
 	/**
 	 * Registras nusakantis procesoriaus darbo reþimà
 	 */
-	public ModeRegister MODE;
+	static public ModeRegister MODE;
 	/**
 	 * Kanalø uþimtumo registras 
 	 */
-	public ChRegister CH;
+	static public ChRegister CH;
 	
 	/**
 	 * Konstruktorius
@@ -71,6 +71,7 @@ public class OS {
         MODE  = new ModeRegister();
         PI = new IntRegister();
         SI = new IntRegister();
+        CH = new ChRegister();
 	}
 	
 	/**

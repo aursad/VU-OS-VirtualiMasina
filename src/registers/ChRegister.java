@@ -3,7 +3,7 @@ package registers;
 public class ChRegister {
 	
 	private int CH;
-	ChRegister() {
+	public ChRegister() {
 		this.CH = 0;
 	}
 	

@@ -55,7 +55,7 @@ public class MainWindow extends JFrame {
 	/**
 	 * Registras - C
 	 */
-	private JTextField textRegisterC;
+	private static JTextField textRegisterC;
 	/**
 	 * Reigistras - IC
 	 */
@@ -140,6 +140,7 @@ public class MainWindow extends JFrame {
 						} catch (IOException e1) {
 							e1.printStackTrace();
 						}
+						vm.IC.set(0);
 						listas.setSelectedIndex(0);
 						list.revalidate();
 						list.repaint();
@@ -327,6 +328,9 @@ public class MainWindow extends JFrame {
 	}
 	public static void updateR(int R) {
 		textRegisterR.setText(""+R);
+	}
+	public static void updateC(int C) {
+		textRegisterC.setText(""+C);
 	}
 	public static void updateConsole(String text) {
 		textPanel.setText(textPanel.getText() + "\n"+text);
