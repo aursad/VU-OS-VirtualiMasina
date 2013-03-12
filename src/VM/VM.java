@@ -23,7 +23,7 @@ public class VM {
 	 */
 	public CRegister C;
 	public VA Atmintis;
-	
+	public String end = "HALT";
 	
 	public VM() {
 		R = new DataRegister();
@@ -32,6 +32,35 @@ public class VM {
 		Atmintis = new VA(100);
 	}
 
+	public void startProgram() {
+		while(!end.equals(Atmintis.get(IC.get()))) {
+			String s = Atmintis.get(IC.get());
+			String[] value = s.split("(?<=\\G.{2})"); // value[0] => opk, value[1] => adresas
+			String OPK = value[0];
+			int xx = Integer.parseInt(value[1]);
+			System.out.println(s);
+			switch (OPK) 
+			{
+	            case "PD": 
+	            {
+	                PD(xx);
+	                break;
+	            }
+	            case "LR": 
+	            {
+	                System.out.println ("Bar!");
+	                break;
+	            }
+	            default: 
+	            {
+	                System.out.println ("unknown\t" + OPK);
+	                break;
+	            }
+			}
+			IC.set(IC.get()+1);
+		} 
+	}
+	
 	// Is atminties xx adresu paimti reiksme
 	public int getWord(int xx) {
 		return 0;
@@ -103,7 +132,13 @@ public class VM {
 	public void GD() {
 		
 	}
-	public void PD() {
-		
+	public void PD(int xx) {
+		String text=null;
+		String lineEnd = "####";
+		while(!lineEnd.equals(Atmintis.get(xx))) {
+			text += Atmintis.get(xx);
+			xx++;
+		}
+		System.out.println(text);
 	}
 }

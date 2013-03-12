@@ -161,6 +161,7 @@ public class MainWindow extends JFrame {
 			public void actionPerformed(ActionEvent arg0) {
 				btnEnd.setEnabled(true);
 				//startPRogram
+				vm.startProgram();
 			}
 		});
 		
