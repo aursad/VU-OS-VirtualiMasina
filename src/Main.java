@@ -5,6 +5,7 @@ import javax.swing.JFileChooser;
 
 import OS.OS;
 import UI.MainWindow;
+import VM.VM;
 
 
 public class Main {
@@ -14,7 +15,8 @@ public class Main {
 			public void run() {
 				try {
 					final OS os = new OS();
-					MainWindow frame = new MainWindow(os);
+					final VM vm = new VM();
+					MainWindow frame = new MainWindow(os, vm);
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();

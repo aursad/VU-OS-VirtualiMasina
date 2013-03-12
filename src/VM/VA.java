@@ -17,12 +17,12 @@ public class VA {
 	/**
 	 * Konstruktoriai
 	 */
-	public VA() {
-		this(100);
-	}
-	VA(int vartotojoAtmintis) {
+	public VA(int vartotojoAtmintis) {
 		this.atmintis = new LinkedList<String>();
 		this.vartotojoAtmintis = vartotojoAtmintis;
+		for(int i=0;i<vartotojoAtmintis;i++) {
+			atmintis.add("XXYY");
+		}
 	}
 	/**
 	 * Pridedam elementa á Vartotojo atmintá
@@ -38,5 +38,8 @@ public class VA {
 	 */
 	public String get(int a) {
 		return this.atmintis.get(a);
+	}
+	public LinkedList<String> getList() {
+		return atmintis;
 	}
 }

@@ -22,18 +22,21 @@ public class VM {
 	 * Poşymiø registras
 	 */
 	public CRegister C;
+	public VA Atmintis;
 	
 	
 	public VM() {
 		R = new DataRegister();
-        IC = new IcRegister();
-        C = new CRegister();
+		IC = new IcRegister();
+		C = new CRegister();
+		Atmintis = new VA(100);
 	}
 
-
+	// Is atminties xx adresu paimti reiksme
 	public int getWord(int xx) {
 		return 0;
 	}
+	// Atminciai xx adresu nustatyti reiksme
 	public Object setWord(int xx, int R) {
 		return 0;
 	}

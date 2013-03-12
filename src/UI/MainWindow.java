@@ -38,6 +38,7 @@ import javax.swing.JLabel;
 import javax.swing.SwingConstants;
 
 import OS.OS;
+import VM.VM;
 
 
 public class MainWindow extends JFrame {
@@ -73,7 +74,7 @@ public class MainWindow extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public MainWindow(final OS os) {
+	public MainWindow(final OS os, final VM vm) {
 		setTitle("Virtuali Maðina - Emulator");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 720, 400);
@@ -117,7 +118,7 @@ public class MainWindow extends JFrame {
 		 */
 		listModel = new DefaultListModel<String>();
 		for(int i=0;i<100;i++) {
-			listModel.addElement(String.format("%02d", i)+":");
+			listModel.addElement(String.format("%02d", i)+": "+ vm.Atmintis.get(i));
 		}
 		final JList<String> listas = new JList<String>(listModel);
 		listas.addListSelectionListener(new ListSelectionListener() {
