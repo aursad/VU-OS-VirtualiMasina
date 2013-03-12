@@ -1,5 +1,9 @@
 package VM;
 
+import registers.CRegister;
+import registers.DataRegister;
+import registers.IcRegister;
+
 /**
  * Virtuali maðina
  * @author Aurimas
@@ -9,56 +13,94 @@ public class VM {
 	/**
 	 * Bendrojo naudojimo registras
 	 */
-	private int R=0;
+	public DataRegister R;
 	/**
 	 * Komandø skaitiklis
 	 */
-	private int IC=0;
+	public IcRegister IC;
 	/**
 	 * Poþymiø registras
 	 */
-	private int C=0;
+	public CRegister C;
 	
 	
 	public VM() {
-		this(0000);
+		R = new DataRegister();
+        IC = new IcRegister();
+        C = new CRegister();
 	}
-	VM(int R) {
-		this.R = R;
+
+
+	public int getWord(int xx) {
+		return 0;
 	}
+	public Object setWord(int xx, int R) {
+		return 0;
+	}
+
 	/**
-	 * Bendrojo naudojimo registro reikðmë
-	 * @return R registro reikðmë
+	 * Komandos
 	 */
-	public int getR() {
-		return this.R;
+	public void LR(int xx) {
+		R.set((int) getWord(xx));
 	}
-	/**
-	 * Nustatoma nauja bendrojo naudojimo registro reikðmë
-	 * @param R nauja reikðmë
-	 */
-	public void setR(int R) {
-		this.R = R;
+	public void SR(int xx) {
+		setWord(xx, R.get());
 	}
-	/**
-	 * Komandø skaitliuko reikðmë
-	 * @return IC skaitliuko reikðmë
-	 */
-	public int getIC() {
-		return this.IC;
+	public void NL() {
+		R.set(0);
 	}
-	/**
-	 * Nustatoma nauja komandø skaitliuko reikðmë
-	 * @param IC nauja skaitliuko reikðmë
-	 */
-	public void setIC(int IC) {
-		this.IC = IC;
+	public void AD(int xx) {
+		int xm = R.get() + getWord(xx);
+		R.set(xm);
 	}
-	/**
-	 * Loginio trigerio reikðmë
-	 * @return C trigerio reikðmë
-	 */
-	public int getC() {
-		return this.C;
+	public void SU(int xx) {
+		int xm = R.get() - getWord(xx);
+		R.set(xm);
+	}
+	public void MU(int xx) {
+		int xm = R.get() * getWord(xx);
+		R.set(xm);
+	}
+	public void DI(int xx) {
+		int xm = R.get() / getWord(xx);
+		R.set(xm);
+	}
+	public void MO(int xx) {
+		int xm = R.get() % getWord(xx);
+		R.set(xm);
+	}
+	public void CR(int xx) {
+		if (R.get() > getWord(xx)) {
+			C.set(1);
+		} else if(R.get() < getWord(xx)) {
+			C.set(2);
+		} else {
+			C.set(0);
+		}
+	}
+	public void JP(int xx) {
+		IC.set(getWord(xx));
+	}
+	public void JE(int xx) {
+		if (C.get() == 0) {
+			IC.set(getWord(xx));
+		}
+	}
+	public void JG(int xx) {
+		if (C.get() == 1) {
+			IC.set(getWord(xx));
+		}
+	}
+	public void JL(int xx) {
+		if (C.get() == 2) {
+			IC.set(getWord(xx));
+		}
+	}
+	public void GD() {
+		
+	}
+	public void PD() {
+		
 	}
 }
