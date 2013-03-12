@@ -26,12 +26,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileFilter;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
 
 import javax.swing.JSeparator;
 import javax.swing.ListSelectionModel;
@@ -39,7 +35,6 @@ import javax.swing.JLabel;
 import javax.swing.SwingConstants;
 
 import OS.OS;
-import OS.readFile;
 import VM.VM;
 
 
@@ -109,6 +104,7 @@ public class MainWindow extends JFrame {
 		        if (evt.getValueIsAdjusting())
 		          return;
 		        int index = listas.getSelectedIndex();
+		        if(vm.Atmintis.get(index) != "") { textState.setText("uþimtas"); }
 		        textPanel.setText(textPanel.getText() + "\n> selected "+vm.Atmintis.get(index)+" command.");
 		      }
 		    });
