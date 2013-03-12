@@ -35,6 +35,7 @@ import javax.swing.JLabel;
 import javax.swing.SwingConstants;
 
 import OS.OS;
+import VM.VA;
 import VM.VM;
 
 
@@ -45,12 +46,12 @@ public class MainWindow extends JFrame {
 	/**
 	 * Konsolë
 	 */
-	private JTextField console;
-	private DefaultListModel<String> listModel;
+	private static JTextField console;
+	private static DefaultListModel<String> listModel;
 	/**
 	 * Registras - R
 	 */
-	private JTextField textRegisterR;
+	private static JTextField textRegisterR;
 	/**
 	 * Registras - C
 	 */
@@ -58,7 +59,7 @@ public class MainWindow extends JFrame {
 	/**
 	 * Reigistras - IC
 	 */
-	private JTextField textRegisterIC;
+	private static JTextField textRegisterIC;
 	/**
 	 * FileChooser - failø pasirinkimas
 	 */
@@ -67,7 +68,9 @@ public class MainWindow extends JFrame {
 	 * Bûsenos reikðmë
 	 */
 	private JTextField textState;
-
+	static JTextPane textPanel;
+	static JList<String> listas;
+	static JScrollPane list;
 	/**
 	 * Create the frame.
 	 */
@@ -79,7 +82,7 @@ public class MainWindow extends JFrame {
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		
-		final JTextPane textPanel = new JTextPane();
+		textPanel = new JTextPane();
 		textPanel.setBackground(Color.WHITE);
 		final JScrollPane textPane = new JScrollPane(textPanel);
 		
@@ -98,7 +101,7 @@ public class MainWindow extends JFrame {
 		for(int i=0;i<100;i++) {
 			listModel.addElement(String.format("%02d", i)+": "+ vm.Atmintis.get(i));
 		}
-		final JList<String> listas = new JList<String>(listModel);
+		listas = new JList<String>(listModel);
 		listas.addListSelectionListener(new ListSelectionListener() {
 		      public void valueChanged(ListSelectionEvent evt) {
 		        if (evt.getValueIsAdjusting())
@@ -110,7 +113,7 @@ public class MainWindow extends JFrame {
 		    });
 		listas.setSelectedIndex(0); // ID nurodo kuris yra selected
 		listas.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-		final JScrollPane list = new JScrollPane(listas);
+		list = new JScrollPane(listas);
 		
 		/**
 		 * Nuskaityti failà kvietimas
@@ -181,7 +184,6 @@ public class MainWindow extends JFrame {
 	        	 console.setText(null);
 	        }
 	    });
-		
 		
 		JSeparator separator = new JSeparator();
 		/*
@@ -319,5 +321,22 @@ public class MainWindow extends JFrame {
 					.addContainerGap())
 		);
 		contentPane.setLayout(gl_contentPane);
+	}
+	public static void updateIC(int IC) {
+		textRegisterIC.setText(""+IC);
+	}
+	public static void updateR(int R) {
+		textRegisterR.setText(""+R);
+	}
+	public static void updateConsole(String text) {
+		textPanel.setText(textPanel.getText() + "\n"+text);
+	}
+	public static void updateList(VA Atmintis) {
+		for(int i=0;i<Atmintis.getAllMemory();i++) {
+			listModel.set(i, String.format("%02d", i)+": "+ Atmintis.get(i));
+		}
+		listas.setSelectedIndex(0);
+		list.revalidate();
+		list.repaint();
 	}
 }

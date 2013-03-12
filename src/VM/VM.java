@@ -1,5 +1,6 @@
 package VM;
 
+import UI.MainWindow;
 import registers.CRegister;
 import registers.DataRegister;
 import registers.IcRegister;
@@ -38,7 +39,6 @@ public class VM {
 			String[] value = s.split("(?<=\\G.{2})"); // value[0] => opk, value[1] => adresas
 			String OPK = value[0];
 			int xx = Integer.parseInt(value[1]);
-			System.out.println(s);
 			switch (OPK) 
 			{
 	            case "PD": 
@@ -48,8 +48,13 @@ public class VM {
 	            }
 	            case "LR": 
 	            {
-	                System.out.println ("Bar!");
+	                LR(xx);
 	                break;
+	            }
+	            case "SR":
+	            {
+	            	SR(xx);
+	            	break;
 	            }
 	            default: 
 	            {
@@ -58,23 +63,29 @@ public class VM {
 	            }
 			}
 			IC.set(IC.get()+1);
+			UI.MainWindow.updateIC(IC.get());
+			UI.MainWindow.updateList(Atmintis);
 		} 
 	}
 	
 	// Is atminties xx adresu paimti reiksme
 	public int getWord(int xx) {
-		return 0;
+		String Word = Atmintis.get(xx);
+		Word = Word.replaceAll("\\s", "");
+		int XY = Integer.parseInt(Word);
+		return XY;
 	}
 	// Atminciai xx adresu nustatyti reiksme
-	public Object setWord(int xx, int R) {
-		return 0;
+	public void setWord(int xx, int R) {
+		Atmintis.set(xx, Integer.toString(R));
 	}
 
 	/**
 	 * Komandos
 	 */
 	public void LR(int xx) {
-		R.set((int) getWord(xx));
+		R.set(getWord(xx));
+		UI.MainWindow.updateR(R.get());
 	}
 	public void SR(int xx) {
 		setWord(xx, R.get());
@@ -129,16 +140,16 @@ public class VM {
 			IC.set(getWord(xx));
 		}
 	}
-	public void GD() {
+	public void GD(int xx) {
 		
 	}
 	public void PD(int xx) {
-		String text=null;
+		String text="";
 		String lineEnd = "####";
 		while(!lineEnd.equals(Atmintis.get(xx))) {
-			text += Atmintis.get(xx);
+			text = text + Atmintis.get(xx);
 			xx++;
 		}
-		System.out.println(text);
+		UI.MainWindow.updateConsole(text);
 	}
 }
