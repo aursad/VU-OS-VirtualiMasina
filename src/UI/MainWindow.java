@@ -71,6 +71,7 @@ public class MainWindow extends JFrame {
 	static JTextPane textPanel;
 	static JList<String> listas;
 	static JScrollPane list;
+	static String inputString;
 	/**
 	 * Create the frame.
 	 */
@@ -108,7 +109,7 @@ public class MainWindow extends JFrame {
 		          return;
 		        int index = listas.getSelectedIndex();
 		        if(vm.Atmintis.get(index) != "") { textState.setText("uþimtas"); }
-		        textPanel.setText(textPanel.getText() + "\n> selected "+vm.Atmintis.get(index)+" command.");
+		        //textPanel.setText(textPanel.getText() + "\n> selected "+vm.Atmintis.get(index)+" command.");
 		      }
 		    });
 		listas.setSelectedIndex(0); // ID nurodo kuris yra selected
@@ -144,7 +145,7 @@ public class MainWindow extends JFrame {
 						listas.setSelectedIndex(0);
 						list.revalidate();
 						list.repaint();
-		                textPanel.setText(textPanel.getText() + "\n> Opened: " +file.getName());
+		                //textPanel.setText(textPanel.getText() + "\n> Opened: " +file.getName());
 		            } else {
 		                // Vartotojas atðaukia pasirinkimà
 		            	textPanel.setText(textPanel.getText() + "\n> File Chooser closed.");
@@ -182,6 +183,7 @@ public class MainWindow extends JFrame {
 	        @Override
 	        public void actionPerformed(ActionEvent e) {
 	        	 textPanel.setText(textPanel.getText() + "\n> " +console.getText());
+	        	 inputString = console.getText();
 	        	 console.setText(null);
 	        }
 	    });
@@ -334,6 +336,9 @@ public class MainWindow extends JFrame {
 	}
 	public static void updateConsole(String text) {
 		textPanel.setText(textPanel.getText() + "\n"+text);
+	}
+	public static String getConsole() {
+		return inputString;
 	}
 	public static void updateList(VA Atmintis) {
 		for(int i=0;i<Atmintis.getAllMemory();i++) {

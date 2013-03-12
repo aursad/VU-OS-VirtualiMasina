@@ -46,6 +46,11 @@ public class VM {
 	                PD(xx);
 	                break;
 	            }
+	            case "GD": 
+	            {
+	                GD(xx);
+	                break;
+	            }
 	            case "LR": 
 	            {
 	                LR(xx);
@@ -196,6 +201,8 @@ public class VM {
 		OS.OS.MODE.set(1);
 		OS.OS.CH.set(4);
 		
+		//String input = UI.MainWindow.getConsole();
+		//Atmintis.set(xx, input);
 		IC.set(IC.get()+1);
 		
 		OS.OS.SI.set(0);
