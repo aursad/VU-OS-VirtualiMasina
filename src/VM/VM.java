@@ -56,6 +56,11 @@ public class VM {
 	            	SR(xx);
 	            	break;
 	            }
+	            case "AD":
+	            {
+	            	AD(xx);
+	            	break;
+	            }
 	            default: 
 	            {
 	                System.out.println ("unknown\t" + OPK);
