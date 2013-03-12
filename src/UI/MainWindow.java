@@ -28,6 +28,7 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileFilter;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -38,6 +39,7 @@ import javax.swing.JLabel;
 import javax.swing.SwingConstants;
 
 import OS.OS;
+import OS.readFile;
 import VM.VM;
 
 
@@ -93,25 +95,6 @@ public class MainWindow extends JFrame {
 		btnEnd.setEnabled(false);
 		btnStart.setEnabled(false);
 		
-		/**
-		 * Nuskaityti failà kvietimas
-		 */
-		btnNuskaitytiProgram.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				fc = new JFileChooser();
-				fc.addChoosableFileFilter(new FileNameExtensionFilter("VM Failai", "vm"));
-		            int returnVal = fc.showOpenDialog(MainWindow.this);
-		 
-		            if (returnVal == JFileChooser.APPROVE_OPTION) {
-		                File file = fc.getSelectedFile();
-		                textPanel.setText(textPanel.getText() + "\n> Opened: " +file.getName());
-		            } else {
-		                // Vartotojas atðaukia pasirinkimà
-		            	textPanel.setText(textPanel.getText() + "\n> File Chooser closed.");
-		            }
-				}
-		});
-		
 		
 		/**
 		 * Kurimas sàraðas elementø á JList
@@ -133,6 +116,44 @@ public class MainWindow extends JFrame {
 		listas.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		final JScrollPane list = new JScrollPane(listas);
 		
+		/**
+		 * Nuskaityti failà kvietimas
+		 */
+		btnNuskaitytiProgram.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				fc = new JFileChooser();
+				fc.addChoosableFileFilter(new FileNameExtensionFilter("VM Failai", "vm"));
+		            int returnVal = fc.showOpenDialog(MainWindow.this);
+		 
+		            if (returnVal == JFileChooser.APPROVE_OPTION) {
+		                File file = fc.getSelectedFile();
+						try {
+							FileReader fr = new FileReader(file); 
+							BufferedReader br = new BufferedReader(fr); 
+							String s; 
+							while((s = br.readLine()) != null) { 
+								String[] value = s.split("(?<=\\G.{2})");
+								int foo = Integer.parseInt(value[0]);
+									vm.Atmintis.set(foo, ""+value[1]+value[2]);
+									listModel.set(foo, String.format("%02d", foo)+": "+vm.Atmintis.get(foo));
+							} 
+							fr.close(); 
+						} catch (IOException e1) {
+							e1.printStackTrace();
+						}
+						listas.setSelectedIndex(0);
+						list.revalidate();
+						list.repaint();
+		                textPanel.setText(textPanel.getText() + "\n> Opened: " +file.getName());
+		            } else {
+		                // Vartotojas atðaukia pasirinkimà
+		            	textPanel.setText(textPanel.getText() + "\n> File Chooser closed.");
+		            }
+				}
+		});
+		
+
+		
 		btnEnd.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				btnEnd.setEnabled(false);
@@ -143,12 +164,7 @@ public class MainWindow extends JFrame {
 		btnStart.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				btnEnd.setEnabled(true);
-				 //atnaujinimas JList elemento norimu tekstu
-				vm.Atmintis.set(22, "FAKE");
-				listModel.set(22, "22: "+vm.Atmintis.get(22));
-				listas.setSelectedIndex(22);
-				list.revalidate();
-				list.repaint();
+				//startPRogram
 			}
 		});
 		
