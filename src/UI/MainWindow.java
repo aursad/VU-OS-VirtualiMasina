@@ -185,19 +185,19 @@ public class MainWindow extends JFrame {
 		
 		textRegisterR = new JTextField();
 		textRegisterR.setHorizontalAlignment(SwingConstants.CENTER);
-		textRegisterR.setText(""+os.getR());
+		textRegisterR.setText("0");
 		textRegisterR.setEditable(false);
 		textRegisterR.setColumns(10);
 		
 		textRegisterC = new JTextField();
 		textRegisterC.setHorizontalAlignment(SwingConstants.CENTER);
-		textRegisterC.setText(""+os.getC());
+		textRegisterC.setText("0");
 		textRegisterC.setEditable(false);
 		textRegisterC.setColumns(10);
 		
 		textRegisterIC = new JTextField();
 		textRegisterIC.setHorizontalAlignment(SwingConstants.CENTER);
-		textRegisterIC.setText(""+os.getIC());
+		textRegisterIC.setText("0");
 		textRegisterIC.setEditable(false);
 		textRegisterIC.setColumns(10);
 		
