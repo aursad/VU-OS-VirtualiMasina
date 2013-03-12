@@ -22,39 +22,39 @@ public class OS {
 	/**
 	 * Bendrojo naudojimo registras
 	 */
-	private DataRegister R;
+	public DataRegister R;
 	/**
 	 * Komandø skaitiklis
 	 */
-	private IcRegister IC;
+	public IcRegister IC;
 	/**
 	 * Poþymiø registras
 	 */
-	private CRegister C;
+	public CRegister C;
 	/**
 	 * Taimerio veiksmø registras
 	 */
-	private int T=10;
+	public TimerRegister T;
 	/**
 	 * Supervizoriniø pertraukimø registras
 	 */
-	private IntRegister SI;
+	public IntRegister SI;
 	/**
 	 * Programinio pertraukimo registras
 	 */
-	private IntRegister PI;
+	public IntRegister PI;
 	/**
 	 * Taimerio pertraukimo registras
 	 */
-	private TimerRegister TI;
+	public TimerRegister TI;
 	/**
 	 * Registras nusakantis procesoriaus darbo reþimà
 	 */
-	private ModeRegister MODE;
+	public ModeRegister MODE;
 	/**
 	 * Kanalø uþimtumo registras 
 	 */
-	private ChRegister CH;
+	public ChRegister CH;
 	
 	/**
 	 * Konstruktorius
@@ -80,15 +80,5 @@ public class OS {
 	public void setPTR(int NewPtr) {
 		this.PTR = NewPtr;
 	}
-	
-
-
-
-	/**
-	 * Load Register
-	 * Registras R ágauna a reikðmæ
-	 * @param a 
-	 * @return R Nauja bendrojo naudojimo registro reikðmë
-	 */
 	
 }
