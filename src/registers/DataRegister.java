@@ -3,7 +3,7 @@ package registers;
 public class DataRegister {
 	
 	private int R;
-	DataRegister() {
+	public DataRegister() {
 		this.R = 0;
 	}
 	/**

@@ -3,8 +3,8 @@ package registers;
 public class TimerRegister {
 
 	private int T;
-	TimerRegister() {
-		this.T = 0;
+	public TimerRegister(int T) {
+		this.T = T;
 	}
 	/**
 	 * Taimerio skaitiklis

@@ -64,6 +64,13 @@ public class OS {
 	}
 	OS(int PTR) {
 		this.PTR = PTR;
+		R = new DataRegister();
+        IC = new IcRegister();
+        C = new CRegister();
+        T = new TimerRegister(10); 
+        MODE  = new ModeRegister();
+        PI = new IntRegister();
+        SI = new IntRegister();
 	}
 	
 	/**

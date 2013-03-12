@@ -3,7 +3,7 @@ package registers;
 public class IcRegister {
 	
 	private int IC;
-	IcRegister() {
+	public IcRegister() {
 		this.IC = 0;
 	}
 	/**

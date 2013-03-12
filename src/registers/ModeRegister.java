@@ -4,7 +4,7 @@ public class ModeRegister {
 	
 	private int Mode;
 
-	ModeRegister() {
+	public ModeRegister() {
 		this.Mode = 0;
 	}
 	/**

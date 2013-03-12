@@ -3,7 +3,7 @@ package registers;
 public class CRegister {
 	private int C;
 	
-	CRegister() {
+	public CRegister() {
 		this.C = 0;
 	}
 	

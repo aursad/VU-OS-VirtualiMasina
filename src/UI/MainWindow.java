@@ -111,6 +111,7 @@ public class MainWindow extends JFrame {
 				}
 		});
 		
+		
 		/**
 		 * Kurimas sàraðas elementø á JList
 		 */
@@ -185,19 +186,19 @@ public class MainWindow extends JFrame {
 		
 		textRegisterR = new JTextField();
 		textRegisterR.setHorizontalAlignment(SwingConstants.CENTER);
-		textRegisterR.setText("0");
+		textRegisterR.setText(""+os.R.get());
 		textRegisterR.setEditable(false);
 		textRegisterR.setColumns(10);
 		
 		textRegisterC = new JTextField();
 		textRegisterC.setHorizontalAlignment(SwingConstants.CENTER);
-		textRegisterC.setText("0");
+		textRegisterC.setText(""+os.C.get());
 		textRegisterC.setEditable(false);
 		textRegisterC.setColumns(10);
 		
 		textRegisterIC = new JTextField();
 		textRegisterIC.setHorizontalAlignment(SwingConstants.CENTER);
-		textRegisterIC.setText("0");
+		textRegisterIC.setText(""+os.IC.get());
 		textRegisterIC.setEditable(false);
 		textRegisterIC.setColumns(10);
 		
@@ -258,7 +259,7 @@ public class MainWindow extends JFrame {
 							.addComponent(btnEnd)
 							.addPreferredGap(ComponentPlacement.RELATED)
 							.addComponent(btnPerkrauti)
-							.addPreferredGap(ComponentPlacement.RELATED, 225, Short.MAX_VALUE)
+							.addPreferredGap(ComponentPlacement.RELATED, 221, Short.MAX_VALUE)
 							.addComponent(btnVersijaV)))
 					.addContainerGap())
 		);
