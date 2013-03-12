@@ -126,10 +126,10 @@ public class MainWindow extends JFrame {
 		        if (evt.getValueIsAdjusting())
 		          return;
 		        int index = listas.getSelectedIndex();
-		        textPanel.setText(textPanel.getText() + "\n> selected #"+index+" row");
+		        textPanel.setText(textPanel.getText() + "\n> selected "+vm.Atmintis.get(index)+" command.");
 		      }
 		    });
-		listas.setSelectedIndex(4); // ID nurodo kuris yra selected
+		listas.setSelectedIndex(0); // ID nurodo kuris yra selected
 		listas.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		final JScrollPane list = new JScrollPane(listas);
 		
@@ -143,11 +143,12 @@ public class MainWindow extends JFrame {
 		btnStart.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				btnEnd.setEnabled(true);
-				/* atnaujinimas JList elemento norimu tekstu
-				 * listModel.set(22, "22: FAKE");
+				 //atnaujinimas JList elemento norimu tekstu
+				vm.Atmintis.set(22, "FAKE");
+				listModel.set(22, "22: "+vm.Atmintis.get(22));
 				listas.setSelectedIndex(22);
 				list.revalidate();
-				list.repaint();*/
+				list.repaint();
 			}
 		});
 		

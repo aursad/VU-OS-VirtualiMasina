@@ -11,7 +11,7 @@ public class VA {
 	/**
 	 * Vartotojui iðskiriamos atminties kiekis
 	 */
-	private int vartotojoAtmintis=0;
+	private int vartotojoAtmintis;
 	LinkedList <String> atmintis;
 	
 	/**
@@ -21,7 +21,7 @@ public class VA {
 		this.atmintis = new LinkedList<String>();
 		this.vartotojoAtmintis = vartotojoAtmintis;
 		for(int i=0;i<vartotojoAtmintis;i++) {
-			atmintis.add("XXYY");
+				atmintis.add("");
 		}
 	}
 	/**
@@ -36,10 +36,16 @@ public class VA {
 	 * @param a Atminties adresas
 	 * @return
 	 */
+	public void set(int index, String element) {
+		this.atmintis.set(index, element);
+	}
 	public String get(int a) {
 		return this.atmintis.get(a);
 	}
 	public LinkedList<String> getList() {
 		return atmintis;
+	}
+	public int getAllMemory() {
+		return vartotojoAtmintis;
 	}
 }
