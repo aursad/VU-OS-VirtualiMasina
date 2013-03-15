@@ -91,8 +91,10 @@ public class MainWindow extends JFrame {
 		final JButton btnNuskaitytiProgram = new JButton("Nuskaityti program\u0105");
 		final JButton btnStart = new JButton("Vykdyti");
 		final JButton btnEnd = new JButton("Pabaigti");
+		final JButton btnStepByStep = new JButton("Po \u017Eingsn\u012F");
 		btnEnd.setEnabled(false);
 		btnStart.setEnabled(false);
+		btnStepByStep.setEnabled(false);
 		
 		
 		/**
@@ -108,11 +110,11 @@ public class MainWindow extends JFrame {
 		        if (evt.getValueIsAdjusting())
 		          return;
 		        int index = listas.getSelectedIndex();
-		        if(vm.Atmintis.get(index) != "") { textState.setText("uþimtas"); }
+		        if(vm.Atmintis.get(index) != "") { textState.setText("uþimtas"); } else { textState.setText("laisvas"); }
 		        //textPanel.setText(textPanel.getText() + "\n> selected "+vm.Atmintis.get(index)+" command.");
 		      }
 		    });
-		listas.setSelectedIndex(0); // ID nurodo kuris yra selected
+		//listas.setSelectedIndex(0); // ID nurodo kuris yra selected
 		listas.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		list = new JScrollPane(listas);
 		
@@ -145,7 +147,6 @@ public class MainWindow extends JFrame {
 						listas.setSelectedIndex(0);
 						list.revalidate();
 						list.repaint();
-		                //textPanel.setText(textPanel.getText() + "\n> Opened: " +file.getName());
 		            } else {
 		                // Vartotojas atðaukia pasirinkimà
 		            	textPanel.setText(textPanel.getText() + "\n> File Chooser closed.");
@@ -159,6 +160,7 @@ public class MainWindow extends JFrame {
 			public void actionPerformed(ActionEvent arg0) {
 				btnEnd.setEnabled(false);
 				btnStart.setEnabled(false);
+				btnStepByStep.setEnabled(false);
 			}
 		});
 		
@@ -173,16 +175,27 @@ public class MainWindow extends JFrame {
 		btnNuskaitytiProgram.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				btnStart.setEnabled(true);
+				btnStepByStep.setEnabled(true);
+			}
+		});
+		btnStepByStep.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				btnEnd.setEnabled(true);
+				// Vykdyti programà po þingsná
+				vm.startProgramStepByStep(vm.IC.get());
 			}
 		});
 		
 		console = new JTextField();
+		console.setEnabled(false);
 		console.setColumns(10);
 		console.addActionListener(new ActionListener() {
 
 	        @Override
 	        public void actionPerformed(ActionEvent e) {
 	        	 textPanel.setText(textPanel.getText() + "\n> " +console.getText());
+	        	 vm.getText = console.getText();
+	        	 console.setEnabled(false);
 	        	 inputString = console.getText();
 	        	 console.setText(null);
 	        }
@@ -195,9 +208,6 @@ public class MainWindow extends JFrame {
 		textPanel.setText(">>>  Console start");
 		
 		JSeparator separator_1 = new JSeparator();
-		
-		JButton btnPerkrauti = new JButton("Perkrauti");
-		btnPerkrauti.setEnabled(false);
 		
 		JLabel lblR = new JLabel("R:");
 		JLabel lblC = new JLabel("C:");
@@ -278,7 +288,7 @@ public class MainWindow extends JFrame {
 							.addPreferredGap(ComponentPlacement.RELATED)
 							.addComponent(btnEnd)
 							.addPreferredGap(ComponentPlacement.RELATED)
-							.addComponent(btnPerkrauti)
+							.addComponent(btnStepByStep)
 							.addPreferredGap(ComponentPlacement.RELATED, 221, Short.MAX_VALUE)
 							.addComponent(btnVersijaV)))
 					.addContainerGap())
@@ -319,7 +329,7 @@ public class MainWindow extends JFrame {
 							.addComponent(btnNuskaitytiProgram)
 							.addComponent(btnStart)
 							.addComponent(btnEnd)
-							.addComponent(btnPerkrauti))
+							.addComponent(btnStepByStep))
 						.addComponent(btnVersijaV))
 					.addContainerGap())
 		);
@@ -334,10 +344,16 @@ public class MainWindow extends JFrame {
 	public static void updateC(int C) {
 		textRegisterC.setText(""+C);
 	}
+	public static void updateListSelected(int id) {
+		listas.setSelectedIndex(id);
+		list.revalidate();
+		list.repaint();
+	}
 	public static void updateConsole(String text) {
 		textPanel.setText(textPanel.getText() + "\n"+text);
 	}
 	public static String getConsole() {
+		console.setEnabled(true);
 		return inputString;
 	}
 	public static void updateList(VA Atmintis) {

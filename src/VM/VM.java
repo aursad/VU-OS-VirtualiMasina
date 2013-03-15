@@ -25,6 +25,7 @@ public class VM {
 	public CRegister C;
 	public VA Atmintis;
 	public String end = "HALT";
+	public String getText;
 	
 	public VM() {
 		R = new DataRegister();
@@ -39,83 +40,99 @@ public class VM {
 			String[] value = s.split("(?<=\\G.{2})"); // value[0] => opk, value[1] => adresas
 			String OPK = value[0];
 			int xx = Integer.parseInt(value[1]);
-			switch (OPK) 
-			{
-	            case "PD": 
-	            {
-	                PD(xx);
-	                break;
-	            }
-	            case "GD": 
-	            {
-	                GD(xx);
-	                break;
-	            }
-	            case "LR": 
-	            {
-	                LR(xx);
-	                break;
-	            }
-	            case "SR":
-	            {
-	            	SR(xx);
-	            	break;
-	            }
-	            case "AD":
-	            {
-	            	AD(xx);
-	            	break;
-	            }
-	            case "SU":
-	            {
-	            	SU(xx);
-	            	break;
-	            }
-	            case "MU":
-	            {
-	            	MU(xx);
-	            	break;
-	            }
-	            case "DI":
-	            {
-	            	DI(xx);
-	            	break;
-	            }
-	            case "MO":
-	            {
-	            	MO(xx);
-	            	break;
-	            }
-	            case "CR":
-	            {
-	            	CR(xx);
-	            	break;
-	            }
-	            case "JP":
-	            {
-	            	JP(xx);
-	            	break;
-	            }
-	            case "JL":
-	            {
-	            	JL(xx);
-	            	break;
-	            }
-	            default: 
-	            {
-	                System.out.println ("unknown\t" + OPK);
-	                IC.set(IC.get()+1);
-	                OS.OS.PI.set(1); // Neteisingas OPK
-	                break;
-	            }
-			}
+			doCommand(OPK, xx);
 			UI.MainWindow.updateIC(IC.get());
 			UI.MainWindow.updateR(R.get());
 			UI.MainWindow.updateC(C.get());
 			UI.MainWindow.updateList(Atmintis);
 		} 
 	}
-	
+	public void startProgramStepByStep(int stepIC) {
+		if(!end.equals(Atmintis.get(stepIC))) {
+			String s = Atmintis.get(stepIC);
+			String[] value = s.split("(?<=\\G.{2})"); // value[0] => opk, value[1] => adresas
+			String OPK = value[0];
+			int xx = Integer.parseInt(value[1]);
+			doCommand(OPK, xx);
+			UI.MainWindow.updateListSelected(IC.get());
+			UI.MainWindow.updateIC(IC.get());
+			UI.MainWindow.updateR(R.get());
+			UI.MainWindow.updateC(C.get());
+			UI.MainWindow.updateList(Atmintis);
+		} 
+	}
+	private void doCommand(String OPK, int xx) {
+		switch (OPK) 
+		{
+            case "PD": 
+            {
+                PD(xx);
+                break;
+            }
+            case "GD": 
+            {
+                GD(xx);
+                break;
+            }
+            case "LR": 
+            {
+                LR(xx);
+                break;
+            }
+            case "SR":
+            {
+            	SR(xx);
+            	break;
+            }
+            case "AD":
+            {
+            	AD(xx);
+            	break;
+            }
+            case "SU":
+            {
+            	SU(xx);
+            	break;
+            }
+            case "MU":
+            {
+            	MU(xx);
+            	break;
+            }
+            case "DI":
+            {
+            	DI(xx);
+            	break;
+            }
+            case "MO":
+            {
+            	MO(xx);
+            	break;
+            }
+            case "CR":
+            {
+            	CR(xx);
+            	break;
+            }
+            case "JP":
+            {
+            	JP(xx);
+            	break;
+            }
+            case "JL":
+            {
+            	JL(xx);
+            	break;
+            }
+            default: 
+            {
+                System.out.println ("unknown\t" + OPK);
+                IC.set(IC.get()+1);
+                OS.OS.PI.set(1); // Neteisingas OPK
+                break;
+            }
+		}
+	}
 	// Is atminties xx adresu paimti reiksme
 	public int getWord(int xx) {
 		String Word = Atmintis.get(xx);
@@ -202,7 +219,7 @@ public class VM {
 		OS.OS.CH.set(4);
 		
 		//String input = UI.MainWindow.getConsole();
-		//Atmintis.set(xx, input);
+		//Atmintis.set(xx, getText);
 		IC.set(IC.get()+1);
 		
 		OS.OS.SI.set(0);
