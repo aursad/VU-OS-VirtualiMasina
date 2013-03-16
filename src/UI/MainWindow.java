@@ -72,6 +72,9 @@ public class MainWindow extends JFrame {
 	static JList<String> listas;
 	static JScrollPane list;
 	static String inputString;
+	
+	static JButton btnStart;
+	static JButton btnStepByStep;
 	/**
 	 * Create the frame.
 	 */
@@ -158,6 +161,16 @@ public class MainWindow extends JFrame {
 		
 		btnEnd.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
+				textPanel.setText(">> Console restart");
+				vm.C.set(0);
+				vm.IC.set(0);
+				vm.R.set(0);
+				OS.SI.set(0);
+				
+				textRegisterIC.setText(""+vm.IC.get());
+				textRegisterR.setText(""+vm.R.get());
+				textRegisterC.setText(""+vm.C.get());
+				
 				btnEnd.setEnabled(false);
 				btnStart.setEnabled(false);
 				btnStepByStep.setEnabled(false);
@@ -166,9 +179,9 @@ public class MainWindow extends JFrame {
 		
 		btnStart.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				btnEnd.setEnabled(true);
 				//startPRogram
 				vm.startProgram();
+				btnEnd.setEnabled(true);
 			}
 		});
 		
@@ -182,7 +195,7 @@ public class MainWindow extends JFrame {
 			public void actionPerformed(ActionEvent arg0) {
 				btnEnd.setEnabled(true);
 				// Vykdyti programà po þingsná
-				vm.startProgramStepByStep(vm.IC.get());
+				vm.startProgramStepByStep();
 			}
 		});
 		
@@ -194,7 +207,6 @@ public class MainWindow extends JFrame {
 	        @Override
 	        public void actionPerformed(ActionEvent e) {
 	        	 textPanel.setText(textPanel.getText() + "\n> " +console.getText());
-	        	 vm.getText = console.getText();
 	        	 console.setEnabled(false);
 	        	 inputString = console.getText();
 	        	 console.setText(null);

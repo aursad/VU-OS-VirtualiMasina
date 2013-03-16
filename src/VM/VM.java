@@ -23,9 +23,11 @@ public class VM {
 	 * Poþymiø registras
 	 */
 	public CRegister C;
+	/**
+	 * Vartotojui iðskiriama atmintis
+	 */
 	public VA Atmintis;
 	public String end = "HALT";
-	public String getText;
 	
 	public VM() {
 		R = new DataRegister();
@@ -33,35 +35,89 @@ public class VM {
 		C = new CRegister();
 		Atmintis = new VA(100);
 	}
-
+	/**
+	 * Vykdomos visos komandos ið eilës
+	 */
 	public void startProgram() {
-		while(!end.equals(Atmintis.get(IC.get()))) {
-			String s = Atmintis.get(IC.get());
-			String[] value = s.split("(?<=\\G.{2})"); // value[0] => opk, value[1] => adresas
-			String OPK = value[0];
-			int xx = Integer.parseInt(value[1]);
-			doCommand(OPK, xx);
-			UI.MainWindow.updateIC(IC.get());
-			UI.MainWindow.updateR(R.get());
-			UI.MainWindow.updateC(C.get());
-			UI.MainWindow.updateList(Atmintis);
-		} 
+		do {
+			step();
+		} while(OS.OS.SI.get() != 3 && OS.OS.PI.get() == 0);
+		step();
 	}
-	public void startProgramStepByStep(int stepIC) {
-		if(!end.equals(Atmintis.get(stepIC))) {
-			String s = Atmintis.get(stepIC);
-			String[] value = s.split("(?<=\\G.{2})"); // value[0] => opk, value[1] => adresas
-			String OPK = value[0];
-			int xx = Integer.parseInt(value[1]);
-			doCommand(OPK, xx);
-			UI.MainWindow.updateListSelected(IC.get());
-			UI.MainWindow.updateIC(IC.get());
-			UI.MainWindow.updateR(R.get());
-			UI.MainWindow.updateC(C.get());
-			UI.MainWindow.updateList(Atmintis);
-		} 
+	/**
+	 * Vykdomos komandos po þingsná
+	 */
+	public void startProgramStepByStep() {
+			step();
 	}
-	private void doCommand(String OPK, int xx) {
+	/**
+	 * Komandos vykdymo þingsnis
+	 */
+	private void step() {
+		if(OS.OS.SI.get() != 3 && OS.OS.PI.get() == 0) {
+			String command = Atmintis.get(IC.get());
+				doCommand(command);
+				updateGUI();
+		} else {
+			UI.MainWindow.updateConsole(">> Programa baigë darbà!");
+		}
+	}
+	/**
+	 * Atnaujinami UI pagrindiniai registrø laukai
+	 * bei vartotojo atmintis
+	 */
+	private void updateGUI() {
+		UI.MainWindow.updateIC(IC.get());
+		UI.MainWindow.updateR(R.get());
+		UI.MainWindow.updateC(C.get());
+		UI.MainWindow.updateList(Atmintis);
+	}
+	/**
+	 * Ið atminties þodþio iðskiriamas OPK
+	 * @param zodis Atminties þodis
+	 * @return OPK Operacijos kodas
+	 */
+	private String encodeBytes2(String zodis) {
+		String[] value = zodis.split("(?<=\\G.{2})");
+		String OPK = value[0];
+		return OPK;
+	}
+	/**
+	 * Ið atminties þodþio iðskiriamas adresas
+	 * @param zodis Atminties þodis
+	 * @return XX Atminties adresas
+	 */
+	private int XXencode(String zodis) {
+		String[] value = zodis.split("(?<=\\G.{2})");
+		try 
+        {
+            return Integer.parseInt(value[1]);
+        } 
+        catch (NumberFormatException e)
+        {
+            return 0;
+        }
+	}
+	/**
+	 * Ið atminties þodþio iðskiriamas tekstinis adresas
+	 * @param zodis Atminties þodis
+	 * @return XX Atminties adreso tekstas
+	 */
+	private String YYencode(String zodis) {
+		String[] value = zodis.split("(?<=\\G.{2})");
+		return value[1];
+	}
+	/**
+	 * Komandos atpaþinimas
+	 * @param command Atminties þodis
+	 */
+	private void doCommand(String command) {
+		String OPK="";
+		int xx;
+		
+		OPK = encodeBytes2(command);
+		xx = XXencode(command);
+		
 		switch (OPK) 
 		{
             case "PD": 
@@ -124,67 +180,134 @@ public class VM {
             	JL(xx);
             	break;
             }
+            case "JE":
+            {
+            	JE(xx);
+            	break;
+            }
+            case "JG":
+            {
+            	JG(xx);
+            	break;
+            }
             default: 
             {
-                System.out.println ("unknown\t" + OPK);
-                IC.set(IC.get()+1);
-                OS.OS.PI.set(1); // Neteisingas OPK
-                break;
+            	OPK += YYencode(command);
+                switch(OPK)
+                {
+                    case "HALT":
+                    {
+                        HALT();
+                        break;
+                    }
+                    default:
+                    {
+                    	UI.MainWindow.updateConsole("Komanda '"+OPK+"' neegzistuoja!");
+                        IC.set(IC.get()+1);
+                        OS.OS.PI.set(1); // Neteisingas OPK
+                        OS.OS.MODE.set(1);
+                        break;
+                    }
+                }
             }
 		}
 	}
-	// Is atminties xx adresu paimti reiksme
+
+	/**
+	 * Ið atminties adresu XX paimama reikðmë, bei paðalinami tarpai
+	 * @param xx Atminties adresas
+	 * @return XY Reikðmë adresu XX
+	 */
 	public int getWord(int xx) {
 		String Word = Atmintis.get(xx);
 		Word = Word.replaceAll("\\s", "");
 		int XY = Integer.parseInt(Word);
 		return XY;
 	}
-	// Atminciai xx adresu nustatyti reiksme
+	/**
+	 * Atminties vietai adresu XX nustatoma nauja reikðmë
+	 * @param xx Atminties adresas
+	 * @param R Nauja reikðmë
+	 */
 	public void setWord(int xx, int R) {
 		Atmintis.set(xx, Integer.toString(R));
 	}
-
 	/**
-	 * Komandos
+	 * Load Register
+	 * @param xx
 	 */
 	public void LR(int xx) {
 		R.set(getWord(xx));
 		IC.set(IC.get()+1);
 	}
+	/**
+	 * Save Register
+	 * @param xx
+	 */
 	public void SR(int xx) {
 		setWord(xx, R.get());
 		IC.set(IC.get()+1);
 	}
+	/**
+	 * Null
+	 */
 	public void NL() {
 		R.set(0);
 		IC.set(IC.get()+1);
 	}
+	/**
+	 * Sudëtis
+	 * @param xx
+	 */
 	public void AD(int xx) {
 		int xm = R.get() + getWord(xx);
 		R.set(xm);
 		IC.set(IC.get()+1);
 	}
+	/**
+	 * Atimtis
+	 * @param xx
+	 */
 	public void SU(int xx) {
 		int xm = R.get() - getWord(xx);
 		R.set(xm);
 		IC.set(IC.get()+1);
 	}
+	/**
+	 * Daugyba
+	 * @param xx
+	 */
 	public void MU(int xx) {
 		int xm = R.get() * getWord(xx);
 		R.set(xm);
 		IC.set(IC.get()+1);
 	}
+	/**
+	 * Dalyba
+	 * @param xx
+	 */
 	public void DI(int xx) {
-		int xm = R.get() / getWord(xx);
-		R.set(xm);
-		IC.set(IC.get()+1);
+		if(getWord(xx) != 0) {
+			int xm = R.get() / getWord(xx);
+			R.set(xm);
+			IC.set(IC.get()+1); 
+		} else {
+			OS.OS.PI.set(4);
+		}
 	}
+	/**
+	 * Liekana
+	 * @param xx
+	 */
 	public void MO(int xx) {
 		int xm = R.get() % getWord(xx);
 		R.set(xm);
 		IC.set(IC.get()+1);
 	}
+	/**
+	 * Palyginimas
+	 * @param xx
+	 */
 	public void CR(int xx) {
 		if (R.get() > getWord(xx)) {
 			C.set(1);
@@ -195,40 +318,66 @@ public class VM {
 		}
 		IC.set(IC.get()+1);
 	}
+	/**
+	 * Valdymo perdavimas
+	 * @param xx
+	 */
 	public void JP(int xx) {
 		IC.set(xx);
 	}
+	/**
+	 * Valdymo perdavimas jei lygu
+	 * @param xx
+	 */
 	public void JE(int xx) {
 		if (C.get() == 0) {
 			IC.set(xx);
 		}
 	}
+	/**
+	 * Valdymo perdavimas jei daugiau
+	 * @param xx
+	 */
 	public void JG(int xx) {
 		if (C.get() == 1) {
 			IC.set(xx);
 		}
 	}
+	/**
+	 * Valdymo perdavimas jei maþiau
+	 * @param xx
+	 */
 	public void JL(int xx) {
 		if (C.get() == 2) {
 			IC.set(xx);
 		}
 	}
+	/**
+	 * INPUT
+	 * @param xx
+	 */
 	public void GD(int xx) {
-		OS.OS.SI.set(2);
 		OS.OS.MODE.set(1);
+		OS.OS.SI.set(2);
 		OS.OS.CH.set(4);
+		OS.OS.PI.set(5);
 		
 		//String input = UI.MainWindow.getConsole();
 		//Atmintis.set(xx, getText);
 		IC.set(IC.get()+1);
 		
 		OS.OS.SI.set(0);
-		OS.OS.MODE.set(0);
 		OS.OS.CH.set(0);
+		OS.OS.PI.set(0);
+		OS.OS.MODE.set(0);
 	}
+	/**
+	 * OUTPUT
+	 * @param xx
+	 */
 	public void PD(int xx) {
-		OS.OS.SI.set(2);
 		OS.OS.MODE.set(1);
+		OS.OS.SI.set(2);
 		OS.OS.CH.set(5);
 		
 		String text="";
@@ -239,8 +388,15 @@ public class VM {
 		}
 		IC.set(IC.get()+1);
 		OS.OS.SI.set(0);
-		OS.OS.MODE.set(0);
 		OS.OS.CH.set(0);
+		OS.OS.MODE.set(0);
 		UI.MainWindow.updateConsole(text);
+	}
+	/**
+	 * Programos vykdymo pabaiga
+	 */
+	public void HALT() {
+		OS.OS.MODE.set(1);
+		OS.OS.SI.set(3);
 	}
 }
