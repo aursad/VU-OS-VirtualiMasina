@@ -1,17 +1,17 @@
 package IOI;
 
 public class Input {
-	private String output;
+	private String input;
 	public Input() {
-		this.output = "";
+		this.input = "";
 	}
 	
 
 	public String get() {
-		return this.output;
+		return this.input;
 	}
 
-	public void set(String output) {
-		this.output = output;
+	public void set(String input) {
+		this.input = input;
 	}
 }
