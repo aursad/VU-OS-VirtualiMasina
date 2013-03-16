@@ -1,5 +1,6 @@
 package VM;
 
+import IOI.Input;
 import UI.MainWindow;
 import registers.CRegister;
 import registers.DataRegister;
@@ -332,6 +333,8 @@ public class VM {
 	public void JE(int xx) {
 		if (C.get() == 0) {
 			IC.set(xx);
+		} else {
+			IC.set(IC.get()+1);
 		}
 	}
 	/**
@@ -341,6 +344,8 @@ public class VM {
 	public void JG(int xx) {
 		if (C.get() == 1) {
 			IC.set(xx);
+		} else {
+			IC.set(IC.get()+1);
 		}
 	}
 	/**
@@ -350,6 +355,8 @@ public class VM {
 	public void JL(int xx) {
 		if (C.get() == 2) {
 			IC.set(xx);
+		} else {
+			IC.set(IC.get()+1);
 		}
 	}
 	/**
@@ -362,8 +369,15 @@ public class VM {
 		OS.OS.CH.set(4);
 		OS.OS.PI.set(5);
 		
-		//String input = UI.MainWindow.getConsole();
+		String input = UI.MainWindow.getConsole();
 		//Atmintis.set(xx, getText);
+		input = UI.MainWindow.getConsole();
+		while(!input.equals("")) {
+			input = UI.MainWindow.getConsole();
+			Atmintis.set(xx, input);
+			input = "";
+			UI.MainWindow.setConsole();
+		}
 		IC.set(IC.get()+1);
 		
 		OS.OS.SI.set(0);

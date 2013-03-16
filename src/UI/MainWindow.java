@@ -34,6 +34,7 @@ import javax.swing.ListSelectionModel;
 import javax.swing.JLabel;
 import javax.swing.SwingConstants;
 
+import IOI.Input;
 import OS.OS;
 import VM.VA;
 import VM.VM;
@@ -75,6 +76,8 @@ public class MainWindow extends JFrame {
 	
 	static JButton btnStart;
 	static JButton btnStepByStep;
+	
+	static Input output;
 	/**
 	 * Create the frame.
 	 */
@@ -82,6 +85,7 @@ public class MainWindow extends JFrame {
 		setTitle("Virtuali Maðina - Emulator");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 720, 400);
+		output = new Input();
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -147,7 +151,7 @@ public class MainWindow extends JFrame {
 							e1.printStackTrace();
 						}
 						vm.IC.set(0);
-						listas.setSelectedIndex(0);
+						//listas.setSelectedIndex(0);
 						list.revalidate();
 						list.repaint();
 		            } else {
@@ -200,15 +204,12 @@ public class MainWindow extends JFrame {
 		});
 		
 		console = new JTextField();
-		console.setEnabled(false);
+		console.setEnabled(true);
 		console.setColumns(10);
 		console.addActionListener(new ActionListener() {
-
-	        @Override
 	        public void actionPerformed(ActionEvent e) {
 	        	 textPanel.setText(textPanel.getText() + "\n> " +console.getText());
-	        	 console.setEnabled(false);
-	        	 inputString = console.getText();
+	        	 output.set(console.getText());
 	        	 console.setText(null);
 	        }
 	    });
@@ -365,8 +366,10 @@ public class MainWindow extends JFrame {
 		textPanel.setText(textPanel.getText() + "\n"+text);
 	}
 	public static String getConsole() {
-		console.setEnabled(true);
-		return inputString;
+		return output.get();
+	}
+	public static void setConsole() {
+		output.set("");
 	}
 	public static void updateList(VA Atmintis) {
 		for(int i=0;i<Atmintis.getAllMemory();i++) {
