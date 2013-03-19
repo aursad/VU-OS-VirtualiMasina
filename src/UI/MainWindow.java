@@ -35,7 +35,7 @@ import javax.swing.JLabel;
 import javax.swing.SwingConstants;
 
 import IOI.Input;
-import OS.OS;
+import RM.RM;
 import VM.VA;
 import VM.VM;
 
@@ -77,7 +77,7 @@ public class MainWindow extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public MainWindow(final OS os, final VM vm) {
+	public MainWindow(final RM os, final VM vm) {
 		setTitle("Virtuali Maðina - Emulator");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 866, 400);
@@ -101,7 +101,7 @@ public class MainWindow extends JFrame {
 		
 		
 		listRModel = new DefaultListModel<String>();
-		for(int i=0;i<6;i++) {
+		for(int i=0;i<19;i++) {
 			listRModel.addElement("test");
 		}
 		listasRM = new JList<String>(listRModel);
@@ -172,7 +172,7 @@ public class MainWindow extends JFrame {
 				vm.C.set(0);
 				vm.IC.set(0);
 				vm.R.set(0);
-				OS.SI.set(0);
+				RM.SI.set(0);
 				
 				textRegisterIC.setText(""+vm.IC.get());
 				textRegisterR.setText(""+vm.R.get());
@@ -453,7 +453,6 @@ public class MainWindow extends JFrame {
 		);
 		contentPane.setLayout(gl_contentPane);
 	}
-
 	public static void updateIC(int IC) {
 		textRegisterIC.setText(toString(IC));
 	}

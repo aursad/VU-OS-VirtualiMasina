@@ -42,7 +42,7 @@ public class VM {
 	public void startProgram() {
 		do {
 			step();
-		} while(OS.OS.SI.get() != 3 && OS.OS.PI.get() == 0);
+		} while(RM.RM.SI.get() != 3 && RM.RM.PI.get() == 0);
 		step();
 	}
 	/**
@@ -56,11 +56,11 @@ public class VM {
 	 */
 	private void step() {
 		updateGUI();
-		if(OS.OS.SI.get() != 3 && OS.OS.PI.get() == 0) {
+		if(RM.RM.SI.get() != 3 && RM.RM.PI.get() == 0) {
 			String command = Atmintis.get(IC.get());
 				doCommand(command);
 				updateGUI();
-				OS.OS.TI.set();
+				RM.RM.TI.set();
 		} else {
 			UI.MainWindow.updateConsole(">> Programa baigë darbà!");
 		}
@@ -75,12 +75,12 @@ public class VM {
 		UI.MainWindow.updateC(C.get());
 		
 		UI.MainWindow.updatePTR(0);
-		UI.MainWindow.updateT(OS.OS.T.get());
-		UI.MainWindow.updateSI(OS.OS.SI.get());
-		UI.MainWindow.updatePI(OS.OS.PI.get());
-		UI.MainWindow.updateTI(OS.OS.TI.get());
-		UI.MainWindow.updateMODE(OS.OS.MODE.get());
-		UI.MainWindow.updateCH(OS.OS.CH.get());
+		UI.MainWindow.updateT(RM.RM.T.get());
+		UI.MainWindow.updateSI(RM.RM.SI.get());
+		UI.MainWindow.updatePI(RM.RM.PI.get());
+		UI.MainWindow.updateTI(RM.RM.TI.get());
+		UI.MainWindow.updateMODE(RM.RM.MODE.get());
+		UI.MainWindow.updateCH(RM.RM.CH.get());
 		UI.MainWindow.updateList(Atmintis);
 	}
 	/**
@@ -106,7 +106,7 @@ public class VM {
         } 
         catch (NumberFormatException e)
         {
-        	OS.OS.PI.set(2);
+        	RM.RM.PI.set(2);
             return 0;
         }
 	}
@@ -216,8 +216,8 @@ public class VM {
                     {
                     	UI.MainWindow.updateConsole("Komanda '"+OPK+"' neegzistuoja!");
                         IC.set(IC.get()+1);
-                        OS.OS.PI.set(1); // Neteisingas OPK
-                        OS.OS.MODE.set(1);
+                        RM.RM.PI.set(1); // Neteisingas OPK
+                        RM.RM.MODE.set(1);
                         break;
                     }
                 }
@@ -304,7 +304,7 @@ public class VM {
 			R.set(xm);
 			IC.set(IC.get()+1); 
 		} else {
-			OS.OS.PI.set(4);
+			RM.RM.PI.set(4);
 		}
 	}
 	/**
@@ -375,10 +375,10 @@ public class VM {
 	 * @param xx
 	 */
 	public void GD(int xx) {
-		OS.OS.MODE.set(1);
-		OS.OS.SI.set(2);
-		OS.OS.CH.set(4);
-		OS.OS.PI.set(5);
+		RM.RM.MODE.set(1);
+		RM.RM.SI.set(2);
+		RM.RM.CH.set(4);
+		RM.RM.PI.set(5);
 		
 		String input = UI.MainWindow.getConsole();
 		//Atmintis.set(xx, getText);
@@ -391,19 +391,19 @@ public class VM {
 		}
 		IC.set(IC.get()+1);
 		
-		OS.OS.SI.set(0);
-		OS.OS.CH.set(0);
-		OS.OS.PI.set(0);
-		OS.OS.MODE.set(0);
+		RM.RM.SI.set(0);
+		RM.RM.CH.set(0);
+		RM.RM.PI.set(0);
+		RM.RM.MODE.set(0);
 	}
 	/**
 	 * OUTPUT
 	 * @param xx
 	 */
 	public void PD(int xx) {
-		OS.OS.MODE.set(1);
-		OS.OS.SI.set(2);
-		OS.OS.CH.set(5);
+		RM.RM.MODE.set(1);
+		RM.RM.SI.set(2);
+		RM.RM.CH.set(5);
 		
 		String text="";
 		String lineEnd = "####";
@@ -421,7 +421,7 @@ public class VM {
 	 * Programos vykdymo pabaiga
 	 */
 	public void HALT() {
-		OS.OS.MODE.set(1);
-		OS.OS.SI.set(3);
+		RM.RM.MODE.set(1);
+		RM.RM.SI.set(3);
 	}
 }

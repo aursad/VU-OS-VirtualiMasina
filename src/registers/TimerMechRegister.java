@@ -19,7 +19,7 @@ public class TimerMechRegister {
 		if (this.TI != 0) {
 			this.TI = this.TI - 1;
 		} else {
-			OS.OS.T.set(1);
+			RM.RM.T.set(1);
 			update();
 		}
 	}

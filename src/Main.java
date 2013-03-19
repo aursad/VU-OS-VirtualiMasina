@@ -3,7 +3,7 @@ import java.io.File;
 
 import javax.swing.JFileChooser;
 
-import OS.OS;
+import RM.RM;
 import UI.MainWindow;
 import VM.VM;
 
@@ -14,7 +14,7 @@ public class Main {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					final OS os = new OS();
+					final RM os = new RM();
 					final VM vm = new VM();
 					MainWindow frame = new MainWindow(os, vm);
 					frame.setVisible(true);
