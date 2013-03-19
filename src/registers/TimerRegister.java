@@ -16,13 +16,7 @@ public class TimerRegister {
 	/**
 	 * Sumaþinama taimerio registro reikðmë
 	 */
-	public void set() {
-		this.T = this.T - 1;
-	}
-	/**
-	 * Atstotoma taimerio skaitiklio registro reikðmë
-	 */
-	public void update() {
-		this.T = 10;
+	public void set(int T) {
+		this.T = T;
 	}
 }

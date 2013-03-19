@@ -59,6 +59,7 @@ public class VM {
 			String command = Atmintis.get(IC.get());
 				doCommand(command);
 				updateGUI();
+				OS.OS.TI.set();
 		} else {
 			UI.MainWindow.updateConsole(">> Programa baigë darbà!");
 		}
@@ -71,6 +72,14 @@ public class VM {
 		UI.MainWindow.updateIC(IC.get());
 		UI.MainWindow.updateR(R.get());
 		UI.MainWindow.updateC(C.get());
+		
+		UI.MainWindow.updatePTR(0);
+		UI.MainWindow.updateT(OS.OS.T.get());
+		UI.MainWindow.updateSI(OS.OS.SI.get());
+		UI.MainWindow.updatePI(OS.OS.PI.get());
+		UI.MainWindow.updateTI(OS.OS.TI.get());
+		UI.MainWindow.updateMODE(OS.OS.MODE.get());
+		UI.MainWindow.updateCH(OS.OS.CH.get());
 		UI.MainWindow.updateList(Atmintis);
 	}
 	/**

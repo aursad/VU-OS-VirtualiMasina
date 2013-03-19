@@ -6,6 +6,7 @@ import registers.DataRegister;
 import registers.IcRegister;
 import registers.IntRegister;
 import registers.ModeRegister;
+import registers.TimerMechRegister;
 import registers.TimerRegister;
 
 /**
@@ -18,7 +19,7 @@ public class OS {
 	/**
 	 * Puslapiavimo registras
 	 */
-	private int PTR;
+	static public int PTR;
 	/**
 	 * Bendrojo naudojimo registras
 	 */
@@ -34,7 +35,7 @@ public class OS {
 	/**
 	 * Taimerio veiksmø registras
 	 */
-	public TimerRegister T;
+	static public TimerRegister T;
 	/**
 	 * Supervizoriniø pertraukimø registras
 	 */
@@ -46,7 +47,7 @@ public class OS {
 	/**
 	 * Taimerio pertraukimo registras
 	 */
-	static public TimerRegister TI;
+	static public TimerMechRegister TI;
 	/**
 	 * Registras nusakantis procesoriaus darbo reþimà
 	 */
@@ -68,7 +69,7 @@ public class OS {
         IC = new IcRegister();
         C = new CRegister();
         T = new TimerRegister(0); 
-        TI = new TimerRegister(10);
+        TI = new TimerMechRegister(10);
         MODE  = new ModeRegister();
         PI = new IntRegister();
         SI = new IntRegister();
