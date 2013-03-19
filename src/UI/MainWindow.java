@@ -173,10 +173,20 @@ public class MainWindow extends JFrame {
 				vm.IC.set(0);
 				vm.R.set(0);
 				RM.SI.set(0);
+				RM.PI.set(0);
+				RM.T.set(0);
+				RM.TI.update();
 				
-				textRegisterIC.setText(""+vm.IC.get());
-				textRegisterR.setText(""+vm.R.get());
-				textRegisterC.setText(""+vm.C.get());
+				textRegisterR.setText(Integer.toString(vm.R.get()));
+				textRegisterC.setText(Integer.toString(vm.C.get()));
+				textRegisterIC.setText(Integer.toString(vm.IC.get()));
+				textRegisterT.setText(Integer.toString(RM.T.get()));
+				textRegisterSI.setText(Integer.toString(RM.SI.get()));
+				textRegisterPI.setText(Integer.toString(RM.PI.get()));
+				textRegisterTI.setText(Integer.toString(RM.TI.get()));
+				textRegisterMODE.setText(Integer.toString(RM.MODE.get()));
+				textRegisterCH.setText(Integer.toString(RM.CH.get()));
+				//textRegisterPTR.setText(Integer.toString(RM.PTR.get()));
 				
 				btnEnd.setEnabled(false);
 				btnStart.setEnabled(false);

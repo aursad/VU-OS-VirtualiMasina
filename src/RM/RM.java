@@ -64,7 +64,7 @@ public class RM {
 		this(0000);
 	}
 	RM(int PTR) {
-		this.PTR = PTR;
+		RM.PTR = PTR;
 		R = new DataRegister();
         IC = new IcRegister();
         C = new CRegister();
@@ -81,14 +81,14 @@ public class RM {
 	 * @return PTR puslapiavimo registro reikðmë
 	 */
 	public int getPTR() { 
-		return this.PTR; 
+		return RM.PTR; 
 	}
 	/**
 	 * Nustatoma nauja PTR reikðmë
 	 * @param NewPtr puslapiø reikðmë
 	 */
 	public void setPTR(int NewPtr) {
-		this.PTR = NewPtr;
+		RM.PTR = NewPtr;
 	}
 	
 }

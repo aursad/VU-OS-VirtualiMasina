@@ -1,8 +1,4 @@
 import java.awt.EventQueue;
-import java.io.File;
-
-import javax.swing.JFileChooser;
-
 import RM.RM;
 import UI.MainWindow;
 import VM.VM;
