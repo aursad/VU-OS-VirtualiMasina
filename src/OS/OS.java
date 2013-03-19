@@ -67,7 +67,8 @@ public class OS {
 		R = new DataRegister();
         IC = new IcRegister();
         C = new CRegister();
-        T = new TimerRegister(10); 
+        T = new TimerRegister(0); 
+        TI = new TimerRegister(10);
         MODE  = new ModeRegister();
         PI = new IntRegister();
         SI = new IntRegister();
