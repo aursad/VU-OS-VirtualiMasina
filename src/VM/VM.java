@@ -55,6 +55,7 @@ public class VM {
 	 * Komandos vykdymo þingsnis
 	 */
 	private void step() {
+		updateGUI();
 		if(OS.OS.SI.get() != 3 && OS.OS.PI.get() == 0) {
 			String command = Atmintis.get(IC.get());
 				doCommand(command);
@@ -105,6 +106,7 @@ public class VM {
         } 
         catch (NumberFormatException e)
         {
+        	OS.OS.PI.set(2);
             return 0;
         }
 	}
@@ -410,9 +412,9 @@ public class VM {
 			xx++;
 		}
 		IC.set(IC.get()+1);
-		OS.OS.SI.set(0);
+/*		OS.OS.SI.set(0);
 		OS.OS.CH.set(0);
-		OS.OS.MODE.set(0);
+		OS.OS.MODE.set(0);*/
 		UI.MainWindow.updateConsole(text);
 	}
 	/**

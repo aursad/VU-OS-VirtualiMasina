@@ -1,24 +1,25 @@
 package registers;
 
 public class TimerMechRegister {
-	private int T;
-	public TimerMechRegister(int T) {
-		this.T = T;
+	private int TI;
+	public TimerMechRegister(int TI) {
+		this.TI = TI;
 	}
 	/**
 	 * Taimerio skaitiklis
 	 * @return T taimerio reikðmë
 	 */
 	public int get() {
-		return this.T;
+		return this.TI;
 	}
 	/**
 	 * Sumaþinama taimerio registro reikðmë
 	 */
 	public void set() {
-		if (this.T != 0) {
-			this.T = this.T - 1;
+		if (this.TI != 0) {
+			this.TI = this.TI - 1;
 		} else {
+			OS.OS.T.set(1);
 			update();
 		}
 	}
@@ -26,6 +27,6 @@ public class TimerMechRegister {
 	 * Atstotoma taimerio skaitiklio registro reikðmë
 	 */
 	public void update() {
-		this.T = 10;
+		this.TI = 10;
 	}
 }
