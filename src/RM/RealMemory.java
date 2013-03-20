@@ -36,7 +36,7 @@ public class RealMemory {
     	String Word = list.get(digits[1]);
     	return Word;
     }
-    public void setWord(int xx, String value) {
+    public void set(int xx, String value) {
     	int[] digits = getInts(xx);
     	LinkedList<String> list = getBlock(digits[0]);
     	list.set(digits[1], value);

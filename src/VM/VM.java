@@ -74,7 +74,7 @@ public class VM {
 		UI.MainWindow.updateR(R.get());
 		UI.MainWindow.updateC(C.get());
 		
-		UI.MainWindow.updatePTR(0);
+		UI.MainWindow.updatePTR(RM.RM.PTR.get());
 		UI.MainWindow.updateT(RM.RM.T.get());
 		UI.MainWindow.updateSI(RM.RM.SI.get());
 		UI.MainWindow.updatePI(RM.RM.PI.get());

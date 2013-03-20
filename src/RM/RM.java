@@ -20,7 +20,7 @@ public class RM {
 	/**
 	 * Puslapiavimo registras
 	 */
-	static PTRRegister PTR;
+	static public PTRRegister PTR;
 	/**
 	 * Bendrojo naudojimo registras
 	 */
