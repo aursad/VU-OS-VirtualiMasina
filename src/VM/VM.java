@@ -36,9 +36,7 @@ public class VM {
 		C = new CRegister();
 		Atmintis = new VA(100);
 	}
-	/**
-	 * Vykdomos visos komandos ið eilës
-	 */
+
 	public void startProgram() {
 		do {
 			step();
@@ -81,7 +79,7 @@ public class VM {
 		UI.MainWindow.updateTI(RM.RM.TI.get());
 		UI.MainWindow.updateMODE(RM.RM.MODE.get());
 		UI.MainWindow.updateCH(RM.RM.CH.get());
-		UI.MainWindow.updateList(Atmintis);
+		UI.MainWindow.updateList(RM.RM.memory);
 	}
 	/**
 	 * Ið atminties þodþio iðskiriamas OPK

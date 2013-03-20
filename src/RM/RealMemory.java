@@ -14,7 +14,7 @@ public class RealMemory {
     		LinkedList<String> value = new LinkedList<String>();
     		for(int n=0;n<10;n++) {
     			int ids = i*10+n;
-    			value.add(n, ids+":----");
+    			value.add(n, "____");
     		}
     		this.memory.put(i, value);
     	}
@@ -42,11 +42,16 @@ public class RealMemory {
     	list.set(digits[1], value);
     }
     private int[] getInts(int xx) {
-    	String string = Integer.toString(xx);
-    	int[] digits = new int[string.length()];
-    	  for(int i = 0; i<string.length(); ++i){
-    	    digits[i] = Integer.parseInt(string.substring(i, i+1));
-    	  }
-    	  return digits;
+		String string = Integer.toString(xx);
+		int[] digits = new int[string.length()+1];
+		if (string.length() == 1) {
+			digits[1] = Integer.parseInt(string);
+			digits[0] = 0;
+		} else {
+			for (int i = 0; i < string.length(); ++i) {
+				digits[i] = Integer.parseInt(string.substring(i, i + 1));
+			}
+		}
+		return digits;
     }
 }

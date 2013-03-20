@@ -36,6 +36,7 @@ import javax.swing.SwingConstants;
 
 import IOI.Input;
 import RM.RM;
+import RM.RealMemory;
 import VM.VA;
 import VM.VM;
 
@@ -98,14 +99,12 @@ public class MainWindow extends JFrame {
 		btnEnd.setEnabled(false);
 		btnStart.setEnabled(false);
 		btnStepByStep.setEnabled(false);
-		
 		listRModel = new DefaultListModel<String>();
 		for(int i=0;i<rm.memory.getSize();i++) {
 			for(int n=0;n<10;n++) {
 				listRModel.addElement(rm.memory.getWord(i, n));
 			}
 		}
-		
 		listasRM = new JList<String>(listRModel);
 		listasRM.setSelectedIndex(0); // ID nurodo kuris yra selected
 		listasRM.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
@@ -114,8 +113,8 @@ public class MainWindow extends JFrame {
 		 * Kurimas sàraðas elementø á JList
 		 */
 		listModel = new DefaultListModel<String>();
-		for(int i=0;i<100;i++) {
-			listModel.addElement(String.format("%02d", i)+": "+ vm.Atmintis.get(i));
+		for(int i=0;i<vm.Atmintis.getAllMemory();i++) {
+			listModel.addElement(String.format("%02d", i)+": "+ rm.memory.getWord(i));
 		}
 		listas = new JList<String>(listModel);
 		listas.addListSelectionListener(new ListSelectionListener() {
@@ -147,9 +146,11 @@ public class MainWindow extends JFrame {
 							String s; 
 							while((s = br.readLine()) != null) { 
 								String[] value = s.split("(?<=\\G.{2})");
-								int foo = Integer.parseInt(value[0]);
-									vm.Atmintis.set(foo, ""+value[1]+value[2]);
-									listModel.set(foo, String.format("%02d", foo)+": "+vm.Atmintis.get(foo));
+								int key = Integer.parseInt(value[0]);
+								String keyWord = String.format("%02d", key);
+								String Word = value[1]+value[2];
+									rm.memory.set(key, Word);
+									listModel.set(key, keyWord+": "+rm.memory.getWord(key));
 							} 
 							fr.close(); 
 						} catch (IOException e1) {
@@ -159,6 +160,7 @@ public class MainWindow extends JFrame {
 						//listas.setSelectedIndex(0);
 						list.revalidate();
 						list.repaint();
+						updateListRM(rm.memory);
 		            } else {
 		                // Vartotojas atðaukia pasirinkimà
 		            	textPanel.setText(textPanel.getText() + "\n> File Chooser closed.");
@@ -188,7 +190,7 @@ public class MainWindow extends JFrame {
 				textRegisterTI.setText(Integer.toString(RM.TI.get()));
 				textRegisterMODE.setText(Integer.toString(RM.MODE.get()));
 				textRegisterCH.setText(Integer.toString(RM.CH.get()));
-				//textRegisterPTR.setText(Integer.toString(RM.PTR.get()));
+				textRegisterPTR.setText(RM.PTR.get());
 				
 				btnEnd.setEnabled(false);
 				btnStart.setEnabled(false);
@@ -474,8 +476,8 @@ public class MainWindow extends JFrame {
 	public static void updateC(int C) {
 		textRegisterC.setText(toString(C));
 	}
-	public static void updatePTR(int PTR) {
-		textRegisterPTR.setText(toString(PTR));
+	public static void updatePTR(String string) {
+		textRegisterPTR.setText(string);
 	}
 	public static void updateT(int T) {
 		textRegisterT.setText(toString(T));
@@ -512,12 +514,25 @@ public class MainWindow extends JFrame {
 	private static String toString(int fromInt) {
 		return Integer.toString(fromInt);
 	}
-	public static void updateList(VA Atmintis) {
-		for(int i=0;i<Atmintis.getAllMemory();i++) {
-			listModel.set(i, String.format("%02d", i)+": "+ Atmintis.get(i));
+
+	public static void updateList(RealMemory Atmintis) {
+		for (int i = 0; i < Atmintis.getSize(); i++) {
+			for(int n=0;n<10;n++) {
+				listModel.set(i*10+n,String.format("%02d", i*10+n) + ": " + Atmintis.getWord(i, n));
+			}
 		}
 		listas.setSelectedIndex(0);
 		list.revalidate();
 		list.repaint();
+	}
+	public static void updateListRM(RealMemory Atmintis) {
+		for (int i = 0; i < Atmintis.getSize(); i++) {
+			for(int n=0;n<10;n++) {
+				listRModel.set(i*10+n,String.format("%02d", i*10+n) + ": " + Atmintis.getWord(i, n));
+			}
+		}
+		listasRM.setSelectedIndex(0);
+		listRM.revalidate();
+		listRM.repaint();
 	}
 }
