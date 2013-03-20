@@ -6,6 +6,7 @@ import registers.DataRegister;
 import registers.IcRegister;
 import registers.IntRegister;
 import registers.ModeRegister;
+import registers.PTRRegister;
 import registers.TimerMechRegister;
 import registers.TimerRegister;
 
@@ -19,7 +20,7 @@ public class RM {
 	/**
 	 * Puslapiavimo registras
 	 */
-	static public int PTR;
+	static PTRRegister PTR;
 	/**
 	 * Bendrojo naudojimo registras
 	 */
@@ -61,10 +62,7 @@ public class RM {
 	 * Konstruktorius
 	 */
 	public RM() {
-		this(0000);
-	}
-	RM(int PTR) {
-		RM.PTR = PTR;
+		PTR = new PTRRegister();
 		R = new DataRegister();
         IC = new IcRegister();
         C = new CRegister();
@@ -77,19 +75,6 @@ public class RM {
         memory = new RealMemory(10);
 	}
 	
-	/**
-	 * Registro PTR reikðmë
-	 * @return PTR puslapiavimo registro reikðmë
-	 */
-	public int getPTR() { 
-		return RM.PTR; 
-	}
-	/**
-	 * Nustatoma nauja PTR reikðmë
-	 * @param NewPtr puslapiø reikðmë
-	 */
-	public void setPTR(int NewPtr) {
-		RM.PTR = NewPtr;
-	}
+
 	
 }
