@@ -77,7 +77,7 @@ public class MainWindow extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public MainWindow(final RM os, final VM vm) {
+	public MainWindow(final RM rm, final VM vm) {
 		setTitle("Virtuali Maðina - Emulator");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 866, 400);
@@ -99,11 +99,13 @@ public class MainWindow extends JFrame {
 		btnStart.setEnabled(false);
 		btnStepByStep.setEnabled(false);
 		
-		
 		listRModel = new DefaultListModel<String>();
-		for(int i=0;i<19;i++) {
-			listRModel.addElement("test");
+		for(int i=0;i<rm.memory.getSize();i++) {
+			for(int n=0;n<10;n++) {
+				listRModel.addElement(rm.memory.getWord(i, n));
+			}
 		}
+		
 		listasRM = new JList<String>(listRModel);
 		listasRM.setSelectedIndex(0); // ID nurodo kuris yra selected
 		listasRM.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
@@ -273,7 +275,7 @@ public class MainWindow extends JFrame {
 		textState.setColumns(10);
 		
 		textRegisterT = new JTextField();
-		textRegisterT.setText(toString(os.T.get()));
+		textRegisterT.setText(toString(rm.T.get()));
 		textRegisterT.setHorizontalAlignment(SwingConstants.CENTER);
 		textRegisterT.setEditable(false);
 		textRegisterT.setColumns(10);
@@ -285,31 +287,31 @@ public class MainWindow extends JFrame {
 		textRegisterPTR.setColumns(10);
 			
 		textRegisterSI = new JTextField();
-		textRegisterSI.setText(toString(os.SI.get()));
+		textRegisterSI.setText(toString(rm.SI.get()));
 		textRegisterSI.setHorizontalAlignment(SwingConstants.CENTER);
 		textRegisterSI.setEditable(false);
 		textRegisterSI.setColumns(10);
 		
 		textRegisterPI = new JTextField();
-		textRegisterPI.setText(toString(os.PI.get()));
+		textRegisterPI.setText(toString(rm.PI.get()));
 		textRegisterPI.setHorizontalAlignment(SwingConstants.CENTER);
 		textRegisterPI.setEditable(false);
 		textRegisterPI.setColumns(10);
 		
 		textRegisterTI = new JTextField();
-		textRegisterTI.setText(toString(os.TI.get()));
+		textRegisterTI.setText(toString(rm.TI.get()));
 		textRegisterTI.setHorizontalAlignment(SwingConstants.CENTER);
 		textRegisterTI.setEditable(false);
 		textRegisterTI.setColumns(10);
 		
 		textRegisterMODE = new JTextField();
-		textRegisterMODE.setText(toString(os.MODE.get()));
+		textRegisterMODE.setText(toString(rm.MODE.get()));
 		textRegisterMODE.setHorizontalAlignment(SwingConstants.CENTER);
 		textRegisterMODE.setEditable(false);
 		textRegisterMODE.setColumns(10);
 
 		textRegisterCH = new JTextField();
-		textRegisterCH.setText(toString(os.CH.get()));
+		textRegisterCH.setText(toString(rm.CH.get()));
 		textRegisterCH.setHorizontalAlignment(SwingConstants.CENTER);
 		textRegisterCH.setEditable(false);
 		textRegisterCH.setColumns(10);

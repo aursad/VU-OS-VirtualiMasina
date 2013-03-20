@@ -56,7 +56,7 @@ public class RM {
 	 * Kanalø uþimtumo registras 
 	 */
 	static public ChRegister CH;
-	
+	public RealMemory memory;
 	/**
 	 * Konstruktorius
 	 */
@@ -74,6 +74,7 @@ public class RM {
         PI = new IntRegister();
         SI = new IntRegister();
         CH = new ChRegister();
+        memory = new RealMemory(10);
 	}
 	
 	/**
