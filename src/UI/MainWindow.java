@@ -113,7 +113,7 @@ public class MainWindow extends JFrame {
 		 * Kurimas sàraðas elementø á JList
 		 */
 		listModel = new DefaultListModel<String>();
-		for(int i=0;i<vm.Atmintis.getAllMemory();i++) {
+		for(int i=0;i<rm.PTR.getBlock()*10+10;i++) {
 			listModel.addElement(String.format("%02d", i)+": "+ rm.memory.getWord(i));
 		}
 		listas = new JList<String>(listModel);
@@ -283,7 +283,7 @@ public class MainWindow extends JFrame {
 		textRegisterT.setColumns(10);
 		
 		textRegisterPTR = new JTextField();
-		textRegisterPTR.setText("0");
+		textRegisterPTR.setText(rm.PTR.get());
 		textRegisterPTR.setHorizontalAlignment(SwingConstants.CENTER);
 		textRegisterPTR.setEditable(false);
 		textRegisterPTR.setColumns(10);
@@ -516,7 +516,7 @@ public class MainWindow extends JFrame {
 	}
 
 	public static void updateList(RealMemory Atmintis) {
-		for (int i = 0; i < Atmintis.getSize(); i++) {
+		for (int i = 0; i < RM.PTR.getBlock(); i++) {
 			for(int n=0;n<10;n++) {
 				listModel.set(i*10+n,String.format("%02d", i*10+n) + ": " + Atmintis.getWord(i, n));
 			}

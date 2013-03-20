@@ -17,7 +17,7 @@ public class PTRRegister {
 		return this.PTR; 
 	}
 	private int getPTRNumber(int key) {
-		String[] value = this.PTR.split("(?<=\\G.{2})");
+		String[] value = this.PTR.split("(?<=\\G.{1})");
 		int value1 = Integer.parseInt(value[key]);
 		return value1;
 	}

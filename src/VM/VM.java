@@ -80,6 +80,7 @@ public class VM {
 		UI.MainWindow.updateMODE(RM.RM.MODE.get());
 		UI.MainWindow.updateCH(RM.RM.CH.get());
 		UI.MainWindow.updateList(RM.RM.memory);
+		UI.MainWindow.updateListRM(RM.RM.memory);
 	}
 	/**
 	 * Ið atminties þodþio iðskiriamas OPK
@@ -410,9 +411,9 @@ public class VM {
 			xx++;
 		}
 		IC.set(IC.get()+1);
-/*		OS.OS.SI.set(0);
-		OS.OS.CH.set(0);
-		OS.OS.MODE.set(0);*/
+		RM.RM.SI.set(0);
+		RM.RM.CH.set(0);
+		RM.RM.MODE.set(0);
 		UI.MainWindow.updateConsole(text);
 	}
 	/**

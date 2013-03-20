@@ -58,12 +58,14 @@ public class RM {
 	 */
 	static public ChRegister CH;
 	public static RealMemory memory;
+	static public PageTable PageTable;
 	/**
 	 * Konstruktorius
 	 */
 	public RM() {
         memory = new RealMemory(100);
 		PTR = new PTRRegister("0809");
+		PageTable = new PageTable();
 		R = new DataRegister();
         IC = new IcRegister();
         C = new CRegister();
