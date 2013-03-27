@@ -58,9 +58,18 @@ public class VM {
 			String command = Atmintis.get(IC.get());
 				doCommand(command);
 				updateGUI();
+				test();
 				RM.RM.TI.set();
 		} else {
 			UI.MainWindow.updateConsole(">> Programa baigë darbà!");
+		}
+	}
+	private boolean test() {
+		if (RM.RM.SI.get() + RM.RM.PI.get() + RM.RM.T.get() != 0) {
+			RM.RM.Interrupt();
+			return true;
+		} else {
+			return false;
 		}
 	}
 	/**
