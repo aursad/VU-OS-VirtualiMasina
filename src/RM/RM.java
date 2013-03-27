@@ -64,7 +64,7 @@ public class RM {
 	 */
 	public RM() {
         memory = new RealMemory(100);
-		PTR = new PTRRegister("0809");
+		PTR = new PTRRegister(0, 9, 1, 0);
 		PageTable = new PageTable();
 		R = new DataRegister();
         IC = new IcRegister();

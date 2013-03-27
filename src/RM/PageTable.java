@@ -10,8 +10,7 @@ public class PageTable {
 	public PageTable() {
 		this.PageTableNumber = RM.PTR.getPageTable();
 		for(int i=0;i<10;i++) {
-			int xx = this.PageTableNumber*10+i;
-			RM.memory.set(xx, ""+i);
+			RM.memory.set(this.PageTableNumber, i, ""+i);
 		}
 	}
 	public String getRealBlockNumber(int VirtualBlock) {

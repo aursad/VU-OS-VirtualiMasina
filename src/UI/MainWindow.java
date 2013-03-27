@@ -39,6 +39,7 @@ import RM.RM;
 import RM.RealMemory;
 import VM.VA;
 import VM.VM;
+import javax.swing.JProgressBar;
 
 
 public class MainWindow extends JFrame {
@@ -340,7 +341,7 @@ public class MainWindow extends JFrame {
 						.addGroup(gl_contentPane.createSequentialGroup()
 							.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
 								.addComponent(separator, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-								.addComponent(textPane, GroupLayout.DEFAULT_SIZE, 410, Short.MAX_VALUE)
+								.addComponent(textPane, GroupLayout.DEFAULT_SIZE, 416, Short.MAX_VALUE)
 								.addGroup(gl_contentPane.createSequentialGroup()
 									.addGroup(gl_contentPane.createParallelGroup(Alignment.TRAILING, false)
 										.addComponent(lblR, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -382,7 +383,7 @@ public class MainWindow extends JFrame {
 											.addComponent(lblTi, GroupLayout.PREFERRED_SIZE, 15, GroupLayout.PREFERRED_SIZE)
 											.addPreferredGap(ComponentPlacement.UNRELATED)
 											.addComponent(textRegisterTI, GroupLayout.PREFERRED_SIZE, 36, GroupLayout.PREFERRED_SIZE)))
-									.addPreferredGap(ComponentPlacement.RELATED, 180, Short.MAX_VALUE))
+									.addPreferredGap(ComponentPlacement.RELATED, 186, Short.MAX_VALUE))
 								.addComponent(console, GroupLayout.PREFERRED_SIZE, 400, GroupLayout.PREFERRED_SIZE)
 								.addComponent(separator_1, GroupLayout.PREFERRED_SIZE, 393, GroupLayout.PREFERRED_SIZE))
 							.addPreferredGap(ComponentPlacement.RELATED)

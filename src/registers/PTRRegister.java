@@ -4,34 +4,37 @@ import RM.RM;
 
 public class PTRRegister {
 
-	private String PTR;
+	//private String PTR;
+	private int[] PTR = new int[] { 0, 0, 0, 0};
 
-	public PTRRegister(String PTR) {
-		this.PTR = PTR;
+	public PTRRegister(int x, int N, int x1, int x2) {
+		this.PTR[0] = x;
+		this.PTR[1] = N;
+		this.PTR[2] = x1;
+		this.PTR[3] = x2;
 	}
 	/**
 	 * Registro PTR reikðmë
 	 * @return PTR puslapiavimo registro reikðmë
 	 */
 	public String get() { 
-		return this.PTR; 
-	}
-	private int getPTRNumber(int key) {
-		String[] value = this.PTR.split("(?<=\\G.{1})");
-		int value1 = Integer.parseInt(value[key]);
-		return value1;
+		return ""+this.PTR[0]+this.PTR[1]+this.PTR[2]+this.PTR[3]; 
 	}
 	public int getBlock() {
-		return getPTRNumber(1);
+		return this.PTR[1];
 	}
 	public int getPageTable() {
-		return getPTRNumber(2)*10+getPTRNumber(3);
+		return this.PTR[2]*10+this.PTR[3];
 	}
 	/**
 	 * Nustatoma nauja PTR reikðmë
 	 * @param NewPtr puslapiø reikðmë
 	 */
-	public void set(String NewPtr) {
-		this.PTR = NewPtr;
+	public void setTableSize(int N) {
+		this.PTR[1] = N;
+	}
+	public void setPageTableNumber(int x1, int x2) {
+		this.PTR[2] = x1;
+		this.PTR[3] = x2;
 	}
 }

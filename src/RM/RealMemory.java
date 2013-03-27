@@ -41,6 +41,10 @@ public class RealMemory {
     	LinkedList<String> list = getBlock(digits[0]);
     	list.set(digits[1], value);
     }
+    public void set(int block, int xx, String value) {
+    	LinkedList<String> list = getBlock(block);
+    	list.set(xx, value);
+    }
     private int[] getInts(int xx) {
 		String string = Integer.toString(xx);
 		int[] digits = new int[string.length()+1];
