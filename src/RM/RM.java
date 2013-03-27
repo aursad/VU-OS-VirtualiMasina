@@ -13,7 +13,7 @@ import registers.TimerRegister;
 /**
  * Operacinė sistema
  * @author Aurimas Sadauskas
- * @version 1.0
+ * @version 1.0.9
  * @since 2013.03.02
  */
 public class RM {
@@ -247,7 +247,6 @@ public class RM {
 	 * @param xx
 	 */
 	static public void PD(int xx) {
-		
 		String text="";
 		String lineEnd = "####";
 		while(!lineEnd.equals(memory.getWord(xx))) {
@@ -268,7 +267,7 @@ public class RM {
 		this.SI.set(3);
 	}
 
-	public void Interrupt() {
+	public static void Interrupt() {
 		switch (PI.get()) {
 		case 1: {
 			System.out.println("Bandoma naudoti neteisingą operacijos kodą");
