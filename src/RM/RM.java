@@ -267,4 +267,60 @@ public class RM {
 		this.MODE.set(1);
 		this.SI.set(3);
 	}
+
+	public void Interrupt() {
+		switch (PI.get()) {
+		case 1: {
+			System.out.println("Bandoma naudoti neteisingą operacijos kodą");
+			break;
+		}
+		case 2: {
+			System.out.println("Bandoma naudoti neteising1 adresą");
+			break;
+		}
+		case 3: {
+			System.out.println("Įvyko atminties perpildymas.");
+			break;
+		}
+		case 4: {
+			System.out.println("Bandoma dalyba iš nulio.");
+			break;
+		}
+		case 5: {
+			System.out.println("Kanalas užimtas");
+			break;
+		}
+		default: {
+			System.out.println("Pertraukimas neįvyko.");
+			break;
+		}
+		}
+		switch (SI.get()) {
+		case 1: {
+			System.out.println("Pertraukimą iššaukė komanda GD.");
+			break;
+		}
+		case 2: {
+			System.out.println("Pertraukimą iššaukė komanda PD.");
+			break;
+		}
+		case 3: {
+			System.out.println("Pertraukimą iššaukė komanda HALT.");
+			break;
+		}
+		default: {
+			System.out.println("Pertraukimas neįvyko.");
+			break;
+		}
+		}
+		switch (T.get()) {
+		case 1: {
+			System.out.println("Taimerio pertraukimas.");
+			break;
+		}
+		default: {
+			System.out.println("Pertraukimas neįvyko.");
+		}
+		}
+	}
 }
