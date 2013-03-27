@@ -379,21 +379,8 @@ public class VM {
 		RM.RM.CH.set(4);
 		RM.RM.PI.set(5);
 		
-		String input = UI.MainWindow.getConsole();
-		//Atmintis.set(xx, getText);
-		input = UI.MainWindow.getConsole();
-		while(!input.equals("")) {
-			input = UI.MainWindow.getConsole();
-			Atmintis.set(xx, input);
-			input = "";
-			UI.MainWindow.setConsole();
-		}
+		RM.RM.GD(xx);
 		IC.set(IC.get()+1);
-		
-		RM.RM.SI.set(0);
-		RM.RM.CH.set(0);
-		RM.RM.PI.set(0);
-		RM.RM.MODE.set(0);
 	}
 	/**
 	 * OUTPUT
@@ -404,17 +391,10 @@ public class VM {
 		RM.RM.SI.set(2);
 		RM.RM.CH.set(5);
 		
-		String text="";
-		String lineEnd = "####";
-		while(!lineEnd.equals(Atmintis.get(xx))) {
-			text = text + Atmintis.get(xx);
-			xx++;
-		}
+		RM.RM.PD(xx);
+		
 		IC.set(IC.get()+1);
-		RM.RM.SI.set(0);
-		RM.RM.CH.set(0);
-		RM.RM.MODE.set(0);
-		UI.MainWindow.updateConsole(text);
+
 	}
 	/**
 	 * Programos vykdymo pabaiga

@@ -28,7 +28,7 @@ public class RM {
 	/**
 	 * Komandų skaitiklis
 	 */
-	public IcRegister IC;
+	public static IcRegister IC;
 	/**
 	 * Požymių registras
 	 */
@@ -227,7 +227,7 @@ public class RM {
 	 * INPUT
 	 * @param xx
 	 */
-	public void GD(int xx) {
+	static public void GD(int xx) {
 		String input = UI.MainWindow.getConsole();
 		input = UI.MainWindow.getConsole();
 		while(!input.equals("")) {
@@ -237,21 +237,28 @@ public class RM {
 			UI.MainWindow.setConsole();
 		}
 		IC.set(IC.get()+1);
-		
+		SI.set(0);
+		CH.set(0);
+		PI.set(0);
+		MODE.set(0);
 	}
 	/**
 	 * OUTPUT
 	 * @param xx
 	 */
-	public void PD(int xx) {
+	static public void PD(int xx) {
 		
-/*		String text="";
+		String text="";
 		String lineEnd = "####";
-		while(!lineEnd.equals(memory.get(xx))) {
-			text = text + memory.get(xx);
+		while(!lineEnd.equals(memory.getWord(xx))) {
+			text = text + memory.getWord(xx);
 			xx++;
-		}*/
+		}
 		IC.set(IC.get()+1);
+		SI.set(0);
+		CH.set(0);
+		MODE.set(0);
+		UI.MainWindow.updateConsole(text);
 	}
 	/**
 	 * Programos vykdymo pabaiga
