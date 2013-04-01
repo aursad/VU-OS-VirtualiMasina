@@ -260,6 +260,22 @@ public class RM {
 		UI.MainWindow.updateConsole(text);
 	}
 	/**
+	 * Perjungiama į supervizoriaus režimą
+	 * @param xx Adresas atmintyje
+	 */
+	public void XM(int xx) {
+		IC.set(IC.get()+1);
+		MODE.set(1);
+	}
+	/**
+	 * Perjungiama į vartotojo režimą.
+	 * @param xx Adresas  atmintyje
+	 */
+	public void UM(int xx) {
+		IC.set(IC.get()+1);
+		MODE.set(0);
+	}
+	/**
 	 * Programos vykdymo pabaiga
 	 */
 	public void HALT() {
