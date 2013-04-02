@@ -13,7 +13,6 @@ public class RealMemory {
     	for(int i=0;i<blocks;i++) {
     		LinkedList<String> value = new LinkedList<String>();
     		for(int n=0;n<10;n++) {
-    			int ids = i*10+n;
     			value.add(n, "____");
     		}
     		this.memory.put(i, value);

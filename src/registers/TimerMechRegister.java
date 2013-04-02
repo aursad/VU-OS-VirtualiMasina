@@ -16,10 +16,12 @@ public class TimerMechRegister {
 	 * Sumaþinama taimerio registro reikðmë
 	 */
 	public void set() {
-		if (this.TI != 0) {
+		if (this.TI != 1) {
 			this.TI = this.TI - 1;
 		} else {
+			this.TI = this.TI - 1;
 			RM.RM.T.set(1);
+			RM.RM.MODE.set(1);
 			update();
 		}
 	}

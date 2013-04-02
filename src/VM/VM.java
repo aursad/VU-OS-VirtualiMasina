@@ -1,7 +1,5 @@
 package VM;
 
-import IOI.Input;
-import UI.MainWindow;
 import registers.CRegister;
 import registers.DataRegister;
 import registers.IcRegister;
@@ -55,13 +53,19 @@ public class VM {
 	private void step() {
 		updateGUI();
 		if(RM.RM.SI.get() != 3 && RM.RM.PI.get() == 0) {
-			String command = Atmintis.get(IC.get());
+			if(RM.RM.MODE.get() == 1) {
+				String command = Atmintis.get(RM.RM.IC.get());
+				RM.RM.doCommand(command);
+			} else {
+				String command = Atmintis.get(IC.get());
 				doCommand(command);
+			}
 				updateGUI();
 				test();
 				RM.RM.TI.set();
 		} else {
 			UI.MainWindow.updateConsole(">> Programa baigë darbà!");
+			RM.RM.MODE.set(1);
 		}
 	}
 	private boolean test() {
@@ -77,9 +81,9 @@ public class VM {
 	 * bei vartotojo atmintis
 	 */
 	private void updateGUI() {
-		UI.MainWindow.updateIC(IC.get());
-		UI.MainWindow.updateR(R.get());
-		UI.MainWindow.updateC(C.get());
+		UI.MainWindow.updateIC(RM.RM.IC.get());
+		UI.MainWindow.updateR(RM.RM.R.get());
+		UI.MainWindow.updateC(RM.RM.C.get());
 		
 		UI.MainWindow.updatePTR(RM.RM.PTR.get());
 		UI.MainWindow.updateT(RM.RM.T.get());
@@ -257,6 +261,10 @@ public class VM {
 	 * @param xx
 	 */
 	public void LR(int xx) {
+		RM.RM.MODE.set(0);
+		RM.RM.SI.set(0);
+		RM.RM.CH.set(0);
+		RM.RM.T.set(0);
 		R.set(getWord(xx));
 		IC.set(IC.get()+1);
 	}
@@ -265,6 +273,10 @@ public class VM {
 	 * @param xx
 	 */
 	public void SR(int xx) {
+		RM.RM.MODE.set(0);
+		RM.RM.SI.set(0);
+		RM.RM.CH.set(0);
+		RM.RM.T.set(0);
 		setWord(xx, R.get());
 		IC.set(IC.get()+1);
 	}
@@ -272,6 +284,10 @@ public class VM {
 	 * Null
 	 */
 	public void NL() {
+		RM.RM.MODE.set(0);
+		RM.RM.SI.set(0);
+		RM.RM.CH.set(0);
+		RM.RM.T.set(0);
 		R.set(0);
 		IC.set(IC.get()+1);
 	}
@@ -280,6 +296,10 @@ public class VM {
 	 * @param xx
 	 */
 	public void AD(int xx) {
+		RM.RM.MODE.set(0);
+		RM.RM.SI.set(0);
+		RM.RM.CH.set(0);
+		RM.RM.T.set(0);
 		int xm = R.get() + getWord(xx);
 		R.set(xm);
 		IC.set(IC.get()+1);
@@ -289,6 +309,10 @@ public class VM {
 	 * @param xx
 	 */
 	public void SU(int xx) {
+		RM.RM.MODE.set(0);
+		RM.RM.SI.set(0);
+		RM.RM.CH.set(0);
+		RM.RM.T.set(0);
 		int xm = R.get() - getWord(xx);
 		R.set(xm);
 		IC.set(IC.get()+1);
@@ -298,6 +322,10 @@ public class VM {
 	 * @param xx
 	 */
 	public void MU(int xx) {
+		RM.RM.MODE.set(0);
+		RM.RM.SI.set(0);
+		RM.RM.CH.set(0);
+		RM.RM.T.set(0);
 		int xm = R.get() * getWord(xx);
 		R.set(xm);
 		IC.set(IC.get()+1);
@@ -307,6 +335,10 @@ public class VM {
 	 * @param xx
 	 */
 	public void DI(int xx) {
+		RM.RM.MODE.set(0);
+		RM.RM.SI.set(0);
+		RM.RM.CH.set(0);
+		RM.RM.T.set(0);
 		if(getWord(xx) != 0) {
 			int xm = R.get() / getWord(xx);
 			R.set(xm);
@@ -320,6 +352,10 @@ public class VM {
 	 * @param xx
 	 */
 	public void MO(int xx) {
+		RM.RM.MODE.set(0);
+		RM.RM.SI.set(0);
+		RM.RM.CH.set(0);
+		RM.RM.T.set(0);
 		int xm = R.get() % getWord(xx);
 		R.set(xm);
 		IC.set(IC.get()+1);
@@ -329,6 +365,10 @@ public class VM {
 	 * @param xx
 	 */
 	public void CR(int xx) {
+		RM.RM.MODE.set(0);
+		RM.RM.SI.set(0);
+		RM.RM.CH.set(0);
+		RM.RM.T.set(0);
 		if (R.get() > getWord(xx)) {
 			C.set(1);
 		} else if(R.get() < getWord(xx)) {
@@ -343,6 +383,10 @@ public class VM {
 	 * @param xx
 	 */
 	public void JP(int xx) {
+		RM.RM.MODE.set(0);
+		RM.RM.SI.set(0);
+		RM.RM.CH.set(0);
+		RM.RM.T.set(0);
 		IC.set(xx);
 	}
 	/**
@@ -350,6 +394,10 @@ public class VM {
 	 * @param xx
 	 */
 	public void JE(int xx) {
+		RM.RM.MODE.set(0);
+		RM.RM.SI.set(0);
+		RM.RM.CH.set(0);
+		RM.RM.T.set(0);
 		if (C.get() == 0) {
 			IC.set(xx);
 		} else {
@@ -361,6 +409,10 @@ public class VM {
 	 * @param xx
 	 */
 	public void JG(int xx) {
+		RM.RM.MODE.set(0);
+		RM.RM.SI.set(0);
+		RM.RM.CH.set(0);
+		RM.RM.T.set(0);
 		if (C.get() == 1) {
 			IC.set(xx);
 		} else {
@@ -372,6 +424,10 @@ public class VM {
 	 * @param xx
 	 */
 	public void JL(int xx) {
+		RM.RM.MODE.set(0);
+		RM.RM.SI.set(0);
+		RM.RM.CH.set(0);
+		RM.RM.T.set(0);
 		if (C.get() == 2) {
 			IC.set(xx);
 		} else {

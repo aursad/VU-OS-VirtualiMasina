@@ -24,7 +24,7 @@ public class RM {
 	/**
 	 * Bendrojo naudojimo registras
 	 */
-	public DataRegister R;
+	public static DataRegister R;
 	/**
 	 * Komandų skaitiklis
 	 */
@@ -32,7 +32,7 @@ public class RM {
 	/**
 	 * Požymių registras
 	 */
-	public CRegister C;
+	public static CRegister C;
 	/**
 	 * Taimerio veiksmų registras
 	 */
@@ -77,13 +77,163 @@ public class RM {
         CH = new ChRegister();
 	}
 	
-	
+	/**
+	 * Ið atminties þodþio iðskiriamas OPK
+	 * @param zodis Atminties þodis
+	 * @return OPK Operacijos kodas
+	 */
+	private static String encodeBytes2(String zodis) {
+		String[] value = zodis.split("(?<=\\G.{2})");
+		String OPK = value[0];
+		return OPK;
+	}
+	/**
+	 * Ið atminties þodþio iðskiriamas adresas
+	 * @param zodis Atminties þodis
+	 * @return XX Atminties adresas
+	 */
+	private static int XXencode(String zodis) {
+		String[] value = zodis.split("(?<=\\G.{2})");
+		try 
+        {
+            return Integer.parseInt(value[1]);
+        } 
+        catch (NumberFormatException e)
+        {
+        	//PI.set(2);
+            return 0;
+        }
+	}
+	/**
+	 * Ið atminties þodþio iðskiriamas tekstinis adresas
+	 * @param zodis Atminties þodis
+	 * @return XX Atminties adreso tekstas
+	 */
+	private static String YYencode(String zodis) {
+		String[] value = zodis.split("(?<=\\G.{2})");
+		return value[1];
+	}
+	/**
+	 * Komandos atpaþinimas
+	 * @param command Atminties þodis
+	 */
+	public static void doCommand(String command) {
+		String OPK="";
+		int xx;
+		
+		OPK = encodeBytes2(command);
+		xx = XXencode(command);
+		
+		switch (OPK) 
+		{
+            case "PD": 
+            {
+                PD(xx);
+                break;
+            }
+            case "GD": 
+            {
+                GD(xx);
+                break;
+            }
+            case "LR": 
+            {
+                LR(xx);
+                break;
+            }
+            case "SR":
+            {
+            	SR(xx);
+            	break;
+            }
+            case "AD":
+            {
+            	AD(xx);
+            	break;
+            }
+            case "SU":
+            {
+            	SU(xx);
+            	break;
+            }
+            case "MU":
+            {
+            	MU(xx);
+            	break;
+            }
+            case "DI":
+            {
+            	DI(xx);
+            	break;
+            }
+            case "MO":
+            {
+            	MO(xx);
+            	break;
+            }
+            case "CR":
+            {
+            	CR(xx);
+            	break;
+            }
+            case "JP":
+            {
+            	JP(xx);
+            	break;
+            }
+            case "JL":
+            {
+            	JL(xx);
+            	break;
+            }
+            case "JE":
+            {
+            	JE(xx);
+            	break;
+            }
+            case "JG":
+            {
+            	JG(xx);
+            	break;
+            }
+            case "XM":
+            {
+            	XM(xx);
+            	break;
+            }
+            case "UM":
+            {
+            	UM(xx);
+            	break;
+            }
+            default: 
+            {
+            	OPK += YYencode(command);
+                switch(OPK)
+                {
+                    case "HALT":
+                    {
+                        HALT();
+                        break;
+                    }
+                    default:
+                    {
+                    	UI.MainWindow.updateConsole("Komanda '"+OPK+"' neegzistuoja!");
+                        IC.set(IC.get()+1);
+                        PI.set(1); // Neteisingas OPK
+                        MODE.set(1);
+                        break;
+                    }
+                }
+            }
+		}
+	}
 	/**
 	 * Iš atminties adresu XX paimama reikšmę, bei pašalinami tarpai
 	 * @param xx Atminties adresas
 	 * @return XY Reikšmė adresu XX
 	 */
-	public int getWord(int xx) {
+	public static int getWord(int xx) {
 		String Word = memory.getWord(xx);
 		Word = Word.replaceAll("\\s", "");
 		int XY = Integer.parseInt(Word);
@@ -94,14 +244,14 @@ public class RM {
 	 * @param xx Atminties adresas
 	 * @param R Nauja reikðmë
 	 */
-	public void setWord(int xx, int R) {
+	public static void setWord(int xx, int R) {
 		memory.set(xx, Integer.toString(R));
 	}
 	/**
 	 * Load Register
 	 * @param xx
 	 */
-	public void LR(int xx) {
+	public static void LR(int xx) {
 		R.set(getWord(xx));
 		IC.set(IC.get()+1);
 	}
@@ -109,14 +259,14 @@ public class RM {
 	 * Save Register
 	 * @param xx
 	 */
-	public void SR(int xx) {
+	public static void SR(int xx) {
 		setWord(xx, R.get());
 		IC.set(IC.get()+1);
 	}
 	/**
 	 * Null
 	 */
-	public void NL() {
+	public static void NL() {
 		R.set(0);
 		IC.set(IC.get()+1);
 	}
@@ -124,7 +274,7 @@ public class RM {
 	 * Sudëtis
 	 * @param xx
 	 */
-	public void AD(int xx) {
+	public static void AD(int xx) {
 		int xm = R.get() + getWord(xx);
 		R.set(xm);
 		IC.set(IC.get()+1);
@@ -133,7 +283,7 @@ public class RM {
 	 * Atimtis
 	 * @param xx
 	 */
-	public void SU(int xx) {
+	public static void SU(int xx) {
 		int xm = R.get() - getWord(xx);
 		R.set(xm);
 		IC.set(IC.get()+1);
@@ -142,7 +292,7 @@ public class RM {
 	 * Daugyba
 	 * @param xx
 	 */
-	public void MU(int xx) {
+	public static void MU(int xx) {
 		int xm = R.get() * getWord(xx);
 		R.set(xm);
 		IC.set(IC.get()+1);
@@ -151,20 +301,20 @@ public class RM {
 	 * Dalyba
 	 * @param xx
 	 */
-	public void DI(int xx) {
+	public static void DI(int xx) {
 		if(getWord(xx) != 0) {
 			int xm = R.get() / getWord(xx);
 			R.set(xm);
 			IC.set(IC.get()+1); 
 		} else {
-			this.PI.set(4);
+			PI.set(4);
 		}
 	}
 	/**
 	 * Liekana
 	 * @param xx
 	 */
-	public void MO(int xx) {
+	public static void MO(int xx) {
 		int xm = R.get() % getWord(xx);
 		R.set(xm);
 		IC.set(IC.get()+1);
@@ -173,7 +323,7 @@ public class RM {
 	 * Palyginimas
 	 * @param xx
 	 */
-	public void CR(int xx) {
+	public static void CR(int xx) {
 		if (R.get() > getWord(xx)) {
 			C.set(1);
 		} else if(R.get() < getWord(xx)) {
@@ -187,14 +337,14 @@ public class RM {
 	 * Valdymo perdavimas
 	 * @param xx
 	 */
-	public void JP(int xx) {
+	public static void JP(int xx) {
 		IC.set(xx);
 	}
 	/**
 	 * Valdymo perdavimas jei lygu
 	 * @param xx
 	 */
-	public void JE(int xx) {
+	public static void JE(int xx) {
 		if (C.get() == 0) {
 			IC.set(xx);
 		} else {
@@ -205,7 +355,7 @@ public class RM {
 	 * Valdymo perdavimas jei daugiau
 	 * @param xx
 	 */
-	public void JG(int xx) {
+	public static void JG(int xx) {
 		if (C.get() == 1) {
 			IC.set(xx);
 		} else {
@@ -216,7 +366,7 @@ public class RM {
 	 * Valdymo perdavimas jei maþiau
 	 * @param xx
 	 */
-	public void JL(int xx) {
+	public static void JL(int xx) {
 		if (C.get() == 2) {
 			IC.set(xx);
 		} else {
@@ -237,10 +387,10 @@ public class RM {
 			UI.MainWindow.setConsole();
 		}
 		IC.set(IC.get()+1);
-		SI.set(0);
+/*		SI.set(0);
 		CH.set(0);
 		PI.set(0);
-		MODE.set(0);
+		MODE.set(0);*/
 	}
 	/**
 	 * OUTPUT
@@ -254,16 +404,16 @@ public class RM {
 			xx++;
 		}
 		IC.set(IC.get()+1);
-		SI.set(0);
+/*		SI.set(0);
 		CH.set(0);
-		MODE.set(0);
+		MODE.set(0);*/
 		UI.MainWindow.updateConsole(text);
 	}
 	/**
 	 * Perjungiama į supervizoriaus režimą
 	 * @param xx Adresas atmintyje
 	 */
-	public void XM(int xx) {
+	public static void XM(int xx) {
 		IC.set(IC.get()+1);
 		MODE.set(1);
 	}
@@ -271,71 +421,81 @@ public class RM {
 	 * Perjungiama į vartotojo režimą.
 	 * @param xx Adresas  atmintyje
 	 */
-	public void UM(int xx) {
+	public static void UM(int xx) {
 		IC.set(IC.get()+1);
 		MODE.set(0);
 	}
 	/**
 	 * Programos vykdymo pabaiga
 	 */
-	public void HALT() {
-		this.MODE.set(1);
-		this.SI.set(3);
+	public static void HALT() {
+		MODE.set(1);
+		SI.set(3);
 	}
 
 	public static void Interrupt() {
-		switch (PI.get()) {
-		case 1: {
-			System.out.println("Bandoma naudoti neteisingą operacijos kodą");
-			break;
+		if (PI.get() != 0) {
+			switch (PI.get()) {
+			case 1: {
+				UI.MainWindow
+						.updateConsole("Bandoma naudoti neteisingą operacijos kodą");
+				break;
+			}
+			case 2: {
+				UI.MainWindow.updateConsole("Bandoma naudoti neteisingą adresą");
+				break;
+			}
+			case 3: {
+				UI.MainWindow.updateConsole("Įvyko atminties perpildymas.");
+				break;
+			}
+			case 4: {
+				UI.MainWindow.updateConsole("Bandoma dalyba iš nulio.");
+				break;
+			}
+			case 5: {
+				UI.MainWindow.updateConsole("Kanalas užimtas");
+				break;
+			}
+			default: {
+				System.out.println("Pertraukimas PI neįvyko.");
+				break;
+			}
+			}
 		}
-		case 2: {
-			System.out.println("Bandoma naudoti neteising1 adresą");
-			break;
+		if (SI.get() != 0) {
+			switch (SI.get()) {
+			case 1: {
+				UI.MainWindow.updateConsole("Pertraukimą iššaukė komanda GD.");
+				break;
+			}
+			case 2: {
+				UI.MainWindow.updateConsole("Pertraukimą iššaukė komanda PD.");
+				SI.set(0);
+				break;
+			}
+			case 3: {
+				UI.MainWindow
+						.updateConsole("Pertraukimą iššaukė komanda HALT.");
+				break;
+			}
+			default: {
+				UI.MainWindow.updateConsole("Pertraukimas SI neįvyko.");
+				break;
+			}
+			}
 		}
-		case 3: {
-			System.out.println("Įvyko atminties perpildymas.");
-			break;
-		}
-		case 4: {
-			System.out.println("Bandoma dalyba iš nulio.");
-			break;
-		}
-		case 5: {
-			System.out.println("Kanalas užimtas");
-			break;
-		}
-		default: {
-			System.out.println("Pertraukimas neįvyko.");
-			break;
-		}
-		}
-		switch (SI.get()) {
-		case 1: {
-			System.out.println("Pertraukimą iššaukė komanda GD.");
-			break;
-		}
-		case 2: {
-			System.out.println("Pertraukimą iššaukė komanda PD.");
-			break;
-		}
-		case 3: {
-			System.out.println("Pertraukimą iššaukė komanda HALT.");
-			break;
-		}
-		default: {
-			System.out.println("Pertraukimas neįvyko.");
-			break;
-		}
-		}
-		switch (T.get()) {
-		case 1: {
-			System.out.println("Taimerio pertraukimas.");
-			break;
-		}
-		default: {
-			System.out.println("Pertraukimas neįvyko.");
-		}
+		if (T.get() != 0) {
+			switch (T.get()) {
+			case 1: {
+				UI.MainWindow.updateConsole("Taimerio pertraukimas.");
+				T.set(0);
+				break;
+			}
+			default: {
+				UI.MainWindow.updateConsole("Pertraukimas T neįvyko.");
+			}
+			}
 		}
 	}
 }

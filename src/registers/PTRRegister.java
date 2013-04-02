@@ -1,7 +1,5 @@
 package registers;
 
-import RM.RM;
-
 public class PTRRegister {
 
 	//private String PTR;

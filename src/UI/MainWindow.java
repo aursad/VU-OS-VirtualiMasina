@@ -37,9 +37,7 @@ import javax.swing.SwingConstants;
 import IOI.Input;
 import RM.RM;
 import RM.RealMemory;
-import VM.VA;
 import VM.VM;
-import javax.swing.JProgressBar;
 
 
 public class MainWindow extends JFrame {
