@@ -218,7 +218,7 @@ public class RM {
                     }
                     default:
                     {
-                    	UI.MainWindow.updateConsole("Komanda '"+OPK+"' neegzistuoja!");
+                    	//UI.MainWindow.updateConsole("Komanda '"+OPK+"' neegzistuoja!");
                         IC.set(IC.get()+1);
                         PI.set(1); // Neteisingas OPK
                         MODE.set(1);
@@ -387,10 +387,7 @@ public class RM {
 			UI.MainWindow.setConsole();
 		}
 		IC.set(IC.get()+1);
-/*		SI.set(0);
-		CH.set(0);
-		PI.set(0);
-		MODE.set(0);*/
+		MODE.set(0);
 	}
 	/**
 	 * OUTPUT
@@ -404,9 +401,7 @@ public class RM {
 			xx++;
 		}
 		IC.set(IC.get()+1);
-/*		SI.set(0);
-		CH.set(0);
-		MODE.set(0);*/
+		MODE.set(0);
 		UI.MainWindow.updateConsole(text);
 	}
 	/**
@@ -437,8 +432,7 @@ public class RM {
 		if (PI.get() != 0) {
 			switch (PI.get()) {
 			case 1: {
-				UI.MainWindow
-						.updateConsole("Bandoma naudoti neteisingą operacijos kodą");
+				UI.MainWindow.updateConsole("Bandoma naudoti neteisingą operacijos kodą");
 				break;
 			}
 			case 2: {
@@ -462,11 +456,15 @@ public class RM {
 				break;
 			}
 			}
+			IC.set(IC.get()+1);
+			MODE.set(0);
+			PI.set(0);
 		}
 		if (SI.get() != 0) {
 			switch (SI.get()) {
 			case 1: {
 				UI.MainWindow.updateConsole("Pertraukimą iššaukė komanda GD.");
+				SI.set(0);
 				break;
 			}
 			case 2: {
@@ -475,8 +473,7 @@ public class RM {
 				break;
 			}
 			case 3: {
-				UI.MainWindow
-						.updateConsole("Pertraukimą iššaukė komanda HALT.");
+				UI.MainWindow.updateConsole("Pertraukimą iššaukė komanda HALT.");
 				break;
 			}
 			default: {
@@ -484,18 +481,22 @@ public class RM {
 				break;
 			}
 			}
+			IC.set(IC.get()+1);
+			MODE.set(0);
 		}
 		if (T.get() != 0) {
 			switch (T.get()) {
 			case 1: {
 				UI.MainWindow.updateConsole("Taimerio pertraukimas.");
-				T.set(0);
 				break;
 			}
 			default: {
 				UI.MainWindow.updateConsole("Pertraukimas T neįvyko.");
 			}
 			}
+			IC.set(IC.get()+1);
+			MODE.set(0);
+			T.set(0);
 		}
 	}
 }

@@ -50,6 +50,9 @@ public class MainWindow extends JFrame {
 	private static JTextField textRegisterR;
 	private static JTextField textRegisterC;
 	private static JTextField textRegisterIC;
+	private static JTextField textRegisterRv;
+	private static JTextField textRegisterCv;
+	private static JTextField textRegisterICv;
 	private static JTextField textRegisterT;
 	private static JTextField textRegisterPTR;
 	private static JTextField textRegisterSI;
@@ -172,6 +175,9 @@ public class MainWindow extends JFrame {
 		btnEnd.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				textPanel.setText(">> Console restart");
+				rm.C.set(0);
+				rm.IC.set(0);
+				rm.R.set(0);
 				vm.C.set(0);
 				vm.IC.set(0);
 				vm.R.set(0);
@@ -180,9 +186,12 @@ public class MainWindow extends JFrame {
 				RM.T.set(0);
 				RM.TI.update();
 				
-				textRegisterR.setText(Integer.toString(vm.R.get()));
-				textRegisterC.setText(Integer.toString(vm.C.get()));
-				textRegisterIC.setText(Integer.toString(vm.IC.get()));
+				textRegisterR.setText(Integer.toString(rm.R.get()));
+				textRegisterC.setText(Integer.toString(rm.C.get()));
+				textRegisterIC.setText(Integer.toString(rm.IC.get()));
+				textRegisterRv.setText(Integer.toString(vm.R.get()));
+				textRegisterCv.setText(Integer.toString(vm.C.get()));
+				textRegisterICv.setText(Integer.toString(vm.IC.get()));
 				textRegisterT.setText(Integer.toString(RM.T.get()));
 				textRegisterSI.setText(Integer.toString(RM.SI.get()));
 				textRegisterPI.setText(Integer.toString(RM.PI.get()));
@@ -241,6 +250,8 @@ public class MainWindow extends JFrame {
 		JLabel lblR = new JLabel("R:");
 		JLabel lblC = new JLabel("C:");
 		JLabel lblIc = new JLabel("IC:");
+		JLabel lblRm = new JLabel("RM");
+		JLabel lblVm = new JLabel("VM");
 		JLabel lblBsena = new JLabel("B\u016Bsena:");
 		JLabel lblT = new JLabel("T:");
 		JLabel lblSi = new JLabel("SI:");
@@ -252,22 +263,39 @@ public class MainWindow extends JFrame {
 		
 		textRegisterR = new JTextField();
 		textRegisterR.setHorizontalAlignment(SwingConstants.CENTER);
-		textRegisterR.setText(toString(vm.R.get()));
+		textRegisterR.setText(toString(rm.R.get()));
 		textRegisterR.setEditable(false);
 		textRegisterR.setColumns(10);
 		
 		textRegisterC = new JTextField();
 		textRegisterC.setHorizontalAlignment(SwingConstants.CENTER);
-		textRegisterC.setText(toString(vm.C.get()));
+		textRegisterC.setText(toString(rm.C.get()));
 		textRegisterC.setEditable(false);
 		textRegisterC.setColumns(10);
 		
 		textRegisterIC = new JTextField();
-		textRegisterIC.setText(toString(vm.IC.get()));
+		textRegisterIC.setText(toString(rm.IC.get()));
 		textRegisterIC.setHorizontalAlignment(SwingConstants.CENTER);
 		textRegisterIC.setEditable(false);
 		textRegisterIC.setColumns(10);
 		
+		textRegisterRv = new JTextField();
+		textRegisterRv.setText(toString(vm.R.get()));
+		textRegisterRv.setHorizontalAlignment(SwingConstants.CENTER);
+		textRegisterRv.setEditable(false);
+		textRegisterRv.setColumns(10);
+		
+		textRegisterCv = new JTextField();
+		textRegisterCv.setText(toString(vm.C.get()));
+		textRegisterCv.setHorizontalAlignment(SwingConstants.CENTER);
+		textRegisterCv.setEditable(false);
+		textRegisterCv.setColumns(10);
+		
+		textRegisterICv = new JTextField();
+		textRegisterICv.setText(toString(vm.IC.get()));
+		textRegisterICv.setHorizontalAlignment(SwingConstants.CENTER);
+		textRegisterICv.setEditable(false);
+		textRegisterICv.setColumns(10);
 		
 		textState = new JTextField();
 		textState.setEditable(false);
@@ -317,7 +345,6 @@ public class MainWindow extends JFrame {
 		textRegisterCH.setEditable(false);
 		textRegisterCH.setColumns(10);
 		
-		
 		JButton btnVersijaV = new JButton("Versija: v1.0");
 		btnVersijaV.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
@@ -345,17 +372,34 @@ public class MainWindow extends JFrame {
 										.addComponent(lblR, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
 										.addComponent(lblIc, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
 										.addComponent(lblC, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-									.addPreferredGap(ComponentPlacement.RELATED)
-									.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING, false)
-										.addComponent(textRegisterIC, 0, 0, Short.MAX_VALUE)
-										.addComponent(textRegisterC, 0, 0, Short.MAX_VALUE)
-										.addComponent(textRegisterR, GroupLayout.PREFERRED_SIZE, 36, GroupLayout.PREFERRED_SIZE))
-									.addGap(6)
-									.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
-										.addComponent(lblBsena)
-										.addComponent(lblT, GroupLayout.PREFERRED_SIZE, 15, GroupLayout.PREFERRED_SIZE)
-										.addComponent(lblPtr, GroupLayout.PREFERRED_SIZE, 33, GroupLayout.PREFERRED_SIZE)
-										.addComponent(lblMode, GroupLayout.PREFERRED_SIZE, 39, GroupLayout.PREFERRED_SIZE))
+									.addGap(25)
+									.addGroup(gl_contentPane.createParallelGroup(Alignment.TRAILING)
+										.addGroup(gl_contentPane.createSequentialGroup()
+											.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING, false)
+												.addComponent(textRegisterIC, 0, 0, Short.MAX_VALUE)
+												.addComponent(textRegisterC, 0, 0, Short.MAX_VALUE)
+												.addComponent(textRegisterR, GroupLayout.PREFERRED_SIZE, 36, GroupLayout.PREFERRED_SIZE))
+											.addGap(6)
+											.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
+												.addGroup(gl_contentPane.createSequentialGroup()
+													.addComponent(textRegisterRv, GroupLayout.PREFERRED_SIZE, 36, GroupLayout.PREFERRED_SIZE)
+													.addPreferredGap(ComponentPlacement.RELATED)
+													.addComponent(lblBsena))
+												.addGroup(gl_contentPane.createSequentialGroup()
+													.addComponent(textRegisterCv, GroupLayout.PREFERRED_SIZE, 36, GroupLayout.PREFERRED_SIZE)
+													.addPreferredGap(ComponentPlacement.RELATED)
+													.addComponent(lblT, GroupLayout.PREFERRED_SIZE, 15, GroupLayout.PREFERRED_SIZE))
+												.addGroup(gl_contentPane.createSequentialGroup()
+													.addComponent(textRegisterICv, GroupLayout.PREFERRED_SIZE, 36, GroupLayout.PREFERRED_SIZE)
+													.addPreferredGap(ComponentPlacement.RELATED)
+													.addComponent(lblPtr, GroupLayout.PREFERRED_SIZE, 33, GroupLayout.PREFERRED_SIZE))))
+										.addGroup(gl_contentPane.createSequentialGroup()
+											.addGap(10)
+											.addComponent(lblRm, GroupLayout.PREFERRED_SIZE, 23, GroupLayout.PREFERRED_SIZE)
+											.addGap(18)
+											.addComponent(lblVm, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+											.addPreferredGap(ComponentPlacement.UNRELATED)
+											.addComponent(lblMode, GroupLayout.PREFERRED_SIZE, 39, GroupLayout.PREFERRED_SIZE)))
 									.addPreferredGap(ComponentPlacement.RELATED)
 									.addGroup(gl_contentPane.createParallelGroup(Alignment.TRAILING)
 										.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING, false)
@@ -381,7 +425,7 @@ public class MainWindow extends JFrame {
 											.addComponent(lblTi, GroupLayout.PREFERRED_SIZE, 15, GroupLayout.PREFERRED_SIZE)
 											.addPreferredGap(ComponentPlacement.UNRELATED)
 											.addComponent(textRegisterTI, GroupLayout.PREFERRED_SIZE, 36, GroupLayout.PREFERRED_SIZE)))
-									.addPreferredGap(ComponentPlacement.RELATED, 186, Short.MAX_VALUE))
+									.addPreferredGap(ComponentPlacement.RELATED, 146, Short.MAX_VALUE))
 								.addComponent(console, GroupLayout.PREFERRED_SIZE, 400, GroupLayout.PREFERRED_SIZE)
 								.addComponent(separator_1, GroupLayout.PREFERRED_SIZE, 393, GroupLayout.PREFERRED_SIZE))
 							.addPreferredGap(ComponentPlacement.RELATED)
@@ -414,7 +458,8 @@ public class MainWindow extends JFrame {
 								.addComponent(lblBsena)
 								.addComponent(textState, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 								.addComponent(lblSi)
-								.addComponent(textRegisterSI, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+								.addComponent(textRegisterSI, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+								.addComponent(textRegisterRv, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
 							.addPreferredGap(ComponentPlacement.RELATED)
 							.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
 								.addGroup(gl_contentPane.createSequentialGroup()
@@ -424,7 +469,8 @@ public class MainWindow extends JFrame {
 										.addComponent(textRegisterT, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 										.addComponent(lblT)
 										.addComponent(lblPi)
-										.addComponent(textRegisterPI, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+										.addComponent(textRegisterPI, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+										.addComponent(textRegisterCv, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
 									.addPreferredGap(ComponentPlacement.RELATED)
 									.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
 										.addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
@@ -433,7 +479,8 @@ public class MainWindow extends JFrame {
 										.addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
 											.addComponent(textRegisterPTR, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 											.addComponent(lblPtr)
-											.addComponent(lblTi))))
+											.addComponent(lblTi)
+											.addComponent(textRegisterICv, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))))
 								.addGroup(gl_contentPane.createSequentialGroup()
 									.addGap(26)
 									.addComponent(textRegisterTI, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)))
@@ -442,7 +489,10 @@ public class MainWindow extends JFrame {
 								.addComponent(lblCh)
 								.addComponent(textRegisterMODE, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 								.addComponent(textRegisterCH, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-								.addComponent(lblMode))
+								.addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
+									.addComponent(lblMode)
+									.addComponent(lblVm))
+								.addComponent(lblRm))
 							.addGap(56)
 							.addComponent(separator_1, GroupLayout.PREFERRED_SIZE, 11, GroupLayout.PREFERRED_SIZE)
 							.addPreferredGap(ComponentPlacement.RELATED)
@@ -474,6 +524,15 @@ public class MainWindow extends JFrame {
 	}
 	public static void updateC(int C) {
 		textRegisterC.setText(toString(C));
+	}
+	public static void updateICv(int IC) {
+		textRegisterICv.setText(toString(IC));
+	}
+	public static void updateRv(int R) {
+		textRegisterRv.setText(toString(R));
+	}
+	public static void updateCv(int C) {
+		textRegisterCv.setText(toString(C));
 	}
 	public static void updatePTR(String string) {
 		textRegisterPTR.setText(string);
