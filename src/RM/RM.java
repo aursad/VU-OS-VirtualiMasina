@@ -230,6 +230,7 @@ public class RM {
                     }
                 }
             }
+            MODE.set(0);
 		}
 	}
 	/**
@@ -461,19 +462,17 @@ public class RM {
 			}
 			}
 			IC.set(IC.get()+1);
-			MODE.set(0);
-			PI.set(0);
+			//MODE.set(0);
+			//PI.set(0);
 		}
 		if (SI.get() != 0) {
 			switch (SI.get()) {
 			case 1: {
 				UI.MainWindow.updateConsole("Pertraukimą iššaukė komanda GD.");
-				SI.set(0);
 				break;
 			}
 			case 2: {
 				UI.MainWindow.updateConsole("Pertraukimą iššaukė komanda PD.");
-				SI.set(0);
 				break;
 			}
 			case 3: {
@@ -486,7 +485,7 @@ public class RM {
 			}
 			}
 			IC.set(IC.get()+1);
-			MODE.set(0);
+			//MODE.set(0);
 		}
 		if (T.get() != 0) {
 			switch (T.get()) {
@@ -499,10 +498,11 @@ public class RM {
 			}
 			}
 			IC.set(IC.get()+1);
-			MODE.set(0);
-			T.set(0);
+			//MODE.set(0);
+			//T.set(0);
 		}
 	}
+	@SuppressWarnings("static-access")
 	public static void saveMemory() {
 		externalMemory.save(memory);
 	}

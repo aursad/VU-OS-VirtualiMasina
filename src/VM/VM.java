@@ -51,9 +51,9 @@ public class VM {
 	 * Komandos vykdymo þingsnis
 	 */
 	private void step() {
-		updateGUI();
+		//updateGUI();
 		if(RM.RM.SI.get() != 3) {
-			test();
+			if(!test()) { updateGUI(); }
 			if(RM.RM.MODE.get() == 1) {
 				String command = Atmintis.get(RM.RM.IC.get());
 				RM.RM.doCommand(command);
@@ -61,16 +61,21 @@ public class VM {
 				String command = Atmintis.get(IC.get());
 				doCommand(command);
 			}
-				updateGUI();
+			//if(!test()) { updateGUI(); }
+			//updateGUI();
 				RM.RM.TI.set();
 		} else {
+			updateGUI();
 			UI.MainWindow.updateConsole(">> Programa baigė darbą!");
 			RM.RM.MODE.set(1);
 		}
 	}
 	private boolean test() {
 		if (RM.RM.SI.get() + RM.RM.PI.get() + RM.RM.T.get() != 0) {
+			RM.RM.MODE.set(1);
 			RM.RM.Interrupt();
+			updateGUI();
+			if(RM.RM.SI.get() != 3) { updateReg(); }
 			return true;
 		} else {
 			return false;
@@ -94,7 +99,7 @@ public class VM {
 		UI.MainWindow.updateTI(RM.RM.TI.get());
 		UI.MainWindow.updateMODE(RM.RM.MODE.get());
 		UI.MainWindow.updateCH(RM.RM.CH.get());
-		UI.MainWindow.updateList(RM.RM.memory);
+		UI.MainWindow.updateList(Atmintis);
 		UI.MainWindow.updateListRM(RM.RM.memory);
 	}
 	/**
@@ -228,10 +233,10 @@ public class VM {
                     }
                     default:
                     {
-                    	UI.MainWindow.updateConsole("Komanda '"+OPK+"' neegzistuoja!");
+                    	//UI.MainWindow.updateConsole("Komanda '"+OPK+"' neegzistuoja!");
                         IC.set(IC.get()+1);
                         RM.RM.PI.set(1); // Neteisingas OPK
-                        RM.RM.MODE.set(1);
+                        test();
                         break;
                     }
                 }
@@ -266,6 +271,8 @@ public class VM {
 		RM.RM.MODE.set(0);
 		RM.RM.SI.set(0);
 		RM.RM.CH.set(0);
+		RM.RM.PI.set(0);
+		RM.RM.T.set(0);
 	}
 	public void LR(int xx) {
 		updateReg();
@@ -408,12 +415,12 @@ public class VM {
 	 * @param xx
 	 */
 	public void GD(int xx) {
-		RM.RM.MODE.set(1);
-		RM.RM.SI.set(2);
+		updateReg();
+		RM.RM.SI.set(1);
 		RM.RM.CH.set(1);
-		RM.RM.PI.set(5);
 		
-		RM.RM.GD(xx);
+		test();
+		RM.RM.GD(Atmintis.getAA(xx));
 		IC.set(IC.get()+1);
 	}
 	/**
@@ -421,12 +428,12 @@ public class VM {
 	 * @param xx
 	 */
 	public void PD(int xx) {
-		RM.RM.MODE.set(1);
+		updateReg();
 		RM.RM.SI.set(2);
 		RM.RM.CH.set(2);
 		
 		test();
-		RM.RM.PD(xx);
+		RM.RM.PD(Atmintis.getAA(xx));
 		
 		IC.set(IC.get()+1);
 

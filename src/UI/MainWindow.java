@@ -37,6 +37,7 @@ import javax.swing.SwingConstants;
 import IOI.Input;
 import RM.RM;
 import RM.RealMemory;
+import VM.VA;
 import VM.VM;
 
 
@@ -104,7 +105,7 @@ public class MainWindow extends JFrame {
 		listRModel = new DefaultListModel<String>();
 		for(int i=0;i<rm.memory.getSize();i++) {
 			for(int n=0;n<10;n++) {
-				listRModel.addElement(rm.memory.getWord(i, n));
+				listRModel.addElement(String.format("%02d", i*10+n)+": "+rm.memory.getWord(i, n));
 			}
 		}
 		listasRM = new JList<String>(listRModel);
@@ -151,9 +152,12 @@ public class MainWindow extends JFrame {
 								int key = Integer.parseInt(value[0]);
 								String keyWord = String.format("%02d", key);
 								String Word = value[1]+value[2];
-									rm.memory.set(key, Word);
-									listModel.set(key, keyWord+": "+rm.memory.getWord(key));
+									//rm.memory.set(key, Word);
+									vm.Atmintis.set(key, Word);
+									listModel.set(key, keyWord+": "+vm.Atmintis.get(key));
 							} 
+							vm.Atmintis.set(45, "5   ");
+							listModel.set(45, "45: "+vm.Atmintis.get(45));
 							fr.close(); 
 						} catch (IOException e1) {
 							e1.printStackTrace();
@@ -176,6 +180,7 @@ public class MainWindow extends JFrame {
 			public void actionPerformed(ActionEvent arg0) {
 				// Iðsaugom duomenis iðorinë atmintyje
 				rm.saveMemory();
+				
 				textPanel.setText(">> Console restart");
 				rm.C.set(0);
 				rm.IC.set(0);
@@ -187,6 +192,7 @@ public class MainWindow extends JFrame {
 				RM.PI.set(0);
 				RM.T.set(0);
 				RM.TI.update();
+				RM.MODE.set(0);
 				
 				textRegisterR.setText(Integer.toString(rm.R.get()));
 				textRegisterC.setText(Integer.toString(rm.C.get()));
@@ -575,10 +581,10 @@ public class MainWindow extends JFrame {
 		return Integer.toString(fromInt);
 	}
 
-	public static void updateList(RealMemory Atmintis) {
+	public static void updateList(VA Atmintis) {
 		for (int i = 0; i < RM.PTR.getBlock(); i++) {
 			for(int n=0;n<10;n++) {
-				listModel.set(i*10+n,String.format("%02d", i*10+n) + ": " + Atmintis.getWord(i, n));
+				listModel.set(i*10+n,String.format("%02d", i*10+n) + ": " + Atmintis.get(i*10+n));
 			}
 		}
 		listas.setSelectedIndex(0);

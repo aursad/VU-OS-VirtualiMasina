@@ -31,8 +31,14 @@ public class RealMemory {
     }
     public String getWord(int xx) {
     	int[] digits = getInts(xx);
-    	LinkedList<String> list = getBlock(digits[0]);
-    	String Word = list.get(digits[1]);
+    	String Word;
+		if (xx < 100) {
+			LinkedList<String> list = getBlock(digits[0]);
+			Word = list.get(digits[1]);
+		} else {
+			LinkedList<String> list = getBlock(digits[0] * 10 + digits[1]);
+			Word = list.get(digits[2]);
+		}
     	return Word;
     }
     public void set(int xx, String value) {

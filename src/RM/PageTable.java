@@ -10,11 +10,11 @@ public class PageTable {
 	public PageTable() {
 		this.PageTableNumber = RM.PTR.getPageTable();
 		for(int i=0;i<10;i++) {
-			RM.memory.set(this.PageTableNumber, i, ""+i);
+			RM.memory.set(this.PageTableNumber, i, ""+2+i);
 		}
 	}
-	public String getRealBlockNumber(int VirtualBlock) {
-		String RBN = RM.memory.getWord(this.PageTableNumber, VirtualBlock);
-		return RBN;
+	public int getRealBlockNumber(int VirtualBlock) {
+		String RBN = RM.memory.getWord(RM.PTR.getPageTable(), VirtualBlock);
+		return Integer.parseInt(RBN);
 	}
 }
