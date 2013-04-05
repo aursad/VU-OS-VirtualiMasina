@@ -58,12 +58,14 @@ public class RM {
 	 */
 	static public ChRegister CH;
 	public static RealMemory memory;
+	public static ExternalMemory externalMemory;
 	static public PageTable PageTable;
 	/**
 	 * Konstruktorius
 	 */
 	public RM() {
         memory = new RealMemory(100);
+        externalMemory = new ExternalMemory(100);
 		PTR = new PTRRegister(0, 9, 1, 0);
 		PageTable = new PageTable();
 		R = new DataRegister();
@@ -75,6 +77,8 @@ public class RM {
         PI = new IntRegister();
         SI = new IntRegister();
         CH = new ChRegister();
+        
+        externalMemory.save();
 	}
 	
 	/**
@@ -498,5 +502,8 @@ public class RM {
 			MODE.set(0);
 			T.set(0);
 		}
+	}
+	public static void saveMemory() {
+		externalMemory.save(memory);
 	}
 }

@@ -174,6 +174,8 @@ public class MainWindow extends JFrame {
 		
 		btnEnd.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
+				// Iğsaugom duomenis iğorinë atmintyje
+				rm.saveMemory();
 				textPanel.setText(">> Console restart");
 				rm.C.set(0);
 				rm.IC.set(0);
