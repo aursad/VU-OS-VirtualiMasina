@@ -25,18 +25,18 @@ public class VA {
 	 */
 	public void set(int index, String element) {
 		int[] digit = getInt(index);
-		int AA = RM.PageTable.getRealBlockNumber(digit[0]);
+		int AA = VM.PageTable.getRealBlockNumber(digit[0]);
 		RM.memory.set(AA, digit[1], element);
 	}
 
 	public String get(int a) {
 		int[] digit = getInt(a);
-		int AA = RM.PageTable.getRealBlockNumber(digit[0]);
+		int AA = VM.PageTable.getRealBlockNumber(digit[0]);
 		return RM.memory.getWord(AA, digit[1]);
 	}
 	public int getAA(int a) {
 		int[] digit = getInt(a);
-		int AA = RM.PageTable.getRealBlockNumber(digit[0])*10+digit[1];
+		int AA = VM.PageTable.getRealBlockNumber(digit[0])*10+digit[1];
 		return AA;
 	}
 

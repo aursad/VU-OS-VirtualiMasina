@@ -3,6 +3,7 @@ package VM;
 import registers.CRegister;
 import registers.DataRegister;
 import registers.IcRegister;
+import registers.PTRRegister;
 
 /**
  * Virtuali maðina
@@ -25,6 +26,7 @@ public class VM {
 	/**
 	 * Vartotojui iðskiriama atmintis
 	 */
+	static public PageTable PageTable;
 	public VA Atmintis;
 	public String end = "HALT";
 	
@@ -32,6 +34,7 @@ public class VM {
 		R = new DataRegister();
 		IC = new IcRegister();
 		C = new CRegister();
+		PageTable = new PageTable();
 		Atmintis = new VA(100);
 	}
 
@@ -67,11 +70,13 @@ public class VM {
 		} else {
 			updateGUI();
 			UI.MainWindow.updateConsole(">> Programa baigė darbą!");
+			RM.RM.slave(C.get(), R.get(), IC.get());
 			RM.RM.MODE.set(1);
 		}
 	}
 	private boolean test() {
 		if (RM.RM.SI.get() + RM.RM.PI.get() + RM.RM.T.get() != 0) {
+			RM.RM.slave(C.get(), R.get(), IC.get());
 			RM.RM.MODE.set(1);
 			RM.RM.Interrupt();
 			updateGUI();

@@ -59,15 +59,14 @@ public class RM {
 	static public ChRegister CH;
 	public static RealMemory memory;
 	public static ExternalMemory externalMemory;
-	static public PageTable PageTable;
+	
 	/**
 	 * Konstruktorius
 	 */
 	public RM() {
         memory = new RealMemory(100);
         externalMemory = new ExternalMemory(100);
-		PTR = new PTRRegister(0, 9, 1, 0);
-		PageTable = new PageTable();
+        PTR = new PTRRegister(0, 9, 1, 0);
 		R = new DataRegister();
         IC = new IcRegister();
         C = new CRegister();
@@ -505,5 +504,12 @@ public class RM {
 	@SuppressWarnings("static-access")
 	public static void saveMemory() {
 		externalMemory.save(memory);
+	}
+	public static void slave(int C, int R, int IC)
+	{
+		memory.set(5, 0, PTR.get());
+		memory.set(5, 1, ""+C);
+		memory.set(5, 2, ""+R);
+		memory.set(5, 3, ""+IC);
 	}
 }
