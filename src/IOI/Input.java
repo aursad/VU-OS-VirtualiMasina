@@ -1,17 +1,20 @@
 package IOI;
 
+import java.util.HashMap;
+
 public class Input {
-	private String input;
+	private HashMap<String, String> input;
+	
 	public Input() {
-		this.input = "";
+		input = new HashMap<String, String>();
+		input.put("adresas", "");
+		input.put("text", "");
 	}
 	
-
-	public String get() {
-		return this.input;
+	public void setAA(int AA) {
+		input.put("adresas", ""+AA);
 	}
-
-	public void set(String input) {
-		this.input = input;
+	public void setText(String text) {
+		input.put("text", text);
 	}
 }

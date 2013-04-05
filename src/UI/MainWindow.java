@@ -76,7 +76,7 @@ public class MainWindow extends JFrame {
 	static JButton btnStart;
 	static JButton btnStepByStep;
 	
-	static Input output;
+	static String output = "";
 	
 	/**
 	 * Create the frame.
@@ -85,7 +85,6 @@ public class MainWindow extends JFrame {
 		setTitle("Virtuali Maðina - Emulator");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 866, 400);
-		output = new Input();
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -242,7 +241,7 @@ public class MainWindow extends JFrame {
 		console.addActionListener(new ActionListener() {
 	        public void actionPerformed(ActionEvent e) {
 	        	 textPanel.setText(textPanel.getText() + "\n> " +console.getText());
-	        	 output.set(console.getText());
+	        	 output = console.getText();
 	        	 console.setText(null);
 	        }
 	    });
@@ -572,10 +571,10 @@ public class MainWindow extends JFrame {
 		textPanel.setText(textPanel.getText() + "\n"+text);
 	}
 	public static String getConsole() {
-		return output.get();
+		return output;
 	}
 	public static void setConsole() {
-		output.set("");
+		output="";
 	}
 	private static String toString(int fromInt) {
 		return Integer.toString(fromInt);

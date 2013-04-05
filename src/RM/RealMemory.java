@@ -42,9 +42,14 @@ public class RealMemory {
     	return Word;
     }
     public void set(int xx, String value) {
-    	int[] digits = getInts(xx);
-    	LinkedList<String> list = getBlock(digits[0]);
-    	list.set(digits[1], value);
+		int[] digits = getInts(xx);
+		if (xx < 100) {
+			LinkedList<String> list = getBlock(digits[0]);
+			list.set(digits[1], value);
+		} else {
+			LinkedList<String> list = getBlock(digits[0] * 10 + digits[1]);
+			list.set(digits[2], value);
+		}
     }
     public void set(int block, int xx, String value) {
     	LinkedList<String> list = getBlock(block);
