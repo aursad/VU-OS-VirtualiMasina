@@ -1,11 +1,8 @@
 package RM;
 
 import java.util.HashMap;
-import java.util.LinkedList;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-
-import IOI.Input;
 
 import registers.CRegister;
 import registers.ChRegister;
@@ -67,6 +64,7 @@ public class RM {
 	public static RealMemory memory;
 	public static ExternalMemory externalMemory;
 	static ExecutorService executorService = Executors.newCachedThreadPool();
+	public static int inputKiekis;
 	/**
 	 * Konstruktorius
 	 */
@@ -388,71 +386,55 @@ public class RM {
 	 * INPUT
 	 * @param xx
 	 */
-	  static LinkedList<String> b = new LinkedList<String>();
 	static public void GD(int xx) {
-/*		String input = UI.MainWindow.getConsole();
-		input = UI.MainWindow.getConsole();
-		while(!input.equals("")) {
-			input = UI.MainWindow.getConsole();
-			memory.set(xx, input);
-			input = "";
-			UI.MainWindow.setConsole();
-		}*/
-/*		HashMap<Integer, Integer> inputList = new HashMap<Integer, Integer>();
-		inputList.put(inputList.size(), xx);
-
-		while(!inputList.isEmpty()) {
-			String inputString = UI.MainWindow.getConsole();
-			if(!inputString.equals("")) {
-				int AA = inputList.get(0);
-				inputList.remove(0);
-				memory.set(AA, inputString);
-				
-			}
-		}*/
 		HashMap<Integer, Integer> inputlist = new HashMap<Integer, Integer>();
-		inputlist.put(0, 0);
+		inputKiekis++;
+		if (inputlist.isEmpty()) {
+			inputlist.put(0, 0);
+		}
 		inputlist.put(inputlist.size(), xx);
 
-		  producer(inputlist);
-		  consumer(inputlist);
-		IC.set(IC.get()+1);
+		producer(inputlist);
+		consumer(inputlist);
+		IC.set(IC.get() + 1);
 		MODE.set(0);
 	}
-	  static void producer(final HashMap<Integer, Integer> inputlist) {
-		    executorService.execute(new Runnable() {
-		      public void run() {
-		        for (int i = 1; i < inputlist.size(); i++) {
-		          try {
-		            Thread.sleep(50);
-		          } catch (InterruptedException e) {
-		            e.printStackTrace();
-		          }
-		        }
-		      }
-		    });
-		  }
 
-		  static void consumer(final HashMap<Integer, Integer> inputlist) {
-		    executorService.execute(new Runnable() {
-		      public void run() {
-		        while (inputlist.get(0) != inputlist.size()-1) {
-		          try {
-		            String s = UI.MainWindow.getConsole();
-		            if(!s.equals("")) {
-		            	int key = inputlist.get(0)+1;
-		            	memory.set(inputlist.get(key), s);
-		            	inputlist.put(0, inputlist.get(0)+1);
-		            	UI.MainWindow.setConsole();
-		            }
-		            Thread.sleep(50);
-		          } catch (InterruptedException e) {
-		            e.printStackTrace();
-		          }
-		        }
-		      }
-		    });
-		  }
+	static void producer(final HashMap<Integer, Integer> inputlist) {
+		executorService.execute(new Runnable() {
+			public void run() {
+				for (int i = 1; i < inputlist.size(); i++) {
+					try {
+						Thread.sleep(50);
+					} catch (InterruptedException e) {
+						e.printStackTrace();
+					}
+				}
+			}
+		});
+	}
+
+	static void consumer(final HashMap<Integer, Integer> inputlist) {
+		executorService.execute(new Runnable() {
+			public void run() {
+				while (inputlist.get(0) != inputlist.size() - 1) {
+					try {
+						String s = UI.MainWindow.getConsole();
+						if (!s.equals("")) {
+							int key = inputlist.get(0) + 1;
+							memory.set(inputlist.get(key), s);
+							inputlist.put(0, inputlist.get(0) + 1);
+							UI.MainWindow.setConsole();
+							inputKiekis--;
+						}
+						Thread.sleep(50);
+					} catch (InterruptedException e) {
+						e.printStackTrace();
+					}
+				}
+			}
+		});
+	}
 	/**
 	 * OUTPUT
 	 * @param xx

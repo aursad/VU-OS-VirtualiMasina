@@ -3,7 +3,6 @@ package VM;
 import registers.CRegister;
 import registers.DataRegister;
 import registers.IcRegister;
-import registers.PTRRegister;
 
 /**
  * Virtuali maðina

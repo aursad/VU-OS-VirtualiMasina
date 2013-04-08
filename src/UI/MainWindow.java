@@ -34,7 +34,6 @@ import javax.swing.ListSelectionModel;
 import javax.swing.JLabel;
 import javax.swing.SwingConstants;
 
-import IOI.Input;
 import RM.RM;
 import RM.RealMemory;
 import VM.VA;
@@ -81,6 +80,7 @@ public class MainWindow extends JFrame {
 	/**
 	 * Create the frame.
 	 */
+	@SuppressWarnings("static-access")
 	public MainWindow(final RM rm, final VM vm) {
 		setTitle("Virtuali Maðina - Emulator");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
