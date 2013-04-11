@@ -116,7 +116,7 @@ public class MainWindow extends JFrame {
 		 */
 		listModel = new DefaultListModel<String>();
 		for(int i=0;i<rm.PTR.getBlock()*10+10;i++) {
-			listModel.addElement(String.format("%02d", i)+": "+ rm.memory.getWord(i));
+			listModel.addElement(String.format("%02d", i)+": _____");
 		}
 		listas = new JList<String>(listModel);
 		listas.addListSelectionListener(new ListSelectionListener() {
@@ -147,16 +147,20 @@ public class MainWindow extends JFrame {
 							BufferedReader br = new BufferedReader(fr); 
 							String s; 
 							while((s = br.readLine()) != null) { 
-								String[] value = s.split("(?<=\\G.{2})");
-								int key = Integer.parseInt(value[0]);
+								String[] value = s.split("(?<=\\G.{1})");
+								String Word = "";
+								int key1 = Integer.parseInt(value[0]);
+								int key2 = Integer.parseInt(value[1]);
+								int key = key1*10+key2;
 								String keyWord = String.format("%02d", key);
-								String Word = value[1]+value[2];
-									//rm.memory.set(key, Word);
+								if(value.length == 7) {
+									Word = value[2]+value[3]+value[4]+value[5]+value[6];
+								} else {
+									Word = value[2]+value[3]+value[4]+value[5];
+								}
 									vm.Atmintis.set(key, Word);
 									listModel.set(key, keyWord+": "+vm.Atmintis.get(key));
 							} 
-							vm.Atmintis.set(45, "5   ");
-							listModel.set(45, "45: "+vm.Atmintis.get(45));
 							fr.close(); 
 						} catch (IOException e1) {
 							e1.printStackTrace();
@@ -281,7 +285,7 @@ public class MainWindow extends JFrame {
 		textRegisterC.setColumns(10);
 		
 		textRegisterIC = new JTextField();
-		textRegisterIC.setText(toString(rm.IC.get()));
+		textRegisterIC.setText("000");
 		textRegisterIC.setHorizontalAlignment(SwingConstants.CENTER);
 		textRegisterIC.setEditable(false);
 		textRegisterIC.setColumns(10);
@@ -299,7 +303,7 @@ public class MainWindow extends JFrame {
 		textRegisterCv.setColumns(10);
 		
 		textRegisterICv = new JTextField();
-		textRegisterICv.setText(toString(vm.IC.get()));
+		textRegisterICv.setText("000");
 		textRegisterICv.setHorizontalAlignment(SwingConstants.CENTER);
 		textRegisterICv.setEditable(false);
 		textRegisterICv.setColumns(10);

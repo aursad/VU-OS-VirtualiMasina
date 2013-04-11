@@ -82,6 +82,8 @@ public class RM {
         SI = new IntRegister();
         CH = new ChRegister();
         
+        InterruptPrograms();
+        
         externalMemory.save();
 	}
 	
@@ -91,8 +93,8 @@ public class RM {
 	 * @return OPK Operacijos kodas
 	 */
 	private static String encodeBytes2(String zodis) {
-		String[] value = zodis.split("(?<=\\G.{2})");
-		String OPK = value[0];
+		String[] value = zodis.split("(?<=\\G.{1})");
+		String OPK = value[0]+value[1];
 		return OPK;
 	}
 	/**
@@ -101,10 +103,13 @@ public class RM {
 	 * @return XX Atminties adresas
 	 */
 	private static int XXencode(String zodis) {
-		String[] value = zodis.split("(?<=\\G.{2})");
+		String[] value = zodis.split("(?<=\\G.{1})");
 		try 
         {
-            return Integer.parseInt(value[1]);
+			int key1 = Integer.parseInt(value[2]);
+			int key2 = Integer.parseInt(value[3]);
+			int key3 = Integer.parseInt(value[4]);
+            return key1*100+key2*10+key3;
         } 
         catch (NumberFormatException e)
         {
@@ -128,7 +133,6 @@ public class RM {
 	public static void doCommand(String command) {
 		String OPK="";
 		int xx;
-		
 		OPK = encodeBytes2(command);
 		xx = XXencode(command);
 		
@@ -235,6 +239,7 @@ public class RM {
                 }
             }
             MODE.set(0);
+            VM.VM.updateGUI();
 		}
 	}
 	/**
@@ -450,6 +455,20 @@ public class RM {
 		MODE.set(0);
 		UI.MainWindow.updateConsole(text);
 	}
+	static public void EG(int xx) {
+		
+	}
+	static public void EP(int xx) {
+		String text="";
+		String lineEnd = "####";
+		while(!lineEnd.equals(externalMemory.getWord(xx))) {
+			text = text + externalMemory.getWord(xx);
+			xx++;
+		}
+		IC.set(IC.get()+1);
+		MODE.set(0);
+		UI.MainWindow.updateConsole(text);
+	}
 	/**
 	 * Perjungiama į supervizoriaus režimą
 	 * @param xx Adresas atmintyje
@@ -479,22 +498,22 @@ public class RM {
 			switch (PI.get()) {
 			case 1: {
 				UI.MainWindow.updateConsole("Bandoma naudoti neteisingą operacijos kodą");
+				IntProgMove(120);
 				break;
 			}
 			case 2: {
 				UI.MainWindow.updateConsole("Bandoma naudoti neteisingą adresą");
+				IntProgMove(130);
 				break;
 			}
 			case 3: {
 				UI.MainWindow.updateConsole("Įvyko atminties perpildymas.");
+				IntProgMove(140);
 				break;
 			}
 			case 4: {
 				UI.MainWindow.updateConsole("Bandoma dalyba iš nulio.");
-				break;
-			}
-			case 5: {
-				UI.MainWindow.updateConsole("Kanalas užimtas");
+				IntProgMove(150);
 				break;
 			}
 			default: {
@@ -509,15 +528,28 @@ public class RM {
 		if (SI.get() != 0) {
 			switch (SI.get()) {
 			case 1: {
-				//UI.MainWindow.updateConsole("Pertraukimą iššaukė komanda GD.");
+				UI.MainWindow.updateConsole("Pertraukimą iššaukė komanda GD.");
+				IntProgMove(160);
 				break;
 			}
 			case 2: {
-				//UI.MainWindow.updateConsole("Pertraukimą iššaukė komanda PD.");
+				UI.MainWindow.updateConsole("Pertraukimą iššaukė komanda PD.");
+				IntProgMove(170);
 				break;
 			}
 			case 3: {
 				UI.MainWindow.updateConsole("Pertraukimą iššaukė komanda HALT.");
+				IntProgMove(180);
+				break;
+			}
+			case 4: {
+				UI.MainWindow.updateConsole("Pertraukimą iššaukė komanda EG.");
+				IntProgMove(190);
+				break;
+			}
+			case 5: {
+				UI.MainWindow.updateConsole("Pertraukimą iššaukė komanda EP.");
+				IntProgMove(200);
 				break;
 			}
 			default: {
@@ -532,6 +564,7 @@ public class RM {
 			switch (T.get()) {
 			case 1: {
 				UI.MainWindow.updateConsole("Taimerio pertraukimas.");
+				IntProgMove(210);
 				break;
 			}
 			default: {
@@ -547,11 +580,44 @@ public class RM {
 	public static void saveMemory() {
 		externalMemory.save(memory);
 	}
+	/**
+	 * Išsaugomos VM registrai supervizorinėje atmintyje 11 bloke
+	 * @param C loginis trigeris
+	 * @param R Bendro naudojimo registras
+	 * @param IC Komandų skaitliukas
+	 */
 	public static void slave(int C, int R, int IC)
 	{
-		memory.set(5, 0, PTR.get());
-		memory.set(5, 1, ""+C);
-		memory.set(5, 2, ""+R);
-		memory.set(5, 3, ""+IC);
+		memory.set(11, 0, PTR.get());
+		memory.set(11, 1, ""+C);
+		memory.set(11, 2, ""+R);
+		memory.set(11, 3, ""+IC);
+	}
+	private static void IntProgMove(int xx) {
+		String command = memory.getWord(xx);
+		doCommand(command);
+	}
+	private void InterruptPrograms() {
+		// Neteisinga OPK kodas
+		memory.set(12, 0, "JP000");
+		// Neteisingas adresas
+		memory.set(13, 0, "JP000");
+		// Ivyko overflow
+		memory.set(14, 0, "JP000");
+		// Dalyba is nulio
+		memory.set(15, 0, "JP000");
+		// GD
+		memory.set(16, 0, "JP000");
+		// PD
+		memory.set(17, 0, "JP000");
+		// HALT
+		memory.set(18, 0, "JP000");
+		// EG
+		memory.set(19, 0, "JP000");
+		// EP
+		memory.set(20, 0, "JP000");
+		// Taimerio pertraukimas
+		memory.set(21, 0, "JP000");
+		
 	}
 }

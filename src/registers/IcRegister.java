@@ -4,7 +4,7 @@ public class IcRegister {
 	
 	private int IC;
 	public IcRegister() {
-		this.IC = 0;
+		this.IC = 000;
 	}
 	/**
 	 * Komandø skaitliuko reikðmë

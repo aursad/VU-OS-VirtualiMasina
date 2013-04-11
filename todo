@@ -1,2 +1,12 @@
 //TODO
--((20 * 30) + (60 / 10))=
+#MODE neperpieðiamas, kai ávykdo GD.
+#Projekte reikia nurodyti, kurioje vietoje yra supervizorinë atmintis.
+#Apibrëþti kurioje vietoje yra programos kodas.
+#Sutvarkyti pertraukimà apdorojanèià paprogramæ.
+#Procesoriaus darbo algoritmas - nereikia paskutinio punkto.
+#Puslapiavimo mechanizmas turëtø bûti viename puslapyje, t.y. vienoje vietoje.
+#Kà daryti kai bus daugiau nei viena VM?
+#Pataisyti, kad bûtø prieinami visi adresai realioje maðinoje.
+#HALT realioje maðinoje blogai (bet neþinau kas su juo blogai :D)
+#Reikia komandø, kurios dirbtø su iðorine atmintimi.
+#Reiktø ágyvendinti procedûrø mechanizmà.

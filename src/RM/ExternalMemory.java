@@ -17,7 +17,7 @@ public class ExternalMemory {
     		LinkedList<String> value = new LinkedList<String>();
     		for(int n=0;n<10;n++) {
     			int ids = i*10+n;
-    			value.add(n, ids+":_-_-");
+    			value.add(n, ids+":_-_-_");
     		}
     		this.memory.put(i, value);
     	}

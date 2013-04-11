@@ -13,20 +13,20 @@ public class VM {
 	/**
 	 * Bendrojo naudojimo registras
 	 */
-	public DataRegister R;
+	public static DataRegister R;
 	/**
 	 * Komandø skaitiklis
 	 */
-	public IcRegister IC;
+	public static IcRegister IC;
 	/**
 	 * Poþymiø registras
 	 */
-	public CRegister C;
+	public static CRegister C;
 	/**
 	 * Vartotojui iðskiriama atmintis
 	 */
 	static public PageTable PageTable;
-	public VA Atmintis;
+	public static VA Atmintis;
 	public String end = "HALT";
 	
 	public VM() {
@@ -57,7 +57,7 @@ public class VM {
 		if(RM.RM.SI.get() != 3) {
 			if(!test()) { updateGUI(); }
 			if(RM.RM.MODE.get() == 1) {
-				String command = Atmintis.get(RM.RM.IC.get());
+				String command = RM.RM.memory.getWord(RM.RM.IC.get());
 				RM.RM.doCommand(command);
 			} else {
 				String command = Atmintis.get(IC.get());
@@ -89,7 +89,7 @@ public class VM {
 	 * Atnaujinami UI pagrindiniai registrø laukai
 	 * bei vartotojo atmintis
 	 */
-	private void updateGUI() {
+	public static void updateGUI() {
 		UI.MainWindow.updateIC(RM.RM.IC.get());
 		UI.MainWindow.updateR(RM.RM.R.get());
 		UI.MainWindow.updateC(RM.RM.C.get());
@@ -112,8 +112,8 @@ public class VM {
 	 * @return OPK Operacijos kodas
 	 */
 	private String encodeBytes2(String zodis) {
-		String[] value = zodis.split("(?<=\\G.{2})");
-		String OPK = value[0];
+		String[] value = zodis.split("(?<=\\G.{1})");
+		String OPK = value[0]+value[1];
 		return OPK;
 	}
 	/**
@@ -122,10 +122,13 @@ public class VM {
 	 * @return XX Atminties adresas
 	 */
 	private int XXencode(String zodis) {
-		String[] value = zodis.split("(?<=\\G.{2})");
+		String[] value = zodis.split("(?<=\\G.{1})");
 		try 
         {
-            return Integer.parseInt(value[1]);
+			int key1 = Integer.parseInt(value[2]);
+			int key2 = Integer.parseInt(value[3]);
+			int key3 = Integer.parseInt(value[4]);
+            return key1*100+key2*10+key3;
         } 
         catch (NumberFormatException e)
         {
@@ -223,6 +226,16 @@ public class VM {
             case "JG":
             {
             	JG(xx);
+            	break;
+            }
+            case "EG":
+            {
+            	EG(xx);
+            	break;
+            }
+            case "EP":
+            {
+            	EP(xx);
             	break;
             }
             default: 
@@ -440,7 +453,25 @@ public class VM {
 		RM.RM.PD(Atmintis.getAA(xx));
 		
 		IC.set(IC.get()+1);
-
+	}
+	public void EG(int xx) {
+		updateReg();
+		RM.RM.SI.set(4);
+		RM.RM.CH.set(3);
+		
+		test();
+		RM.RM.EG(Atmintis.getAA(xx));
+		IC.set(IC.get()+1);
+	}
+	public void EP(int xx) {
+		updateReg();
+		RM.RM.SI.set(5);
+		RM.RM.CH.set(3);
+		
+		test();
+		RM.RM.EP(Atmintis.getAA(xx));
+		
+		IC.set(IC.get()+1);
 	}
 	/**
 	 * Programos vykdymo pabaiga
