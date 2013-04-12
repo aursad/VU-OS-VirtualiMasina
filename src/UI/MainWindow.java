@@ -34,6 +34,7 @@ import javax.swing.ListSelectionModel;
 import javax.swing.JLabel;
 import javax.swing.SwingConstants;
 
+import RM.ExternalMemory;
 import RM.RM;
 import RM.RealMemory;
 import VM.VA;
@@ -46,6 +47,7 @@ public class MainWindow extends JFrame {
 	private JPanel contentPane;
 	private static JTextField console;
 	private static DefaultListModel<String> listModel;
+	private static DefaultListModel<String> listEModel;
 	private static DefaultListModel<String> listRModel;
 	private static JTextField textRegisterR;
 	private static JTextField textRegisterC;
@@ -70,6 +72,8 @@ public class MainWindow extends JFrame {
 	static JScrollPane list;
 	static JList<String> listasRM;
 	static JScrollPane listRM;
+	static JList<String> listasEX;
+	static JScrollPane listEX;
 	static String inputString;
 	
 	static JButton btnStart;
@@ -84,7 +88,7 @@ public class MainWindow extends JFrame {
 	public MainWindow(final RM rm, final VM vm) {
 		setTitle("Virtuali Maðina - Emulator");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 866, 400);
+		setBounds(100, 100, 1000, 400);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -101,6 +105,18 @@ public class MainWindow extends JFrame {
 		btnEnd.setEnabled(false);
 		btnStart.setEnabled(false);
 		btnStepByStep.setEnabled(false);
+		
+		listEModel = new DefaultListModel<String>();
+		for(int i=0;i<rm.externalMemory.getSize();i++) {
+			for(int n=0;n<10;n++) {
+				listEModel.addElement(String.format("%02d", i*10+n)+": "+rm.externalMemory.getWord(i, n));
+			}
+		}
+		listasEX = new JList<String>(listEModel);
+		listasEX.setSelectedIndex(0); // ID nurodo kuris yra selected
+		listasEX.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		listEX = new JScrollPane(listasEX);
+		
 		listRModel = new DefaultListModel<String>();
 		for(int i=0;i<rm.memory.getSize();i++) {
 			for(int n=0;n<10;n++) {
@@ -376,41 +392,52 @@ public class MainWindow extends JFrame {
 					.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
 						.addGroup(gl_contentPane.createSequentialGroup()
 							.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
-								.addComponent(separator, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-								.addComponent(textPane, GroupLayout.DEFAULT_SIZE, 416, Short.MAX_VALUE)
+								.addGroup(gl_contentPane.createSequentialGroup()
+									.addComponent(separator, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+									.addGap(406))
+								.addComponent(textPane, GroupLayout.DEFAULT_SIZE, 415, Short.MAX_VALUE)
 								.addGroup(gl_contentPane.createSequentialGroup()
 									.addGroup(gl_contentPane.createParallelGroup(Alignment.TRAILING, false)
 										.addComponent(lblR, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
 										.addComponent(lblIc, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
 										.addComponent(lblC, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-									.addGap(25)
-									.addGroup(gl_contentPane.createParallelGroup(Alignment.TRAILING)
+									.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
+										.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
+											.addGroup(gl_contentPane.createSequentialGroup()
+												.addGap(22)
+												.addComponent(lblRm, GroupLayout.PREFERRED_SIZE, 23, GroupLayout.PREFERRED_SIZE))
+											.addGroup(gl_contentPane.createSequentialGroup()
+												.addPreferredGap(ComponentPlacement.RELATED)
+												.addGroup(gl_contentPane.createParallelGroup(Alignment.TRAILING, false)
+													.addComponent(textRegisterC, Alignment.LEADING, 0, 0, Short.MAX_VALUE)
+													.addComponent(textRegisterR, Alignment.LEADING, GroupLayout.PREFERRED_SIZE, 36, GroupLayout.PREFERRED_SIZE))
+												.addPreferredGap(ComponentPlacement.RELATED)))
 										.addGroup(gl_contentPane.createSequentialGroup()
-											.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING, false)
-												.addComponent(textRegisterIC, 0, 0, Short.MAX_VALUE)
-												.addComponent(textRegisterC, 0, 0, Short.MAX_VALUE)
-												.addComponent(textRegisterR, GroupLayout.PREFERRED_SIZE, 36, GroupLayout.PREFERRED_SIZE))
-											.addGap(6)
-											.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
-												.addGroup(gl_contentPane.createSequentialGroup()
-													.addComponent(textRegisterRv, GroupLayout.PREFERRED_SIZE, 36, GroupLayout.PREFERRED_SIZE)
-													.addPreferredGap(ComponentPlacement.RELATED)
-													.addComponent(lblBsena))
-												.addGroup(gl_contentPane.createSequentialGroup()
-													.addComponent(textRegisterCv, GroupLayout.PREFERRED_SIZE, 36, GroupLayout.PREFERRED_SIZE)
-													.addPreferredGap(ComponentPlacement.RELATED)
-													.addComponent(lblT, GroupLayout.PREFERRED_SIZE, 15, GroupLayout.PREFERRED_SIZE))
-												.addGroup(gl_contentPane.createSequentialGroup()
-													.addComponent(textRegisterICv, GroupLayout.PREFERRED_SIZE, 36, GroupLayout.PREFERRED_SIZE)
-													.addPreferredGap(ComponentPlacement.RELATED)
-													.addComponent(lblPtr, GroupLayout.PREFERRED_SIZE, 33, GroupLayout.PREFERRED_SIZE))))
+											.addPreferredGap(ComponentPlacement.RELATED)
+											.addComponent(textRegisterIC, GroupLayout.PREFERRED_SIZE, 46, GroupLayout.PREFERRED_SIZE)
+											.addPreferredGap(ComponentPlacement.RELATED)))
+									.addGap(18)
+									.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
 										.addGroup(gl_contentPane.createSequentialGroup()
-											.addGap(10)
-											.addComponent(lblRm, GroupLayout.PREFERRED_SIZE, 23, GroupLayout.PREFERRED_SIZE)
-											.addGap(18)
 											.addComponent(lblVm, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
 											.addPreferredGap(ComponentPlacement.UNRELATED)
-											.addComponent(lblMode, GroupLayout.PREFERRED_SIZE, 39, GroupLayout.PREFERRED_SIZE)))
+											.addComponent(lblMode, GroupLayout.PREFERRED_SIZE, 39, GroupLayout.PREFERRED_SIZE))
+										.addGroup(Alignment.TRAILING, gl_contentPane.createSequentialGroup()
+											.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
+												.addComponent(textRegisterRv, GroupLayout.PREFERRED_SIZE, 36, GroupLayout.PREFERRED_SIZE)
+												.addComponent(textRegisterCv, GroupLayout.PREFERRED_SIZE, 36, GroupLayout.PREFERRED_SIZE)
+												.addComponent(textRegisterICv, GroupLayout.PREFERRED_SIZE, 36, GroupLayout.PREFERRED_SIZE))
+											.addPreferredGap(ComponentPlacement.RELATED, 24, Short.MAX_VALUE)
+											.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
+												.addGroup(gl_contentPane.createSequentialGroup()
+													.addGap(40)
+													.addComponent(lblBsena))
+												.addGroup(gl_contentPane.createSequentialGroup()
+													.addGap(40)
+													.addComponent(lblT, GroupLayout.PREFERRED_SIZE, 15, GroupLayout.PREFERRED_SIZE))
+												.addGroup(gl_contentPane.createSequentialGroup()
+													.addGap(40)
+													.addComponent(lblPtr, GroupLayout.PREFERRED_SIZE, 33, GroupLayout.PREFERRED_SIZE)))))
 									.addPreferredGap(ComponentPlacement.RELATED)
 									.addGroup(gl_contentPane.createParallelGroup(Alignment.TRAILING)
 										.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING, false)
@@ -436,9 +463,13 @@ public class MainWindow extends JFrame {
 											.addComponent(lblTi, GroupLayout.PREFERRED_SIZE, 15, GroupLayout.PREFERRED_SIZE)
 											.addPreferredGap(ComponentPlacement.UNRELATED)
 											.addComponent(textRegisterTI, GroupLayout.PREFERRED_SIZE, 36, GroupLayout.PREFERRED_SIZE)))
-									.addPreferredGap(ComponentPlacement.RELATED, 146, Short.MAX_VALUE))
+									.addGap(58))
 								.addComponent(console, GroupLayout.PREFERRED_SIZE, 400, GroupLayout.PREFERRED_SIZE)
-								.addComponent(separator_1, GroupLayout.PREFERRED_SIZE, 393, GroupLayout.PREFERRED_SIZE))
+								.addGroup(gl_contentPane.createSequentialGroup()
+									.addComponent(separator_1, GroupLayout.PREFERRED_SIZE, 393, GroupLayout.PREFERRED_SIZE)
+									.addGap(13)))
+							.addPreferredGap(ComponentPlacement.RELATED)
+							.addComponent(listEX, GroupLayout.PREFERRED_SIZE, 128, GroupLayout.PREFERRED_SIZE)
 							.addPreferredGap(ComponentPlacement.RELATED)
 							.addComponent(listRM, GroupLayout.PREFERRED_SIZE, 178, GroupLayout.PREFERRED_SIZE)
 							.addGap(18)
@@ -451,7 +482,7 @@ public class MainWindow extends JFrame {
 							.addComponent(btnEnd)
 							.addPreferredGap(ComponentPlacement.RELATED)
 							.addComponent(btnStepByStep)
-							.addPreferredGap(ComponentPlacement.RELATED, 363, Short.MAX_VALUE)
+							.addPreferredGap(ComponentPlacement.RELATED, 502, Short.MAX_VALUE)
 							.addComponent(btnVersijaV)))
 					.addContainerGap())
 		);
@@ -465,33 +496,33 @@ public class MainWindow extends JFrame {
 							.addPreferredGap(ComponentPlacement.RELATED)
 							.addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
 								.addComponent(lblR)
-								.addComponent(textRegisterR, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 								.addComponent(lblBsena)
 								.addComponent(textState, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 								.addComponent(lblSi)
 								.addComponent(textRegisterSI, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+								.addComponent(textRegisterR, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 								.addComponent(textRegisterRv, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
 							.addPreferredGap(ComponentPlacement.RELATED)
 							.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
 								.addGroup(gl_contentPane.createSequentialGroup()
 									.addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
 										.addComponent(lblC)
-										.addComponent(textRegisterC, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 										.addComponent(textRegisterT, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 										.addComponent(lblT)
 										.addComponent(lblPi)
 										.addComponent(textRegisterPI, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+										.addComponent(textRegisterC, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 										.addComponent(textRegisterCv, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
 									.addPreferredGap(ComponentPlacement.RELATED)
 									.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
 										.addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
 											.addComponent(lblIc)
-											.addComponent(textRegisterIC, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+											.addComponent(textRegisterIC, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+											.addComponent(textRegisterICv, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
 										.addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
 											.addComponent(textRegisterPTR, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 											.addComponent(lblPtr)
-											.addComponent(lblTi)
-											.addComponent(textRegisterICv, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))))
+											.addComponent(lblTi))))
 								.addGroup(gl_contentPane.createSequentialGroup()
 									.addGap(26)
 									.addComponent(textRegisterTI, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)))
@@ -512,8 +543,9 @@ public class MainWindow extends JFrame {
 							.addComponent(console, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
 						.addGroup(gl_contentPane.createSequentialGroup()
 							.addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
-								.addComponent(list, GroupLayout.DEFAULT_SIZE, 298, Short.MAX_VALUE)
-								.addComponent(listRM, GroupLayout.PREFERRED_SIZE, 298, GroupLayout.PREFERRED_SIZE))
+								.addComponent(list, GroupLayout.DEFAULT_SIZE, 308, Short.MAX_VALUE)
+								.addComponent(listRM, GroupLayout.PREFERRED_SIZE, 298, GroupLayout.PREFERRED_SIZE)
+								.addComponent(listEX, GroupLayout.PREFERRED_SIZE, 307, GroupLayout.PREFERRED_SIZE))
 							.addGap(11)))
 					.addPreferredGap(ComponentPlacement.UNRELATED)
 					.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
@@ -603,5 +635,15 @@ public class MainWindow extends JFrame {
 		listasRM.setSelectedIndex(0);
 		listRM.revalidate();
 		listRM.repaint();
+	}
+	public static void updateListEM(ExternalMemory Atmintis) {
+		for (int i = 0; i < Atmintis.getSize(); i++) {
+			for(int n=0;n<10;n++) {
+				listEModel.set(i*10+n,String.format("%02d", i*10+n) + ": " + ExternalMemory.getWord(i, n));
+			}
+		}
+		listasEX.setSelectedIndex(0);
+		listEX.revalidate();
+		listEX.repaint();
 	}
 }

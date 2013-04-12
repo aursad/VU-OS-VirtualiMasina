@@ -16,8 +16,7 @@ public class ExternalMemory {
     	for(int i=0;i<blocks;i++) {
     		LinkedList<String> value = new LinkedList<String>();
     		for(int n=0;n<10;n++) {
-    			int ids = i*10+n;
-    			value.add(n, ids+":_-_-_");
+    			value.add(n, "_____");
     		}
     		this.memory.put(i, value);
     	}
@@ -35,14 +34,25 @@ public class ExternalMemory {
     }
     public String getWord(int xx) {
     	int[] digits = getInts(xx);
-    	LinkedList<String> list = getBlock(digits[0]);
-    	String Word = list.get(digits[1]);
+    	String Word;
+		if (xx < 100) {
+			LinkedList<String> list = getBlock(digits[0]);
+			Word = list.get(digits[1]);
+		} else {
+			LinkedList<String> list = getBlock(digits[0] * 10 + digits[1]);
+			Word = list.get(digits[2]);
+		}
     	return Word;
     }
     public void set(int xx, String value) {
     	int[] digits = getInts(xx);
-    	LinkedList<String> list = getBlock(digits[0]);
-    	list.set(digits[1], value);
+		if (xx < 100) {
+			LinkedList<String> list = getBlock(digits[0]);
+			list.set(digits[1], value);
+		} else {
+			LinkedList<String> list = getBlock(digits[0] * 10 + digits[1]);
+			list.set(digits[2], value);
+		}
     }
     public void set(int block, int xx, String value) {
     	LinkedList<String> list = getBlock(block);

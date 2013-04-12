@@ -218,6 +218,16 @@ public class RM {
             	UM(xx);
             	break;
             }
+            case "EG":
+            {
+            	EG(xx);
+            	break;
+            }
+            case "ES":
+            {
+            	ES(xx);
+            	break;
+            }
             default: 
             {
             	OPK += YYencode(command);
@@ -253,6 +263,12 @@ public class RM {
 		int XY = Integer.parseInt(Word);
 		return XY;
 	}
+	public static int getWordExternal(int xx) {
+		String Word = externalMemory.getWord(xx);
+		Word = Word.replaceAll("\\s", "");
+		int XY = Integer.parseInt(Word);
+		return XY;
+	}
 	/**
 	 * Atminties vietai adresu XX nustatoma nauja reikðmë
 	 * @param xx Atminties adresas
@@ -260,6 +276,14 @@ public class RM {
 	 */
 	public static void setWord(int xx, int R) {
 		memory.set(xx, Integer.toString(R));
+	}
+	/**
+	 * Isorineje atmintyje adresu XX issaugoma R registro reiksme
+	 * @param xx Atminties adresas
+	 * @param R Registro reikšme
+	 */
+	public static void setWordExternal(int xx, int R) {
+		externalMemory.set(xx, Integer.toString(R));
 	}
 	/**
 	 * Load Register
@@ -455,19 +479,21 @@ public class RM {
 		MODE.set(0);
 		UI.MainWindow.updateConsole(text);
 	}
+	/**
+	 * Adresu xx užkraunamas žodis iš Išorinės Atminties
+	 * @param xx Adresas
+	 */
 	static public void EG(int xx) {
-		
-	}
-	static public void EP(int xx) {
-		String text="";
-		String lineEnd = "####";
-		while(!lineEnd.equals(externalMemory.getWord(xx))) {
-			text = text + externalMemory.getWord(xx);
-			xx++;
-		}
+		R.set(getWordExternal(xx));
 		IC.set(IC.get()+1);
-		MODE.set(0);
-		UI.MainWindow.updateConsole(text);
+	}
+	/**
+	 * Adresu xx išsaugoma registro R reikšmė
+	 * @param xx Adresass
+	 */
+	static public void ES(int xx) {
+		setWordExternal(xx, R.get());
+		IC.set(IC.get()+1);
 	}
 	/**
 	 * Perjungiama į supervizoriaus režimą
@@ -542,16 +568,6 @@ public class RM {
 				IntProgMove(180);
 				break;
 			}
-			case 4: {
-				UI.MainWindow.updateConsole("Pertraukimą iššaukė komanda EG.");
-				IntProgMove(190);
-				break;
-			}
-			case 5: {
-				UI.MainWindow.updateConsole("Pertraukimą iššaukė komanda EP.");
-				IntProgMove(200);
-				break;
-			}
 			default: {
 				UI.MainWindow.updateConsole("Pertraukimas SI neįvyko.");
 				break;
@@ -597,6 +613,9 @@ public class RM {
 		String command = memory.getWord(xx);
 		doCommand(command);
 	}
+	/**
+	 * Petraukimus apdorojančių programų užkrovimas į Vartotojo atminti
+	 */
 	private void InterruptPrograms() {
 		// Neteisinga OPK kodas
 		memory.set(12, 0, "JP000");
@@ -612,12 +631,15 @@ public class RM {
 		memory.set(17, 0, "JP000");
 		// HALT
 		memory.set(18, 0, "JP000");
-		// EG
-		memory.set(19, 0, "JP000");
-		// EP
-		memory.set(20, 0, "JP000");
 		// Taimerio pertraukimas
-		memory.set(21, 0, "JP000");
+		memory.set(19, 0, "JP000");
 		
+		memory.set(0,0, "EG500");
+		memory.set(0,1, "AD005");
+		memory.set(0,2, "ES600");
+		memory.set(0,3, "EG600");
+		memory.set(0,4, "HALT");
+		memory.set(0,5, "3");
+		externalMemory.set(50, 0, "22");
 	}
 }

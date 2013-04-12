@@ -54,9 +54,10 @@ public class VM {
 	 */
 	private void step() {
 		//updateGUI();
+		boolean modeRM = false;
 		if(RM.RM.SI.get() != 3) {
 			if(!test()) { updateGUI(); }
-			if(RM.RM.MODE.get() == 1) {
+			if(RM.RM.MODE.get() == 1 || modeRM) {
 				String command = RM.RM.memory.getWord(RM.RM.IC.get());
 				RM.RM.doCommand(command);
 			} else {
@@ -73,13 +74,16 @@ public class VM {
 			RM.RM.MODE.set(1);
 		}
 	}
+
 	private boolean test() {
 		if (RM.RM.SI.get() + RM.RM.PI.get() + RM.RM.T.get() != 0) {
 			RM.RM.slave(C.get(), R.get(), IC.get());
 			RM.RM.MODE.set(1);
 			RM.RM.Interrupt();
 			updateGUI();
-			if(RM.RM.SI.get() != 3) { updateReg(); }
+			if (RM.RM.SI.get() != 3) {
+				updateReg();
+			}
 			return true;
 		} else {
 			return false;
@@ -105,6 +109,7 @@ public class VM {
 		UI.MainWindow.updateCH(RM.RM.CH.get());
 		UI.MainWindow.updateList(Atmintis);
 		UI.MainWindow.updateListRM(RM.RM.memory);
+		UI.MainWindow.updateListEM(RM.RM.externalMemory);
 	}
 	/**
 	 * Ið atminties þodþio iðskiriamas OPK
@@ -123,18 +128,22 @@ public class VM {
 	 */
 	private int XXencode(String zodis) {
 		String[] value = zodis.split("(?<=\\G.{1})");
-		try 
-        {
+		try {
 			int key1 = Integer.parseInt(value[2]);
 			int key2 = Integer.parseInt(value[3]);
 			int key3 = Integer.parseInt(value[4]);
-            return key1*100+key2*10+key3;
-        } 
-        catch (NumberFormatException e)
-        {
-        	RM.RM.PI.set(2);
-            return 0;
-        }
+			int key = key1 * 100 + key2 * 10 + key3;
+			if (key > 99) {
+				RM.RM.PI.set(2);
+				test();
+				return 0;
+			} else {
+				return key;
+			}
+		} catch (NumberFormatException e) {
+			RM.RM.PI.set(2);
+			return 0;
+		}
 	}
 	/**
 	 * Ið atminties þodþio iðskiriamas tekstinis adresas
@@ -226,16 +235,6 @@ public class VM {
             case "JG":
             {
             	JG(xx);
-            	break;
-            }
-            case "EG":
-            {
-            	EG(xx);
-            	break;
-            }
-            case "EP":
-            {
-            	EP(xx);
             	break;
             }
             default: 
@@ -454,25 +453,7 @@ public class VM {
 		
 		IC.set(IC.get()+1);
 	}
-	public void EG(int xx) {
-		updateReg();
-		RM.RM.SI.set(4);
-		RM.RM.CH.set(3);
-		
-		test();
-		RM.RM.EG(Atmintis.getAA(xx));
-		IC.set(IC.get()+1);
-	}
-	public void EP(int xx) {
-		updateReg();
-		RM.RM.SI.set(5);
-		RM.RM.CH.set(3);
-		
-		test();
-		RM.RM.EP(Atmintis.getAA(xx));
-		
-		IC.set(IC.get()+1);
-	}
+
 	/**
 	 * Programos vykdymo pabaiga
 	 */
